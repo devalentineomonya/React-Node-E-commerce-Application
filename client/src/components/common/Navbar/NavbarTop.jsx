@@ -3,6 +3,7 @@ import MainLayout from "../MainLayout/MainLayout";
 import { Link } from "react-router-dom";
 import currencies from "../../../assets/data/NavbarData/Currencies";
 import languages from "../../../assets/data/NavbarData/Languages";
+import {AiOutlinePhone} from "react-icons/ai"
 
 const NavbarTop = () => {
   const currencyRef = useRef();
@@ -16,8 +17,8 @@ const NavbarTop = () => {
   return (
     <MainLayout bg="bg-green-900">
       <div className="navbar-top-content">
-        <div>
-          <Link to="tel:+254768133220" /> +254768133220
+        <div className="navbar-top-left">
+          <Link to="tel:+254768133220" /> <AiOutlinePhone className="icon"/> +254768133220
         </div>
         <div>
           Get 50% off on selected items | <Link to="/shop" /> Shop Now

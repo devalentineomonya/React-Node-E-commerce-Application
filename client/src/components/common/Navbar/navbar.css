@@ -1,12 +1,62 @@
-.navbar-top-content{
+/*==================================
+            NAVBAR TOP
+===================================*/
+.navbar-top-content {
     @apply flex justify-between items-center text-white h-10
 }
-.navbar-top-select-items{
+
+.navbar-top-left {
+    @apply flex justify-center items-center gap-x-2
+}
+
+.navbar-top-left .icon {
+    @apply transform rotate-90
+}
+
+.navbar-top-select-items {
     @apply flex justify-between items-center gap-x-3
 }
-.navbar-top-select-items select{
+
+.navbar-top-select-items select {
     @apply bg-transparent border-none outline-none
 }
-.navbar-top-select-items select option{
+
+.navbar-top-select-items select option {
     @apply text-slate-950
+}
+
+/*==================================
+            NAVBAR BOTTOM
+===================================*/
+.navbar-lower-content{
+    @apply flex items-center justify-between gap-x-8 mt-5
+}
+.navbar-lower-content .logo {
+    @apply flex justify-center items-center gap-x-3 text-green-800
+}
+
+.navbar-lower-content .logo h1 {
+    @apply text-slate-900 font-semibold text-2xl
+}
+
+.nav-items{
+    @apply flex justify-center items-center gap-x-8
+}
+.nav-item{
+    @apply text-gray-600 text-lg 
+}
+.nav-search{
+    @apply rounded-full bg-gray-200 flex justify-between items-center gap-x-3 px-3 py-1 min-w-80 
+}
+.nav-search input{
+    @apply outline-none border-none text-slate-600 bg-transparent w-full select-none
+}
+.nav-search input::placeholder{
+    @apply text-gray-500
+}
+.nav-left{
+    @apply flex justify-center items-center gap-x-5 
+}
+.nav-left-item{
+    @apply flex justify-center items-center gap-x-3
 }
