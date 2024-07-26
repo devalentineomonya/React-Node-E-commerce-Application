@@ -1,0 +1,12 @@
+.navbar-top-content{
+    @apply flex justify-between items-center text-white h-10
+}
+.navbar-top-select-items{
+    @apply flex justify-between items-center gap-x-3
+}
+.navbar-top-select-items select{
+    @apply bg-transparent border-none outline-none
+}
+.navbar-top-select-items select option{
+    @apply text-slate-950
+}

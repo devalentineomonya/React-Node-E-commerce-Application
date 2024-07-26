@@ -1,0 +1,6 @@
+.main-layout{
+    @apply flex justify-center items-center w-full
+}
+.main-container{
+    @apply container max-w-[1400px] 
+}
