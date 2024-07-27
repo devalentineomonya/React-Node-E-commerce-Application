@@ -5,7 +5,7 @@
     @apply flex justify-between items-center text-white h-10
 }
 
-.navbar-top-left {
+.navbar-top-left a {
     @apply flex justify-center items-center gap-x-2
 }
 

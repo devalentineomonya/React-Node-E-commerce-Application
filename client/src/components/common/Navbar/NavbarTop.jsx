@@ -18,7 +18,7 @@ const NavbarTop = () => {
     <MainLayout bg="bg-green-900">
       <div className="navbar-top-content">
         <div className="navbar-top-left">
-          <Link to="tel:+254768133220" /> <AiOutlinePhone className="icon"/> +254768133220
+          <Link to="tel:+254768133220" ><AiOutlinePhone className="icon"/> +254768133220</Link>
         </div>
         <div>
           Get 50% off on selected items | <Link to="/shop" /> Shop Now
