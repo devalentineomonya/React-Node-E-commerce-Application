@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import MainLayout from "../MainLayout/MainLayout";
 import { Link } from "react-router-dom";
 import currencies from "../../../assets/data/NavbarData/Currencies";
@@ -16,7 +16,7 @@ const NavbarTop = () => {
   };
   return (
     <MainLayout bg="bg-green-900">
-      <div className="navbar-top-content">
+      <div className="navbar-top-content bg-green-300">
         <div className="navbar-top-left">
           <Link to="tel:+254768133220" ><AiOutlinePhone className="icon"/> +254768133220</Link>
         </div>

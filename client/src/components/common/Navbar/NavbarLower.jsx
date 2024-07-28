@@ -1,4 +1,3 @@
-import React from "react";
 import MainLayout from "../MainLayout/MainLayout";
 import navItems from "../../../assets/data/NavbarData/NavItems";
 import { Link } from "react-router-dom";

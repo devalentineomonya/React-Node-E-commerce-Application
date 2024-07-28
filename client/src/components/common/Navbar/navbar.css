@@ -1,6 +1,7 @@
 /*==================================
             NAVBAR TOP
 ===================================*/
+
 .navbar-top-content {
     @apply flex justify-between items-center text-white h-10
 }
