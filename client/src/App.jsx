@@ -15,6 +15,8 @@ function App() {
       <CustomAlert
         isShowing={isShowing}
         hide={toggle}
+        message="Hello world"
+        type="infogit"
       />
     </>
   );
