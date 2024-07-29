@@ -6,7 +6,6 @@ const NavbarMain = () => {
     <header>
     <NavbarTop/>
     <NavbarLower/>
-      
     </header>
   )
 }
