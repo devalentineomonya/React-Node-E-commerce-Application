@@ -15,8 +15,8 @@ const NavbarTop = () => {
     console.log(currencyRef.current.value);
   };
   return (
-    <MainLayout bg="bg-green-900">
-      <div className="navbar-top-content bg-green-300">
+    <MainLayout bg="bg-customGreen">
+      <div className="navbar-top-content ">
         <div className="navbar-top-left">
           <Link to="tel:+254768133220" ><AiOutlinePhone className="icon"/> +254768133220</Link>
         </div>

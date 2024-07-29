@@ -30,31 +30,47 @@
             NAVBAR BOTTOM
 ===================================*/
 .navbar-lower-content{
-    @apply flex items-center justify-between gap-x-8 mt-5
+    @apply flex items-center justify-between gap-x-8 mt-5 pb-5
 }
 .navbar-lower-content .logo {
-    @apply flex justify-center items-center gap-x-3 text-green-800
+    @apply flex justify-center items-center gap-x-3 text-customGreen
 }
 
-.navbar-lower-content .logo h1 {
-    @apply text-slate-900 font-semibold text-2xl
+.navbar-lower-content .logo img {
+    @apply w-full min-w-[200px]
 }
 
 .nav-items{
-    @apply flex justify-center items-center gap-x-8
+    @apply flex justify-center items-center gap-x-8 
 }
 .nav-item{
-    @apply text-gray-600 text-lg 
+    @apply text-gray-600 text-lg relative whitespace-nowrap;
 }
+.nav-item hr{
+    @apply bg-customGreen h-[3px]  w-full;
+}
+.nav-item::before{
+    content: "";
+    @apply absolute  h-[2px] bg-customGreen bottom-0  w-[0%] hover:w-full
+}
+
 .nav-search{
-    @apply rounded-full bg-gray-200 flex justify-between items-center gap-x-3 px-3 py-1 min-w-80 
+    @apply rounded-full border-2 border-gray-200 text-gray-400 flex justify-between items-center gap-x-3 px-3 py-1 w-80 min-w-80 
 }
-.nav-search input{
-    @apply outline-none border-none text-slate-600 bg-transparent w-full select-none
+.nav-search.searching{
+    @apply w-full 
 }
-.nav-search input::placeholder{
-    @apply text-gray-500
+.nav-search .icon{
+    @apply rounded-full hover:bg-gray-200 min-h-7 min-w-7 max-h-7 max-w-7 flex justify-center items-center cursor-pointer
 }
+.nav-search .search-placeholder{
+    @apply outline-none border-none text-slate-600 bg-transparent w-full select-none cursor-pointer text-nowrap overflow-hidden text-ellipsis
+}
+
+.nav-search .search-placeholder input{
+    @apply border-none w-full outline-none
+}
+
 .nav-left{
     @apply flex justify-center items-center gap-x-5 
 }

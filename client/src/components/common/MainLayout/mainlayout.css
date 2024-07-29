@@ -1,5 +1,5 @@
 .main-layout{
-    @apply flex justify-center items-center w-full
+    @apply flex justify-center items-center w-full font-Inter
 }
 .main-container{
     @apply container max-w-[1400px] 
