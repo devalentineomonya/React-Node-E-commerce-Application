@@ -29,51 +29,154 @@
 /*==================================
             NAVBAR BOTTOM
 ===================================*/
-.navbar-lower-content{
-    @apply flex items-center justify-between gap-x-8 mt-5 pb-5
+.navbar-lower-content {
+    @apply flex items-center justify-between md:gap-x-2 xl:gap-x-8 gap-x-0 mt-3 pb-3
 }
+
 .navbar-lower-content .logo {
     @apply flex justify-center items-center gap-x-3 text-customGreen
 }
 
 .navbar-lower-content .logo img {
-    @apply w-full min-w-[200px]
+    @apply sm:w-full sm:min-w-[200px] w-40
+}
+/*=============================
+        NAVBAR MAIN 
+==============================*/
+
+.navbar {
+    @apply flex items-center justify-center gap-x-3
 }
 
-.nav-items{
-    @apply flex justify-center items-center gap-x-8 
+.nav-items {
+    @apply flex justify-center items-center gap-x-8
+}
+
+.nav-item, .category-drop-down-label, .nav-left-item {
+    @apply text-gray-600 text-lg relative whitespace-nowrap flex justify-center items-center gap-x-1 cursor-pointer;
 }
 .nav-item{
-    @apply text-gray-600 text-lg relative whitespace-nowrap;
+    display: block;
 }
-.nav-item hr{
-    @apply bg-customGreen h-[3px]  w-full;
-}
-.nav-item::before{
-    content: "";
-    @apply absolute  h-[2px] bg-customGreen bottom-0  w-[0%] hover:w-full
+.nav-item hr,
+.nav-left a hr {
+    @apply bg-customGreen h-[3px] w-full;
 }
 
-.nav-search{
-    @apply rounded-full border-2 border-gray-200 text-gray-400 flex justify-between items-center gap-x-3 px-3 py-1 w-80 min-w-80 
+.nav-item::before {
+    content: "";
+    @apply absolute h-[2px] bg-customGreen bottom-0 w-[0%] hover:w-full transition-all ease-in-out duration-300
 }
-.nav-search.searching{
-    @apply w-full 
+
+
+/*=============================
+        NAVBAR MOBILE 
+==============================*/
+.navbar-mobile {
+    @apply fixed -top-52 w-[calc(100%-20px)] h-0 left-1/2 bg-white -translate-x-1/2 -translate-y-1/2 py-5 rounded-md shadow-md z-10
 }
-.nav-search .icon{
-    @apply rounded-full hover:bg-gray-200 min-h-7 min-w-7 max-h-7 max-w-7 flex justify-center items-center cursor-pointer
+
+.navbar-mobile.active {
+    @apply h-72 mt-32 top-10
 }
-.nav-search .search-placeholder{
+
+.navbar-mobile .close-menu {
+    @apply absolute top-2 right-2 cursor-pointer
+}
+
+.navbar-mobile .nav-items {
+    @apply flex-col justify-start items-center
+}
+
+.navbar-mobile .nav-items .nav-item {
+    @apply mt-4 text-2xl
+}
+
+/*=============================
+        NAVBAR SEARCH 
+==============================*/
+.nav-search {
+    @apply rounded-full border-2 border-gray-200 text-gray-400 flex justify-between items-center gap-x-3 sm:px-3 sm:py-1 w-80
+}
+
+
+.nav-search.searching {
+    @apply w-full
+}
+
+.nav-search .icon, .nav-left-item .mobile-search .icon {
+    @apply rounded-full hover:bg-gray-200 min-h-7 min-w-7 max-h-7 max-w-7 flex justify-center items-center cursor-pointer 
+}
+
+.nav-search .search-placeholder {
     @apply outline-none border-none text-slate-600 bg-transparent w-full select-none cursor-pointer text-nowrap overflow-hidden text-ellipsis
 }
 
-.nav-search .search-placeholder input{
+.nav-search .search-placeholder input {
     @apply border-none w-full outline-none
 }
 
-.nav-left{
-    @apply flex justify-center items-center gap-x-5 
+/*=============================
+        NAVBAR LEFT LINKS 
+==============================*/
+.nav-left {
+    @apply flex justify-center items-center sm:gap-x-5 gap-x-2
 }
-.nav-left-item{
-    @apply flex justify-center items-center gap-x-3
+
+.nav-left-item {
+    @apply flex justify-center items-center gap-x-3 relative
+}
+
+.nav-left-item .mobile-search {
+    @apply absolute bg-white rounded-lg mt-36 right-0 px-5 py-5 w-[calc(100vw-200px)] flex justify-center items-center;
+    -webkit-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
+    -moz-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
+    box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
+
+}
+.nav-left-item .mobile-search input {
+    @apply border-none w-full outline-none
+}
+
+.category-drop-down-container {
+    @apply relative flex;
+}
+
+/*=================================
+        NAVBAR CATEGORY DROP DOWN 
+===================================*/
+
+.category-drop-down-content-container {
+    @apply absolute -z-10 bg-white min-w-[800px] w-full mt-24 invisible   p-4 rounded-md left-0;
+    transition:margin-top 0.3s ease-in-out;
+    -webkit-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
+    -moz-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
+    box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
+}
+.category-drop-down-content-container.show{
+    @apply mt-14 visible z-10;
+ 
+}
+.category-drop-down-content-title{
+    @apply text-gray-800 font-bold text-3xl pb-3 mb-2 border-b-2 border-gray-300
+
+}
+
+.category-drop-down-content {
+    @apply grid grid-cols-3 gap-3;
+    
+
+}
+
+
+.category-card-container {
+    @apply w-full rounded-md bg-gray-100 min-h-20 flex gap-x-2 p-2 pl-0 justify-center items-center
+}
+
+.category-card-image {
+    @apply bg-white rounded-md
+}
+
+.category-card-text h6 {
+    @apply text-lg font-semibold
 }

@@ -3,17 +3,21 @@
     max-width: 500px;
     width: 100%;
     border-radius: 10px;
-    min-height: 120px;
 }
 
 .modal-wrapper {
     padding: 1px;
     position: absolute;
-    top: 10%;
+    top: -110%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: #fff;
+    transition: all 0.5s;
 
+}
 
+.modal-wrapper.show {
+    top: 10%;
 }
 
 .modal {
@@ -28,10 +32,11 @@
 }
 
 .modal-content {
-    @apply flex justify-start items-start gap-4 pr-7 pt-4 text-sm text-slate-700}
+    @apply flex justify-start items-start gap-4 pr-7 py-2 text-slate-700 text-lg font-semibold
+}
 
 .modal-content .icon {
-    @apply bg-white rounded-full flex justify-center items-center mt-3 ml-3;
+    @apply bg-white rounded-full flex justify-center items-center mt-1 ml-1;
     height: 50px;
     width: 50px;
     min-height: 50px;

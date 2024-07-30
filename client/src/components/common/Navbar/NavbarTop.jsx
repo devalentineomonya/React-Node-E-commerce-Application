@@ -3,7 +3,7 @@ import MainLayout from "../MainLayout/MainLayout";
 import { Link } from "react-router-dom";
 import currencies from "../../../assets/data/NavbarData/Currencies";
 import languages from "../../../assets/data/NavbarData/Languages";
-import {AiOutlinePhone} from "react-icons/ai"
+import { AiOutlinePhone } from "react-icons/ai";
 
 const NavbarTop = () => {
   const currencyRef = useRef();
@@ -14,15 +14,18 @@ const NavbarTop = () => {
   const handleCurrencyChange = () => {
     console.log(currencyRef.current.value);
   };
+  const smallScreen = window.innerHeight < 420
   return (
     <MainLayout bg="bg-customGreen">
       <div className="navbar-top-content ">
         <div className="navbar-top-left">
-          <Link to="tel:+254768133220" ><AiOutlinePhone className="icon"/> +254768133220</Link>
+          <Link to="tel:+254768133220">
+            <AiOutlinePhone className="icon" /> +254768133220
+          </Link>
         </div>
-        <div>
-          Get 50% off on selected items | <Link to="/shop" /> Shop Now
-        </div>
+        <p>
+          <span className={`${smallScreen ? "hidden" : ""}`}>Get 50% off on selected items  |</span>  <Link to="/shop"> Shop Now</Link>
+        </p>
         <div className="navbar-top-select-items">
           <select
             name="currency"
