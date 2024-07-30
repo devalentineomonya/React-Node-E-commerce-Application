@@ -10,7 +10,7 @@ import CustomAlert from "../CustomAlert/CustomAlert";
 import useModal from "../../../hooks/useModal";
 import CategoryDropDown from "./CategoryDropDown";
 const NavbarLower = () => {
-  const [searching, setSearching] = useState(true);
+  const [searching, setSearching] = useState(false);
   const [activePage, setActivePage] = useState(0);
   const [searchValue, setSearchValue] = useState();
   const [navBarOpen, setNavBarOpen] = useState(false);

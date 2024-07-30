@@ -1,13 +1,11 @@
 import NavbarMain from "./components/common/Navbar/NavbarMain";
-import HomeHero from "./components/Home/HomeHero/HomeHero";
+import Home from "./pages/home/Home";
 
 function App() {
-
   return (
     <>
-      <NavbarMain/>
-      <HomeHero/>
-    
+      <NavbarMain />
+      <Home />
     </>
   );
 }
