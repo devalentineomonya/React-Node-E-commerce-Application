@@ -17,6 +17,7 @@ const CategoryDropDown = ({showDropDown, setShowDropDown}) => {
         }}
       >
         Category <BsChevronDown className={`${showDropDown ? "rotate-180" : ""}`} />
+        
       </div>
       <div className={`category-drop-down-content-container ${showDropDown ? "show" : ""}`}>
         <div className="category-drop-down-content-title">

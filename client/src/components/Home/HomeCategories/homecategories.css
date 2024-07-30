@@ -1,0 +1,9 @@
+.home-category-content{
+    @apply flex gap-x-2
+}
+.home-category-card{
+    @apply w-full max-w-[225px] h-60 rounded-lg flex justify-center text-2xl pt-2 font-semibold bg-green-300 text-white;
+    background-image: var(--home-cat-img);
+    background-position: center;
+    background-size: cover;
+}
