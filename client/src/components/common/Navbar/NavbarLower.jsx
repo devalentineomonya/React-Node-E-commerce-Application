@@ -1,14 +1,15 @@
-import MainLayout from "../MainLayout/MainLayout";
-import navItems from "../../../assets/data/NavbarData/NavItems";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineSearch, AiOutlineUser } from "react-icons/ai";
 import { BsCartPlus, BsMenuButton, BsX } from "react-icons/bs";
-import { useEffect, useRef, useState } from "react";
-
+import MainLayout from "../MainLayout/MainLayout";
+import navItems from "../../../assets/data/NavbarData/NavItems";
 import logo from "../../../assets/images/logo.svg";
 import CustomAlert from "../CustomAlert/CustomAlert";
 import useModal from "../../../hooks/useModal";
 import CategoryDropDown from "./CategoryDropDown";
+
 const NavbarLower = () => {
   const [searching, setSearching] = useState(false);
   const [activePage, setActivePage] = useState(0);
@@ -17,16 +18,18 @@ const NavbarLower = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const navigate = useNavigate();
   const { isShowing, toggle } = useModal();
-  const mobileScreen = window.innerWidth < 992;
-
   const pagePath = useRef("");
+
+  const mobileScreen = useMemo(() => window.innerWidth < 992, []);
+
   useEffect(() => {
-    if (location.pathname.includes("/")) {
-      pagePath.current = location.pathname.split("/")[1];
+    const pathname = location.pathname;
+    if (pathname.includes("/")) {
+      pagePath.current = pathname.split("/")[1];
     } else {
-      pagePath.current = location.pathname.substring(1);
+      pagePath.current = pathname.substring(1);
     }
-  });
+  }, []);
 
   useEffect(() => {
     const currentNavItem = navItems.find(
@@ -36,36 +39,36 @@ const NavbarLower = () => {
     setActivePage(index);
   }, [pagePath]);
 
-  const handlePageChange = (index) => {
+  const handlePageChange = useCallback((index) => {
     setActivePage(index);
-  };
-  const onEnterClick = (event) => {
-    if (event.key === "enter") {
-      handlePageChange();
-    }
-  };
+  }, []);
 
-  const handleSearchValueChange = (e) => {
+  const onEnterClick = useCallback((event, index) => {
+    if (event.key === "Enter") {
+      handlePageChange(index);
+    }
+  }, [handlePageChange]);
+
+  const handleSearchValueChange = useCallback((e) => {
     setShowDropDown(false);
     setSearchValue(e.target.value);
-  };
+  }, []);
 
-  const handleSearchRedirect = () => {
-    console.log("Invocked")
-    if (!searchValue?.trim()) {
+  const handleSearchRedirect = useCallback(() => {
+    if (!searchValue.trim()) {
       setSearching(true);
       toggle();
       setTimeout(() => toggle(), 2000);
     } else {
       navigate(`/search?query=${searchValue}`);
     }
-  };
+  }, [searchValue, toggle, navigate]);
 
   return (
     <MainLayout>
       <div className="navbar-lower-content">
         <div className="logo">
-          <img src={logo} alt="" />
+          <img src={logo} alt="Logo" />
         </div>
         {window.innerWidth >= 1150 && (
           <CategoryDropDown
@@ -78,8 +81,7 @@ const NavbarLower = () => {
           <nav
             className={`navbar ${searching ? "nav-searching" : ""} ${
               mobileScreen ? "navbar-mobile" : ""
-            }
-            ${navBarOpen ? "active" : ""}`}
+            } ${navBarOpen ? "active" : ""}`}
           >
             <div
               className={`close-menu ${!mobileScreen ? "hidden" : ""}`}
@@ -91,9 +93,10 @@ const NavbarLower = () => {
               {navItems?.map((navItem, i) => (
                 <li
                   key={navItem.key}
-                  className={`nav-item`}
+                  className={`nav-item ${activePage === i ? "active" : ""}`}
                   onClick={() => handlePageChange(i)}
-                  onKeyDown={onEnterClick}
+                  onKeyDown={(event) => onEnterClick(event, i)}
+                  tabIndex={0}
                 >
                   <Link to={navItem.to}>{navItem.title}</Link>
                   {activePage === i && <hr />}
@@ -103,15 +106,12 @@ const NavbarLower = () => {
           </nav>
         )}
 
-        <div
-          className={`nav-search ${searching ? "searching" : ""} ${
-            mobileScreen ? "hidden" : ""
-          }`}
-        >
+        <div className={`nav-search ${searching ? "searching" : ""} ${mobileScreen ? "hidden" : ""}`}>
           <div
             className={`search-placeholder ${mobileScreen ? "hidden" : ""}`}
             onClick={() => {
-              setSearching(true), setShowDropDown(true);
+              setSearching(true);
+              setShowDropDown(true);
             }}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
@@ -129,7 +129,8 @@ const NavbarLower = () => {
                 type="text"
                 placeholder="Search Product"
                 onBlur={() => {
-                  setSearching(false), setShowDropDown(false);
+                  setSearching(false);
+                  setShowDropDown(false);
                 }}
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
@@ -143,11 +144,7 @@ const NavbarLower = () => {
               searchValue ?? "Search Product"
             )}
           </div>
-
-          <div
-            className="icon"
-            onClick={handleSearchRedirect}
-          >
+          <div className="icon" onClick={handleSearchRedirect}>
             <AiOutlineSearch size={18} />
           </div>
         </div>
@@ -157,7 +154,7 @@ const NavbarLower = () => {
             onClick={() => setSearching(true)}
           >
             <AiOutlineSearch size={18} />
-            {searching ? (
+            {searching && (
               <div className={`${mobileScreen ? "mobile-search" : ""}`}>
                 <input
                   autoFocus
@@ -178,7 +175,7 @@ const NavbarLower = () => {
                   <AiOutlineSearch size={40} />
                 </div>
               </div>
-            ) : null}
+            )}
           </div>
           <Link to="/auth">
             <div className="nav-left-item">
@@ -209,6 +206,16 @@ const NavbarLower = () => {
       />
     </MainLayout>
   );
+};
+
+NavbarLower.propTypes = {
+  navItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      to: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default NavbarLower;

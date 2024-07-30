@@ -4,8 +4,8 @@ import "./homecategories.css";
 import Furniture from "../../../assets/images/63e8c4e570738029a725e686_Furniture-min.png";
 import HandBag from "../../../assets/images/63e8c4e52d6553668075697e_hand bag-min.png";
 import Books from "../../../assets/images/63e8c4e460afc22b7ea53520_books-min.png";
-import Sneakers from "../../../assets/images/63e8c4e754ac2e32897cb53b_tech-min.png";
-import Tech from "../../../assets/images/63e8c4e64b769118272f244f_sneakers-min.png";
+import Tech from "../../../assets/images/63e8c4e754ac2e32897cb53b_tech-min.png";
+import Sneakers from "../../../assets/images/63e8c4e64b769118272f244f_sneakers-min.png";
 import Travel from "../../../assets/images/63e8c4e71eb4ad6d07e7568f_travel-min.png";
 const HomeCategories = () => {
   return (

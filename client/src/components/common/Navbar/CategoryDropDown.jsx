@@ -3,8 +3,7 @@ import headPhone from "../../../assets/images/63ec58077c3c77e31aff9b5d_Rectangle
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const CategoryDropDown = ({showDropDown, setShowDropDown}) => {
-  
+const CategoryDropDown = ({ showDropDown, setShowDropDown }) => {
   return (
     <div className="category-drop-down-container">
       <div
@@ -15,36 +14,34 @@ const CategoryDropDown = ({showDropDown, setShowDropDown}) => {
             setShowDropDown((prev) => !prev);
           }
         }}
+        tabIndex={0}
       >
         Category <BsChevronDown className={`${showDropDown ? "rotate-180" : ""}`} />
-        
       </div>
       <div className={`category-drop-down-content-container ${showDropDown ? "show" : ""}`}>
-        <div className="category-drop-down-content-title">
-          Popular Categories
-        </div>
-
+        <div className="category-drop-down-content-title">Popular Categories</div>
         <div className="category-drop-down-content">
-          <CategoryItem image={headPhone} category="headPhone" count={43} />
-          <CategoryItem image={headPhone} category="headPhone" count={43} />
-          <CategoryItem image={headPhone} category="headPhone" count={43} />
-          <CategoryItem image={headPhone} category="headPhone" count={43} />
-          <CategoryItem image={headPhone} category="headPhone" count={43} />
-          <CategoryItem image={headPhone} category="headPhone" count={43} />
-          <CategoryItem image={headPhone} category="headPhone" count={43} />
-          <CategoryItem image={headPhone} category="headPhone" count={43} />
-          <CategoryItem image={headPhone} category="headPhone" count={43} />
+          <CategoryItem image={headPhone} name="Headphones" count={43} />
+          <CategoryItem image={headPhone} name="Speakers" count={21} />
+          <CategoryItem image={headPhone} name="Microphones" count={15} />
+          <CategoryItem image={headPhone} name="Earbuds" count={32} />
+          <CategoryItem image={headPhone} name="Headsets" count={18} />
+          <CategoryItem image={headPhone} name="Amplifiers" count={12} />
+          <CategoryItem image={headPhone} name="Turntables" count={7} />
+          <CategoryItem image={headPhone} name="Mixers" count={9} />
+          <CategoryItem image={headPhone} name="Accessories" count={50} />
         </div>
       </div>
     </div>
   );
 };
+
 export const CategoryItem = ({ image, name, count, brand }) => {
   return (
-    <Link to={`/shop?${brand ? "brand" : "category"}=${name?.toLowerCase()}`}>
-      <div className={`category-card-container ${brand ? "hover:border border-customGreen " : ""}`}>
-        <div className={`category-card-image ${brand ?  "bg-transparent": ""}`}>
-          <img src={image} alt="" className={`${brand ? "rounded-full" : ""}`} />
+    <Link to={`/shop?${brand ? "brand" : "category"}=${name.toLowerCase()}`}>
+      <div className={`category-card-container ${brand ? "hover:border border-customGreen" : ""}`}>
+        <div className={`category-card-image ${brand ? "bg-transparent" : ""}`}>
+          <img src={image} alt={name} className={`${brand ? "rounded-full" : ""}`} />
         </div>
         <div className="category-card-text">
           <h6>{name}</h6>
@@ -55,18 +52,16 @@ export const CategoryItem = ({ image, name, count, brand }) => {
   );
 };
 
-CategoryItem.protoTypes = {
-  image: PropTypes.string,
-  name: PropTypes.string,
-  count: PropTypes.number,
-  rounded:PropTypes.bool,
-  brand:PropTypes.bool,
-  toLowerCase: PropTypes.func,
+CategoryItem.propTypes = {
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+  brand: PropTypes.bool,
 };
 
-CategoryDropDown.protoTypes = {
-  showDropDown:PropTypes.bool,
-  setShowDropDown:PropTypes.func
+CategoryDropDown.propTypes = {
+  showDropDown: PropTypes.bool.isRequired,
+  setShowDropDown: PropTypes.func.isRequired,
+};
 
-}
 export default CategoryDropDown;

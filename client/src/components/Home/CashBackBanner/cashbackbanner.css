@@ -1,0 +1,30 @@
+.home-cashback-banner-section,
+.banner-image {
+    @apply relative w-full h-[60vh] mt-10;
+
+}
+
+.banner-image {
+    background-image: var(--banner-image);
+    background-position: center;
+    background-size: cover;
+}
+
+.banner-text-container {
+    @apply h-3/4 aspect-square bg-customGreen absolute right-10 md:right-32 top-20 
+}
+
+.banner-text-container {
+    @apply p-16 text-white 
+}
+
+.banner-text-container h2 {
+    @apply text-5xl font-bold mb-10
+}
+.banner-text-container p{
+    @apply text-lg
+}
+
+.banner-text-container button {
+    @apply border-2 border-white hover:bg-black py-2 px-7 mt-14 rounded-full
+}

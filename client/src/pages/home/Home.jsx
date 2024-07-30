@@ -4,6 +4,7 @@ import FeaturedProducts from '../../components/Home/FeaturedProducts/FeaturedPro
 import HomeBrands from '../../components/Home/HomeBrands/HomeBrands'
 import ProductOffers from '../../components/Home/ProductOffers/ProductOffers'
 import PopularProducts from '../../components/Home/PopularProducts/PopularProducts'
+import CashBackBanner from '../../components/Home/CashBackBanner/CashBackBanner'
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <HomeBrands/>
       <ProductOffers/>
       <PopularProducts/>
+      <CashBackBanner/>
     </>
   )
 }

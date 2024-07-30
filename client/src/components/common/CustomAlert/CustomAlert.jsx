@@ -36,7 +36,7 @@ const CustomAlert = ({ isShowing, hide, type, message, setSearching }) =>
                 aria-label="Close"
                 onClick={()=>{hide(), setSearching(true)}}
               >
-                <RxCross1 size={40} />
+                <RxCross1 size={25} />
                 
               </button>
             </div>

@@ -3,16 +3,16 @@
     background-attachment: scroll;
 }
 .product-offers-card{
- @apply w-full max-w-[300px] h-72 rounded-t-lg   bg-red-600 overflow-hidden 
+ @apply w-full max-w-[300px] h-fit min-h-[448px] rounded-lg overflow-hidden  flex flex-col
 }
 .offer-info{
-    @apply h-3/4 bg-green-400 py-5 px-4
+    @apply flex-1 bg-green-400 px-3 py-5
 }
 .offer-info .offer-save{
     @apply text-slate-900 font-bold 
 }
 .offer-info .offer-value{
-    @apply font-bold text-5xl my-3
+    @apply font-bold text-5xl my-2
 }
 
 .offer-info .offer-value sup{
@@ -20,5 +20,16 @@
 }
 
 .offer-info .offer-description{
-    @apply text-slate-900 pb-2
+    @apply text-slate-900 pb-1
+}
+.offer-image {
+    @apply flex-1 overflow-hidden
+}
+.offer-image img{
+    @apply h-full rounded-b-lg
+}
+
+.offer-image img:hover{
+transform: scale(1.15);
+
 }
