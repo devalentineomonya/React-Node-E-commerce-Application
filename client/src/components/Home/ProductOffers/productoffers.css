@@ -1,0 +1,24 @@
+.offers-content{
+    @apply flex justify-center items-center flex-wrap gap-x-4;
+    background-attachment: scroll;
+}
+.product-offers-card{
+ @apply w-full max-w-[300px] h-72 rounded-t-lg   bg-red-600 overflow-hidden 
+}
+.offer-info{
+    @apply h-3/4 bg-green-400 py-5 px-4
+}
+.offer-info .offer-save{
+    @apply text-slate-900 font-bold 
+}
+.offer-info .offer-value{
+    @apply font-bold text-5xl my-3
+}
+
+.offer-info .offer-value sup{
+    @apply text-3xl
+}
+
+.offer-info .offer-description{
+    @apply text-slate-900 pb-2
+}

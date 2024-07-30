@@ -1,0 +1,37 @@
+.product-card-container{
+   @apply w-full max-w-[410px] mr-6 hover:-translate-y-3 cursor-pointer
+}
+.product-image{
+    @apply bg-[#f5f6f6] rounded-lg h-[350px] flex justify-center items-center relative
+}
+.product-image img:hover{
+transform: scale(1.15);
+}
+.add-to-favorite{
+    @apply absolute top-3 right-2 h-10 w-10 rounded-full bg-white flex justify-center items-center hover:bg-pink-200 pt-1
+}
+
+.product-info .product-name{
+    @apply flex justify-between items-center text-gray-700 text-lg font-semibold mt-3
+}
+.product-info  p{
+    @apply text-sm text-gray-500 font-bold mt-1
+}
+.product-rating{
+    @apply flex justify-start items-center gap-x-2 mt-2
+}
+.add-to-cart{
+    @apply py-1 px-4 mt-3 rounded-full border-customGreen border hover:bg-customGreen hover:text-white
+}
+.increase-items,.decrease-items{
+    @apply rounded-full border h-5 w-5 flex justify-center items-center
+}
+.cart-action-buttons{
+    @apply flex justify-start items-center gap-x-3 mt-2 rounded-full border border-customGreen py-1 px-3 w-fit
+}
+.decrease-items{
+    @apply  border-red-500 hover:text-white hover:bg-red-500
+}
+.increase-items {
+    @apply  border-green-700 hover:text-white hover:bg-green-700
+}

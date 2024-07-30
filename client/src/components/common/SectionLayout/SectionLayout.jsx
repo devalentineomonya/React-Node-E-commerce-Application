@@ -2,11 +2,11 @@ import MainLayout from "../MainLayout/MainLayout";
 import PropTypes from "prop-types"
 import "./sectionlayout.css"
 
-const SectionLayout = ({children}) => {
+const SectionLayout = ({children, title}) => {
   return (
     <MainLayout>
       <section className="section-container">
-        <div className="section-title">Todays Best Deals for you!</div>
+        <div className="section-title">{title}</div>
         <div className="section-content">{children}</div>
       </section>
     </MainLayout>
@@ -14,6 +14,7 @@ const SectionLayout = ({children}) => {
 };
 
 SectionLayout.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    title:PropTypes.string,
 }
 export default SectionLayout;

@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./customalert.css";
 import PropTypes from "prop-types";
-import { BsCheck, BsExclamation, BsInfo, BsX } from "react-icons/bs";
+import { BsCheck, BsExclamation, BsInfo } from "react-icons/bs";
+import { RxCross1 } from "react-icons/rx";
 const CustomAlert = ({ isShowing, hide, type, message, setSearching }) =>
   ReactDOM.createPortal(
     <React.Fragment>
@@ -35,7 +36,7 @@ const CustomAlert = ({ isShowing, hide, type, message, setSearching }) =>
                 aria-label="Close"
                 onClick={()=>{hide(), setSearching(true)}}
               >
-                <BsX size={40} />
+                <RxCross1 size={40} />
                 
               </button>
             </div>

@@ -4,5 +4,6 @@
 @tailwind utilities;
 
 *{
-  @apply transition-all ease-in-out duration-300 font-Inter
+  @apply transition-all ease-in-out duration-300 font-Inter;
+  box-sizing: border-box;
 }   

@@ -39,15 +39,15 @@ const CategoryDropDown = ({showDropDown, setShowDropDown}) => {
     </div>
   );
 };
-export const CategoryItem = ({ image, category, count }) => {
+export const CategoryItem = ({ image, name, count, brand }) => {
   return (
-    <Link to={`/shop?category=${category.toLowerCase()}`}>
-      <div className="category-card-container">
-        <div className="category-card-image">
-          <img src={image} alt="" />
+    <Link to={`/shop?${brand ? "brand" : "category"}=${name?.toLowerCase()}`}>
+      <div className={`category-card-container ${brand ? "hover:border border-customGreen " : ""}`}>
+        <div className={`category-card-image ${brand ?  "bg-transparent": ""}`}>
+          <img src={image} alt="" className={`${brand ? "rounded-full" : ""}`} />
         </div>
         <div className="category-card-text">
-          <h6>{category}</h6>
+          <h6>{name}</h6>
           <p>{count} Items Available</p>
         </div>
       </div>
@@ -57,8 +57,10 @@ export const CategoryItem = ({ image, category, count }) => {
 
 CategoryItem.protoTypes = {
   image: PropTypes.string,
-  category: PropTypes.string,
+  name: PropTypes.string,
   count: PropTypes.number,
+  rounded:PropTypes.bool,
+  brand:PropTypes.bool,
   toLowerCase: PropTypes.func,
 };
 

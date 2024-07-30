@@ -170,7 +170,7 @@
 
 
 .category-card-container {
-    @apply w-full rounded-md bg-gray-100 min-h-16 flex gap-x-2 p-2 pl-0 justify-center items-center
+    @apply w-full rounded-md bg-gray-100 min-h-16 flex gap-x-2 p-2 pl-3 justify-start items-center max-w-[350px]
 }
 
 .category-card-image {

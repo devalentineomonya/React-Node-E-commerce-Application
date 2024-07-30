@@ -9,7 +9,7 @@ import Tech from "../../../assets/images/63e8c4e64b769118272f244f_sneakers-min.p
 import Travel from "../../../assets/images/63e8c4e71eb4ad6d07e7568f_travel-min.png";
 const HomeCategories = () => {
   return (
-    <SectionLayout>
+    <SectionLayout title="Shop Our Top">
       <div className="home-category-content">
         <CategoryCard title="Furniture" image={Furniture} />
         <CategoryCard title="Hand Bag" image={HandBag} />
