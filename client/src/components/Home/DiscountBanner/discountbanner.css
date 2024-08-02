@@ -1,0 +1,41 @@
+.discount-banner-container {
+    @apply  h-96 max-w-[992px] flex justify-between items-center px-10 mx-auto
+}
+
+.discount-banner-text {
+    @apply flex-1
+}
+
+.discount-banner-text h1 {
+    @apply font-bold text-5xl text-black mb-4
+}
+.discount-banner-text p {
+    @apply font-semibold text-slate-800 pl-4
+}
+
+.discount-banner-text button {
+    @apply py-3 px-10 rounded-full bg-customGreen text-white hover:bg-black mt-4
+}
+
+.discount-card-thumbnail-wrap {
+    @apply z-10  relative flex-1 h-full w-full flex justify-end  
+}
+.discount-card-thumbnail-wrap img {
+    @apply max-w-full align-middle inline-block pt-28
+}
+
+.card-one {
+    @apply z-[2] absolute -top-9 bottom-auto -right-[22px] left-auto ;
+    transform: rotate(-30.6deg);
+
+}
+
+.card-two {
+    @apply z-[1] absolute -top-[18px] bottom-auto -right-[9px] left-auto;
+    transform: rotate(-21.6deg);
+}
+
+.card-three {
+    @apply absolute right-auto bottom-auto;
+    transform: rotate(-15deg);
+}

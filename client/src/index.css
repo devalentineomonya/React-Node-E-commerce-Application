@@ -7,3 +7,13 @@
   @apply transition-all ease-in-out duration-300 font-Inter;
   box-sizing: border-box;
 }   
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 2px;
+  background-color: #aaa;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #231F1E;
+  border-radius: 10px;
+}

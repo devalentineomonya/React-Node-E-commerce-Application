@@ -5,6 +5,7 @@ import HomeBrands from '../../components/Home/HomeBrands/HomeBrands'
 import ProductOffers from '../../components/Home/ProductOffers/ProductOffers'
 import PopularProducts from '../../components/Home/PopularProducts/PopularProducts'
 import CashBackBanner from '../../components/Home/CashBackBanner/CashBackBanner'
+import DiscountBanner from '../../components/Home/DiscountBanner/DiscountBanner'
 import BestDeals from '../../components/Home/BestDeals/BestDeals'
 
 const Home = () => {
@@ -18,6 +19,7 @@ const Home = () => {
       <PopularProducts/>
       <CashBackBanner/>
       <BestDeals/>
+      <DiscountBanner/>
     </>
   )
 }
