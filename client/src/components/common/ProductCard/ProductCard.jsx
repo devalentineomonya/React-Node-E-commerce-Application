@@ -41,7 +41,7 @@ const ProductCard = ({thumbnail, product}) => {
           </div>
           <div className="cart-buttons">
             <div className="cart-action-buttons">
-              <button className="decrease-items" onClick={handleCartDecrease}>
+              <button className="decrease-items" onClick={handleCartDecrease} disabled={!cartValue}>
                 <AiOutlineMinus />
               </button>
             <div className="cart-val">{cartValue}</div>

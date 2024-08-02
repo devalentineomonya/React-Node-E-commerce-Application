@@ -13,6 +13,7 @@
     transform: translate(-50%, -50%);
     background-color: #fff;
     transition: all 0.5s;
+    z-index: 20;
 
 }
 
@@ -28,7 +29,7 @@
 }
 
 .modal-header {
-    @apply flex justify-end items-start text-gray-400 absolute top-0 right-0
+    @apply flex justify-end items-start text-gray-400 absolute top-0 right-0 
 }
 
 .modal-content {
