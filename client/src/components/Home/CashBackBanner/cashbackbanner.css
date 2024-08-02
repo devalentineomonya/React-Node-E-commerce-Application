@@ -5,13 +5,15 @@
 }
 
 .banner-image {
+    @apply flex  md:justify-end justify-center items-center pr-0 md:pr-32;
     background-image: var(--banner-image);
     background-position: center;
     background-size: cover;
 }
 
+
 .banner-text-container {
-    @apply h-3/4 aspect-square bg-customGreen absolute right-10 md:right-32 top-20 
+    @apply md:h-3/4 h-1/2 aspect-square bg-customGreen ;
 }
 
 .banner-text-container {
