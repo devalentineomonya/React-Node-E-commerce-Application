@@ -1,0 +1,28 @@
+.tending-products-container{
+    @apply grid grid-cols-1 md:grid-cols-2 h-96  gap-x-5 lg:px-20
+}
+.trending-products-card-container{
+    @apply w-full bg-[#f5f6f6] overflow-hidden rounded-lg
+}
+.trending-product-image{
+    @apply h-3/4 w-full overflow-hidden
+}
+.trending-product-image img{
+    @apply h-full w-full 
+}
+.trending-product-image img:hover{
+    transform:scale(1.15)
+}
+.trending-product-info{
+    @apply bg-[#f5f6f6] mt-1 
+
+}
+.trending-product-info h5{
+    @apply font-bold text-slate-800 
+}
+.trending-product-info p{
+    @apply text-sm 
+}
+.trending-product-info button{
+    @apply py-2 px-8 rounded-full bg-gray-950 text-white mt-1
+}

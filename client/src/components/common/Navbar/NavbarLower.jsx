@@ -68,7 +68,7 @@ const NavbarLower = () => {
     <MainLayout>
       <div className="navbar-lower-content">
         <div className="logo">
-          <img src={logo} alt="Logo" />
+          <img src={logo} alt="Logo"  loading="lazy"/>
         </div>
         {window.innerWidth >= 1150 && (
           <CategoryDropDown

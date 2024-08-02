@@ -7,6 +7,8 @@ import PopularProducts from '../../components/Home/PopularProducts/PopularProduc
 import CashBackBanner from '../../components/Home/CashBackBanner/CashBackBanner'
 import DiscountBanner from '../../components/Home/DiscountBanner/DiscountBanner'
 import BestDeals from '../../components/Home/BestDeals/BestDeals'
+import MostSelling from '../../components/Home/MostSelling/MostSelling'
+import TrendingProducts from '../../components/Home/TrendingProducts/TrendingProducts'
 
 const Home = () => {
   return (
@@ -20,6 +22,8 @@ const Home = () => {
       <CashBackBanner/>
       <BestDeals/>
       <DiscountBanner/>
+      <MostSelling/>
+      <TrendingProducts/>
     </>
   )
 }

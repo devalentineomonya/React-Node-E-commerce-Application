@@ -11,7 +11,7 @@ const ProductOfferCard = ({ offer, bg, text }) => {
         <p className="offer-description">{offer?.description}</p>
       </div>
       <div className="offer-image">
-        <img src={offer?.image} alt={offer?.name} />
+        <img src={offer?.image} alt={offer?.name} loading="lazy" />
       </div>
     </div>
   );
