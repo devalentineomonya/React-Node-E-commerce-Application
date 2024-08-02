@@ -1,0 +1,20 @@
+.services-card-container {
+    @apply grid grid-cols-4 gap-x-4
+}
+
+.service-card {
+    @apply bg-[#f5f6f6] w-full max-w-full min-w-full grid grid-rows-2 max-h-72
+}
+
+.service-description{
+    @apply px-6 pt-7
+}
+.service-description h4{
+    @apply font-semibold text-slate-700 text-lg mb-3
+}
+.service-description p{
+    @apply text-sm 
+}
+.service-image img{
+    @apply w-full h-full
+}

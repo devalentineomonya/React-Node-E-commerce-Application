@@ -3,12 +3,20 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import "./productcard.css";
 import testImage from "../../../assets/images/63e8c4e563db5507951bbfbe_homepad-mini-min.png";
 import PropTypes from "prop-types"
+import { useState } from "react";
 const ProductCard = ({thumbnail, product}) => {
+  const [cartValue, setCartValue] = useState(0)
   const handleCartDecrease = () => {
-    console.log("Increased");
+    if(cartValue){
+      setCartValue(cartValue => cartValue-1)
+      console.log(cartValue)
+    }
+    
   };
   const handleCartIncrease = () => {
-    console.log("Increased");
+    setCartValue(cartValue => cartValue+1)
+    console.log(cartValue)
+  
   };
   return (
     <div className="product-card-container">
@@ -33,13 +41,14 @@ const ProductCard = ({thumbnail, product}) => {
           </div>
           <div className="cart-buttons">
             <div className="cart-action-buttons">
-              <button className="increase-items" onClick={handleCartIncrease}>
-                <AiOutlinePlus />
-              </button>
-              <div className="cart-val">18</div>
               <button className="decrease-items" onClick={handleCartDecrease}>
                 <AiOutlineMinus />
               </button>
+            <div className="cart-val">{cartValue}</div>
+              <button className="increase-items" onClick={handleCartIncrease}>
+                <AiOutlinePlus />
+              </button>
+            
             </div>
             <button className="add-to-cart">Add To Card</button>
           </div>

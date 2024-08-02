@@ -9,6 +9,7 @@ import DiscountBanner from '../../components/Home/DiscountBanner/DiscountBanner'
 import BestDeals from '../../components/Home/BestDeals/BestDeals'
 import MostSelling from '../../components/Home/MostSelling/MostSelling'
 import TrendingProducts from '../../components/Home/TrendingProducts/TrendingProducts'
+import OurServices from '../../components/Home/OurServices/OurServices'
 
 const Home = () => {
   return (
@@ -24,6 +25,7 @@ const Home = () => {
       <DiscountBanner/>
       <MostSelling/>
       <TrendingProducts/>
+      <OurServices/>
     </>
   )
 }
