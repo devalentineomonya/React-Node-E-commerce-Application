@@ -6,8 +6,8 @@ const OurServiceCard = ({ service }) => {
         <h4>Frequently Asked Questions</h4>
         <p>
           Velit velit officia magna veniam sit veniam consectetur tempor elit.
-          Do excepteur aliquip quis culpa ullamco.{" "}
-        </p>{" "}
+          Do excepteur aliquip quis culpa ullamco.
+        </p>
       </div>
       <div className="service-image">
         <img src={service?.image} alt={service?.name} loading="lazy" />

@@ -5,7 +5,7 @@
     @apply w-full bg-[#f5f6f6] overflow-hidden rounded-lg
 }
 .trending-product-image{
-    @apply h-3/4 w-full overflow-hidden
+    @apply h-[73%] w-full overflow-hidden
 }
 .trending-product-image img{
     @apply h-full w-full 
@@ -14,7 +14,7 @@
     transform:scale(1.15)
 }
 .trending-product-info{
-    @apply bg-[#f5f6f6] mt-1 
+    @apply bg-[#f5f6f6] mt-1 px-3
 
 }
 .trending-product-info h5{

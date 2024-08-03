@@ -13,7 +13,7 @@
     @apply font-semibold text-slate-700 text-lg mb-3
 }
 .service-description p{
-    @apply text-sm 
+    @apply text-sm font-semibold text-gray-500
 }
 .service-image img{
     @apply w-full h-full
