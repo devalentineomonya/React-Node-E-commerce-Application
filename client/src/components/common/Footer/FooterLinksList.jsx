@@ -15,7 +15,7 @@ const FooterLinksList = ({ title, links }) => {
   );
 };
 FooterLinksList.propTypes = {
-  title: PropTypes.string,
-  links: PropTypes.array,
+  title: PropTypes.string.isRequired,
+  links: PropTypes.array.isRequired,
 };
 export default FooterLinksList;
