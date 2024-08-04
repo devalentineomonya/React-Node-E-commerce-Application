@@ -5,7 +5,13 @@ import "./beststore.css"
 const BestStores = () => {
   return (
   <SectionLayout title="Best Selling Stores">
+    <div className="best-store-cards">
+
     <BestStoreCard/>
+    <BestStoreCard/>
+    <BestStoreCard/>
+    <BestStoreCard/>
+    </div>
 
   </SectionLayout>
   )

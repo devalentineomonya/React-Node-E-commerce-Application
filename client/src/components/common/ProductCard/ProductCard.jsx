@@ -2,21 +2,20 @@ import { BsHeart, BsStar, BsStarFill } from "react-icons/bs";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import "./productcard.css";
 import testImage from "../../../assets/images/63e8c4e563db5507951bbfbe_homepad-mini-min.png";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 import { useState } from "react";
-const ProductCard = ({thumbnail, product}) => {
-  const [cartValue, setCartValue] = useState(0)
+const ProductCard = ({ thumbnail, product }) => {
+  const [cartValue, setCartValue] = useState(0);
+  const randomBool = Math.random() > 1 / 2 ? true : false;
   const handleCartDecrease = () => {
-    if(cartValue){
-      setCartValue(cartValue => cartValue-1)
-      console.log(cartValue)
+    if (cartValue) {
+      setCartValue((cartValue) => cartValue - 1);
+      console.log(cartValue);
     }
-    
   };
   const handleCartIncrease = () => {
-    setCartValue(cartValue => cartValue+1)
-    console.log(cartValue)
-  
+    setCartValue((cartValue) => cartValue + 1);
+    console.log(cartValue);
   };
   return (
     <div className="product-card-container">
@@ -40,17 +39,23 @@ const ProductCard = ({thumbnail, product}) => {
             <BsStar className="text-gray-600" />
           </div>
           <div className="cart-buttons">
-            <div className="cart-action-buttons">
-              <button className="decrease-items" onClick={handleCartDecrease} disabled={!cartValue}>
-                <AiOutlineMinus />
-              </button>
-            <div className="cart-val">{cartValue}</div>
-              <button className="increase-items" onClick={handleCartIncrease}>
-                <AiOutlinePlus />
-              </button>
-            
-            </div>
-            <button className="add-to-cart">Add To Card</button>
+            {randomBool ? (
+              <div className="cart-action-buttons">
+                <button
+                  className="decrease-items"
+                  onClick={handleCartDecrease}
+                  disabled={!cartValue}
+                >
+                  <AiOutlineMinus />
+                </button>
+                <div className="cart-val">{cartValue}</div>
+                <button className="increase-items" onClick={handleCartIncrease}>
+                  <AiOutlinePlus />
+                </button>
+              </div>
+            ) : (
+              <button className="add-to-cart">Add To Card</button>
+            )}
           </div>
         </div>
       )}
@@ -59,7 +64,7 @@ const ProductCard = ({thumbnail, product}) => {
 };
 ProductCard.propTypes = {
   thumbnail: PropTypes.bool,
-  product: PropTypes.object
-}
+  product: PropTypes.object,
+};
 
 export default ProductCard;

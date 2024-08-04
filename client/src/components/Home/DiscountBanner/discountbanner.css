@@ -10,7 +10,7 @@
     @apply font-bold text-5xl text-black mb-4
 }
 .discount-banner-text p {
-    @apply font-semibold text-slate-800 pl-4
+    @apply font-semibold text-slate-800 pl-4 flex gap-x-3
 }
 
 .discount-banner-text button {
