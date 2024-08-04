@@ -1,5 +1,5 @@
 .home-hero-section{
-    @apply container min-w-full  h-[60vh] bg-gray-200 relative;
+    @apply container min-w-full h-screen  lg:h-[60vh] bg-gray-200 relative;
     background-position:center;
     background-size: cover;
     background-origin: content-box;
@@ -8,14 +8,20 @@
     background-image: var(--bg-img) ;
 }
 .home-hero-container{
-    @apply flex justify-start items-center w-3/4 lg:w-1/3 h-full pl-20
+    @apply flex justify-between items-center px-5 h-full lg:flex-row flex-col
 }
-.home-hero-container h2{
+.home-hero-content h2{
     @apply text-6xl font-bold text-customGreen
 }
-.home-hero-container p{
+.home-hero-content p{
     @apply mt-8 text-lg  
 }
-.home-hero-container button{
+.home-hero-content button{
     @apply py-3 px-8 bg-customGreen text-white  mt-5 rounded-full hover:bg-black
+}
+.home-hero-container .hero-image{
+    @apply w-full h-full relative
+}
+.home-hero-container .hero-image img{
+    @apply absolute h-full w-full
 }
