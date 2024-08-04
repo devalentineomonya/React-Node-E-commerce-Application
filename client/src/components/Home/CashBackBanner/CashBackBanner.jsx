@@ -1,4 +1,4 @@
-import  heroBackground from "../../../assets/images/63e9b930e006824963189865_bg-stage.png"
+import  heroBackground from "../../../assets/images/63e8c4e6cd3678e82164f755_furniture village-min.png"
 import "./cashbackbanner.css"
 
 const CashBackBanner = () => {

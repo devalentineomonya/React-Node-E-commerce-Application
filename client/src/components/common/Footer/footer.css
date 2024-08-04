@@ -1,0 +1,43 @@
+.footer-container {
+    @apply flex mt-16 mb-7 border-y-2 py-12 border-gray-300 gap-x-16
+}
+
+.footer-logo-container>img {
+    @apply mb-8
+}
+.footer-logo-container>p{
+    @apply text-[14px] font-semibold text-gray-500 mb-8
+}
+.footer-payment>h3{
+    @apply mb-3 font-semibold text-slate-700 text-[18px]
+}
+.payment-methods{
+    @apply grid grid-cols-4 gap-y-3  justify-center items-center max-w-[360px] mt-2
+}
+.payment-methods img{
+    @apply rounded-md border border-gray-300 py-3 px-5 max-w-[80px] max-h-[48px] min-w-[80px] min-h-[48px] hover:bg-gray-100 cursor-pointer 
+}
+.footer-links-container {
+    @apply grid grid-cols-4 justify-between w-full items-start gap-x-3
+}
+
+.footer-links-content h3 {
+    @apply text-xl font-bold text-gray-700 mb-5
+}
+
+.footer-links-content ul li {
+    @apply text-[14px] font-semibold text-gray-500 mt-2
+}
+.footer-ending-container{
+    @apply flex justify-between items-center font-semibold text-gray-500 pt-2 pb-8
+}
+.footer-ending-items{
+    @apply flex gap-x-8 
+
+}
+.ending-policies{
+    @apply flex items-start gap-x-4
+}
+.footer-ending-items>div{
+    @apply flex gap-x-2
+}

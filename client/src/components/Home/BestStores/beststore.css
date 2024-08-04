@@ -5,10 +5,10 @@
     @apply relative z-0 
 }
 .best-store-product-image{
-    @apply overflow-hidden rounded-xl
+    @apply overflow-hidden rounded-md
 }
 .best-store-product-image img{
-    @apply w-full rounded-xl
+    @apply w-full rounded-md
 }
 .best-store-product-image img:hover{
     transform: scale(1.15);
@@ -28,5 +28,5 @@
     @apply text-[12px] font-semibold text-gray-500 my-1
 }
 .best-store-info .delivery{
-    @apply text-[12px] font-semibold text-pink-500
+    @apply text-[12px] font-semibold text-pink-500 flex gap-x-2 justify-start items-center
 }
