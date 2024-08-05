@@ -10,6 +10,9 @@
 .home-hero-container{
     @apply flex justify-between items-center px-5 h-full lg:flex-row flex-col
 }
+.home-hero-content{
+    @apply flex-1 h-1/2 w-full sm:w-2/3
+}
 .home-hero-content h2{
     @apply text-6xl font-bold text-customGreen
 }
@@ -20,7 +23,7 @@
     @apply py-3 px-8 bg-customGreen text-white  mt-5 rounded-full hover:bg-black
 }
 .home-hero-container .hero-image{
-    @apply w-full h-full relative
+    @apply w-full  relative flex-1 h-1/2
 }
 .home-hero-container .hero-image img{
     @apply absolute h-full w-full

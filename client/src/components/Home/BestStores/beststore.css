@@ -1,5 +1,5 @@
 .best-store-cards{
-    @apply grid grid-cols-4 gap-x-3
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-y-8 md:grid-cols-4 gap-x-3
 }
 .best-store-images{
     @apply relative z-0 

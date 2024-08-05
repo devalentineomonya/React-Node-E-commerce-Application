@@ -2,7 +2,8 @@ import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineSearch, AiOutlineUser } from "react-icons/ai";
-import { BsCartPlus, BsMenuButton, BsX } from "react-icons/bs";
+import { HiOutlineMenuAlt4 } from "react-icons/hi";
+import { BsCartPlus, BsX } from "react-icons/bs";
 import MainLayout from "../MainLayout/MainLayout";
 import navItems from "../../../assets/data/NavbarData/NavItems";
 import logo from "../../../assets/images/logo.svg";
@@ -193,7 +194,7 @@ const NavbarLower = () => {
             className={`nav-left-item ${!mobileScreen ? "hidden" : ""}`}
             onClick={() => setNavBarOpen(true)}
           >
-            <BsMenuButton />
+            <HiOutlineMenuAlt4 />
           </div>
         </div>
       </div>

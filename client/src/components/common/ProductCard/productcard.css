@@ -1,5 +1,5 @@
 .product-card-container{
-   @apply w-full max-w-[410px] mr-6 hover:-translate-y-3 cursor-pointer
+   @apply w-full max-w-full sm:max-w-[410px] sm:mr-6 hover:-translate-y-3 cursor-pointer
 }
 .product-image{
     @apply bg-[#f5f6f6] rounded-lg h-[350px] flex justify-center items-center relative

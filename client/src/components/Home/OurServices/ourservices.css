@@ -1,5 +1,5 @@
 .services-card-container {
-    @apply grid grid-cols-4 gap-x-4
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4
 }
 
 .service-card {

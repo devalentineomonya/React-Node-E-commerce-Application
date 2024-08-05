@@ -1,7 +1,9 @@
 .footer-container {
-    @apply flex mt-16 mb-7 border-y-2 py-12 border-gray-300 gap-x-16
+    @apply flex md:flex-row flex-col gap-y-12 mt-16 mb-7 border-y-2 py-12 border-gray-300 gap-x-16  overflow-x-hidden
 }
-
+.footer-logo-container{
+    @apply lg:w-[50%] w-[90vw]
+}
 .footer-logo-container>img {
     @apply mb-8
 }
@@ -12,13 +14,13 @@
     @apply mb-3 font-semibold text-slate-700 text-[18px]
 }
 .payment-methods{
-    @apply grid grid-cols-4 gap-y-3  justify-center items-center max-w-[360px] mt-2
+    @apply grid grid-cols-4 gap-y-3  justify-center items-center max-w-full sm:max-w-[360px] mt-2 
 }
 .payment-methods img{
     @apply rounded-md border border-gray-300 py-3 px-5 max-w-[80px] max-h-[48px] min-w-[80px] min-h-[48px] hover:bg-gray-100 cursor-pointer 
 }
 .footer-links-container {
-    @apply grid grid-cols-4 justify-between w-full items-start gap-x-3
+    @apply grid grid-cols-2 md:grid-cols-4 gap-y-10  justify-between w-full items-start gap-x-3
 }
 
 .footer-links-content h3 {
@@ -29,7 +31,7 @@
     @apply text-[14px] font-semibold text-gray-500 mt-2
 }
 .footer-ending-container{
-    @apply flex justify-between items-center font-semibold text-gray-500 pt-2 pb-8
+    @apply flex justify-between items-center flex-col gap-y-12 md:flex-row font-semibold text-gray-500 pt-2 pb-8
 }
 .footer-ending-items{
     @apply flex gap-x-8 

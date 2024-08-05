@@ -1,5 +1,5 @@
 .tending-products-container{
-    @apply grid grid-cols-1 md:grid-cols-2 h-96  gap-x-5 lg:px-20
+    @apply grid grid-cols-1 sm:grid-cols-2 h-fit sm:h-96  gap-x-5 gap-y-10 lg:px-20
 }
 .trending-products-card-container{
     @apply w-full bg-[#f5f6f6] overflow-hidden rounded-lg
