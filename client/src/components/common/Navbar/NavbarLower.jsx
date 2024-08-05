@@ -9,7 +9,7 @@ import navItems from "../../../assets/data/NavbarData/NavItems";
 import logo from "../../../assets/images/logo.svg";
 import CustomAlert from "../CustomAlert/CustomAlert";
 import useModal from "../../../hooks/useModal";
-import CategoryDropDown from "./CategoryDropDown";
+import NavCategoryDropDown from "./NavCategoryDropDown";
 
 const NavbarLower = () => {
   const [searching, setSearching] = useState(false);
@@ -72,7 +72,7 @@ const NavbarLower = () => {
           <img src={logo} alt="Logo"  loading="lazy"/>
         </div>
         {window.innerWidth >= 1150 && (
-          <CategoryDropDown
+          <NavCategoryDropDown
             showDropDown={showDropDown}
             setShowDropDown={setShowDropDown}
           />

@@ -3,7 +3,7 @@ import headPhone from "../../../assets/images/63ec58077c3c77e31aff9b5d_Rectangle
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const CategoryDropDown = ({ showDropDown, setShowDropDown }) => {
+const NavCategoryDropDown = ({ showDropDown, setShowDropDown }) => {
   return (
     <div className="category-drop-down-container">
       <div
@@ -59,9 +59,9 @@ CategoryItem.propTypes = {
   brand: PropTypes.bool,
 };
 
-CategoryDropDown.propTypes = {
+NavCategoryDropDown.propTypes = {
   showDropDown: PropTypes.bool.isRequired,
   setShowDropDown: PropTypes.func.isRequired,
 };
 
-export default CategoryDropDown;
+export default NavCategoryDropDown;

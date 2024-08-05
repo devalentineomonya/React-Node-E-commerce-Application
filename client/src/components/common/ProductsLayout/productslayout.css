@@ -1,0 +1,54 @@
+.products-layout-container {
+    @apply bg-[#ffe6cc] rounded-md h-96 flex justify-between items-center px-6
+}
+
+.products-layout-hero-text {
+    @apply flex-1
+}
+
+.products-layout-hero-text h1 {
+    @apply text-5xl text-customGreen font-bold
+}
+
+.products-layout-hero-text button {
+    @apply px-10 py-3 mt-4 rounded-full bg-customGreen text-white hover:bg-black
+}
+
+.products-layout-hero-image {
+    @apply flex-1 flex justify-center items-end
+}
+
+.products-layout-hero-image img {
+    @apply w-2/3 h-full
+}
+
+.product-filter {
+    @apply flex justify-between items-center mt-6
+}
+.product-filter .sort-by{
+    @apply bg-white border border-gray-500 px-2 py-1 rounded-full  hover:bg-gray-200 
+}
+.product-filter .sort-by select{
+    @apply outline-none border-none cursor-pointer bg-transparent
+}
+.product-filter-options {
+    @apply flex gap-x-3
+}
+
+.product-filter-options .filter-item {
+    @apply bg-gray-200 rounded-full px-2 py-1 flex justify-center items-center hover:bg-customGreen cursor-pointer
+}
+
+.product-filter-options .filter-item:hover  select,  .all-filters {
+    @apply hover:text-white
+}
+
+.product-filter-options .filter-item select {
+    @apply bg-transparent outline-none border-none cursor-pointer
+}
+.products-pagination-container{
+    @apply flex justify-center items-center gap-x-3 mt-16 mb-5
+}
+.pagination-item{
+@apply h-9 w-9 rounded-full text-white flex justify-center items-center bg-customGreen cursor-pointer
+}
