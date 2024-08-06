@@ -49,11 +49,15 @@ const ProductDescription = () => {
       <div className="description-item">
         <div className="flex gap-x-6">
           <div className="cart-action-buttons border-none bg-gray-200 min-w-28 flex justify-between">
-            <button className="decrease-items">
+            <button
+              className="decrease-items"
+              title="Remove"
+              aria-label="Remove"
+            >
               <AiOutlineMinus />
             </button>
             <div className="cart-val">1</div>
-            <button className="increase-items">
+            <button className="increase-items" title="Add" aria-label="Add">
               <AiOutlinePlus />
             </button>
           </div>
@@ -63,16 +67,26 @@ const ProductDescription = () => {
           </p>
         </div>
         <div className="flex gap-x-2 mt-2">
-          <button className="add-to-cart min-w-32 bg-customGreen hover:bg-black text-white">
+          <button
+            className="add-to-cart min-w-32 bg-customGreen hover:bg-black text-white"
+            title="Buy Now"
+            aria-label="Buy Now"
+          >
             Buy Now
           </button>
-          <button className="add-to-cart min-w-32">Add To Card</button>
+          <button
+            className="add-to-cart min-w-32"
+            title="Add to cart"
+            aria-label="Add to cart"
+          >
+            Add To Card
+          </button>
         </div>
       </div>
       <div className="delivery-options">
         <div className="delivery-option">
           <div className="option-icon">
-            <BsTruck  size={18}/>
+            <BsTruck size={18} />
           </div>
           <div className="option-info">
             <h6>Free Delivery</h6>
@@ -83,7 +97,7 @@ const ProductDescription = () => {
         </div>
         <div className="delivery-option">
           <div className="option-icon">
-            <BiCreditCard  size={18}/>
+            <BiCreditCard size={18} />
           </div>
           <div className="option-info">
             <h6>Return Delivery</h6>

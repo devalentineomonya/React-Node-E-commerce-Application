@@ -18,15 +18,17 @@ const NavbarTop = () => {
     <MainLayout bg="bg-customGreen">
       <div className="navbar-top-content ">
         <div className="navbar-top-left">
-          <Link to="tel:+254768133220">
+          <Link to="tel:+254768133220" title="Telephone" aria-label='Telephone'>
             <AiOutlinePhone className="icon" /> <span className="hidden sm:inline-block">+254768133220</span>
           </Link>
         </div>
         <p>
-          <span className="hidden md:inline-block">Get 50% off on selected items  |</span>  <Link to="/shop"> Shop Now</Link>
+          <span className="hidden md:inline-block">Get 50% off on selected items  |</span>  <Link to="/shop" title="Shop" aria-label='Shop'> Shop Now</Link>
         </p>
         <div className="navbar-top-select-items">
           <select
+           title="Currency"
+           aria-label="Currency"
             name="currency"
             onChange={handleCurrencyChange}
             ref={currencyRef}
@@ -38,6 +40,8 @@ const NavbarTop = () => {
             ))}
           </select>
           <select
+           title="Language"
+           aria-label="Language"
             name="language"
             onChange={handleLanguageChange}
             ref={languageRef}

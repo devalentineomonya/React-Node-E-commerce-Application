@@ -13,12 +13,12 @@ const FooterEnding = () => {
         ))}
       </div>
     <div className="ending-policies">
-        <Link to="/">Term of Services</Link>
-        <Link to="/">Privacy and Policy</Link>
+        <Link to="/" title="Terms Of Services" aria-label="Terms Of Services">Term of Services</Link>
+        <Link to="/" title="Privacy and Policy" aria-label="Privacy and Policy">Privacy and Policy</Link>
       </div>
       <div>
         All Rights Reserved from
-        <Link to="https://devalentineomonya.vercel.app" target="_blank" className="text-green-600 underline mx-3">
+        <Link to="https://devalentineomonya.vercel.app" target="_blank" className="text-green-600 underline mx-3" title="My Portfolio" aria-label="My Portfolio">
           Devalentine
         </Link>
         | {new Date().getFullYear()}

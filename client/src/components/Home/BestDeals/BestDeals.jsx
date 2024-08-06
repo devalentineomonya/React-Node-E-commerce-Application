@@ -6,7 +6,8 @@ const BestDeals = () => {
     <SectionLayout title="Todays Best Deals for you!">
       <>
         <div className="filter-buttons">
-          <button>All</button>
+          <button     title="All Filters"
+                aria-label="All Filters">All</button>
         </div>
         <div className="deals-grid-container">
           <ProductCard />

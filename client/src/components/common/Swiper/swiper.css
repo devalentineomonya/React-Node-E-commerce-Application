@@ -1,0 +1,21 @@
+.swiper-container {
+    @apply relative w-full h-fit overflow-hidden;
+}
+
+.swiper {
+    @apply flex overflow-x-auto scroll-smooth pb-3;
+}
+
+.swiper > * {
+    flex: 0 0 calc(25% - 10px);
+    margin: 0 5px;
+}
+
+.progress-bar {
+    @apply absolute bottom-0 left-0 w-full h-1 bg-[#e0e0e0];
+}
+
+.progress {
+    height: 100%;
+    background-color: #76c7c0;
+}

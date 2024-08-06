@@ -7,11 +7,14 @@ import { RxCross1 } from "react-icons/rx";
 const CustomAlert = ({ isShowing, hide, type, message, setSearching }) =>
   ReactDOM.createPortal(
     <React.Fragment>
-      <div className={`modal-overlay ${isShowing ? "show" : ""}`}>
+      <div
+        className={`modal-overlay ${isShowing ? "show" : ""}`}
+        aria-hidden="true"
+      >
         <div
           className={`modal-wrapper ${isShowing ? "show" : ""}`}
           aria-modal
-          aria-hidden
+          aria-hidden="true"
           tabIndex={-1}
           role="dialog"
         >
@@ -30,14 +33,17 @@ const CustomAlert = ({ isShowing, hide, type, message, setSearching }) =>
           >
             <div className="modal-header">
               <button
+              aria-hidden="true"
+                title="Close Modal"
                 type="button"
                 className="modal-close-button"
                 data-dismiss="modal"
                 aria-label="Close"
-                onClick={()=>{hide(), setSearching(true)}}
+                onClick={() => {
+                  hide(), setSearching(true);
+                }}
               >
                 <RxCross1 size={25} />
-                
               </button>
             </div>
             <div className="modal-content">
@@ -78,7 +84,7 @@ CustomAlert.propTypes = {
   hide: PropTypes.func,
   message: PropTypes.string,
   type: PropTypes.string,
-  setSearching:PropTypes.func
+  setSearching: PropTypes.func,
 };
 
 export default CustomAlert;

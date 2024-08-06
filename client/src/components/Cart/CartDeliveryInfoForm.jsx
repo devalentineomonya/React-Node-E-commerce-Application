@@ -21,7 +21,7 @@ const CartDeliveryInfoForm = () => {
       <form action="" method="post">
         <div className="form-button-container">
           <h5>Delivery Information</h5>
-          <button type="submit">Save Information</button>
+          <button type="submit" title="Save Information" aria-label="Save Information">Save Information</button>
         </div>
         <div className="grid grid-cols-2 gap-x-4">
           {deliveryInfoInputs?.slice(0, 2)?.map(({ name, label, type }) => (

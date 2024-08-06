@@ -7,7 +7,7 @@ const FooterLinksList = ({ title, links }) => {
       <ul>
         {links?.map((link) => (
           <li key={link.name}>
-            <Link to={link.href}>{link.name}</Link>
+            <Link to={link.href} title={link.name} aria-label={link.name}>{link.name} </Link>
           </li>
         ))}
       </ul>

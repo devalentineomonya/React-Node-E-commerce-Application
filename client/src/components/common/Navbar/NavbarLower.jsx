@@ -1,22 +1,23 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Link, useNavigate } from "react-router-dom";
-import { AiOutlineSearch, AiOutlineUser } from "react-icons/ai";
-import { HiOutlineMenuAlt4 } from "react-icons/hi";
-import { BsCartPlus, BsX } from "react-icons/bs";
 import MainLayout from "../MainLayout/MainLayout";
 import navItems from "../../../assets/data/NavbarData/NavItems";
-import logo from "../../../assets/images/logo.svg";
 import CustomAlert from "../CustomAlert/CustomAlert";
 import useModal from "../../../hooks/useModal";
+import NavbarLogo from "./NavbarLogo";
+import NavItems from "./NavItems";
+import NavbarSearch from "./NavbarSearch";
+import NavbarLeft from "./NavbarLeft";
+import NavbarMobile from "./NavbarMobile";
 import NavCategoryDropDown from "./NavCategoryDropDown";
 
 const NavbarLower = () => {
   const [searching, setSearching] = useState(false);
   const [activePage, setActivePage] = useState(0);
-  const [searchValue, setSearchValue] = useState();
   const [navBarOpen, setNavBarOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
+  const [searchValue, setSearchValue] = useState();
   const navigate = useNavigate();
   const { isShowing, toggle } = useModal();
   const pagePath = useRef("");
@@ -54,7 +55,6 @@ const NavbarLower = () => {
   );
 
   const handleSearchValueChange = useCallback((e) => {
-    setShowDropDown(false);
     setSearchValue(e.target.value);
   }, []);
 
@@ -66,14 +66,11 @@ const NavbarLower = () => {
     } else {
       navigate(`/search?query=${searchValue}`);
     }
-  }, [searchValue, toggle, navigate]);
-
+  }, [searchValue, toggle, navigate, setSearching]);
   return (
     <MainLayout overflow>
       <div className="navbar-lower-content">
-        <div className="logo">
-          <img src={logo} alt="Logo" loading="lazy" />
-        </div>
+        <NavbarLogo />
         {window.innerWidth >= 1150 && (
           <NavCategoryDropDown
             showDropDown={showDropDown}
@@ -82,131 +79,38 @@ const NavbarLower = () => {
         )}
 
         {!searching && (
-          <nav
-            className={`navbar ${searching ? "nav-searching" : ""} ${
-              mobileScreen ? "navbar-mobile" : ""
-            } ${navBarOpen ? "active" : ""}`}
+          <NavbarMobile
+            mobileScreen={mobileScreen}
+            setNavBarOpen={setNavBarOpen}
+            navBarOpen={navBarOpen}
           >
-            <div
-              className={`close-menu ${!mobileScreen ? "hidden" : ""}`}
-              onClick={() => setNavBarOpen(false)}
-            >
-              <BsX size={40} />
-            </div>
-            <ul className="nav-items">
-              {navItems?.map((navItem, i) => (
-                <li
-                  key={navItem.key}
-                  className={`nav-item ${activePage === i ? "active" : ""}`}
-                  onClick={() => handlePageChange(i)}
-                  onKeyDown={(event) => onEnterClick(event, i)}
-                  tabIndex={0}
-                >
-                  <Link to={navItem.to}>{navItem.title}</Link>
-                  {activePage === i && <hr />}
-                </li>
-              ))}
-            </ul>
-          </nav>
+            <NavItems
+              navItems={navItems}
+              activePage={activePage}
+              handlePageChange={handlePageChange}
+              onEnterClick={onEnterClick}
+            />
+          </NavbarMobile>
         )}
 
-        <div
-          className={`nav-search ${searching ? "searching" : ""} ${
-            mobileScreen ? "hidden" : ""
-          }`}
-        >
-          <div
-            className={`search-placeholder ${mobileScreen ? "hidden" : ""}`}
-            onClick={() => {
-              setSearching(true);
-              setShowDropDown(true);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                setSearching(true);
-              }
-            }}
-          >
-            {searching ? (
-              <input
-                autoFocus
-                onChange={handleSearchValueChange}
-                value={searchValue}
-                className={`${searching ? "inline-block" : "hidden"}`}
-                type="text"
-                placeholder="Search Product"
-                onBlur={() => {
-                  setSearching(false);
-                  setShowDropDown(false);
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    setSearching(false);
-                    setShowDropDown(false);
-                    handleSearchRedirect();
-                  }
-                }}
-              />
-            ) : (
-              searchValue ?? "Search Product"
-            )}
-          </div>
-          <div className="icon" onClick={handleSearchRedirect}>
-            <AiOutlineSearch size={18} />
-          </div>
-        </div>
-        <div className="nav-left">
-          <div
-            className={`nav-left-item ${!mobileScreen ? "hidden" : ""}`}
-            onClick={() => setSearching((prev) => !prev)}
-          >
-            <AiOutlineSearch size={18} />
-            {searching && (
-              <div className={`${mobileScreen ? "mobile-search" : ""}`}>
-                <input
-                  autoFocus
-                  onChange={handleSearchValueChange}
-                  value={searchValue}
-                  className={`${searching ? "inline-block" : "hidden"}`}
-                  type="text"
-                  placeholder="Search Product"
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter") {
-                      setSearching(false);
-                      handleSearchRedirect();
-                    }
-                  }}
-                />
-                <div
-                  className="icon"
-                  onClick={() => {
-                    handleSearchRedirect();
-                  }}
-                >
-                  <AiOutlineSearch size={20} />
-                </div>
-              </div>
-            )}
-          </div>
-          <Link to="/auth">
-            <div className="nav-left-item">
-              <AiOutlineUser />
-              {!mobileScreen && "Account"}
-            </div>
-          </Link>
-          <Link to="/cart">
-            <div className="nav-left-item">
-              <BsCartPlus />
-              {!mobileScreen && "Cart"}
-            </div>
-          </Link>
-          <div
-            className={`nav-left-item ${!mobileScreen ? "hidden" : ""}`}
-            onClick={() => setNavBarOpen(true)}
-          >
-            <HiOutlineMenuAlt4 />
-          </div>
-        </div>
+        <NavbarSearch
+          searching={searching}
+          setSearching={setSearching}
+          mobileScreen={mobileScreen}
+          toggle={toggle}
+          handleSearchValueChange={handleSearchValueChange}
+          searchValue={searchValue}
+          handleSearchRedirect={handleSearchRedirect}
+        />
+        <NavbarLeft
+          mobileScreen={mobileScreen}
+          setSearching={setSearching}
+          searching={searching}
+          setNavBarOpen={setNavBarOpen}
+          searchValue={searchValue}
+          handleSearchRedirect={handleSearchRedirect}
+          handleSearchValueChange={handleSearchValueChange}
+        />
       </div>
       <CustomAlert
         isShowing={isShowing}

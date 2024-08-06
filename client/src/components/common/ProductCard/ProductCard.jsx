@@ -40,6 +40,8 @@ const ProductCard = ({ thumbnail, product }) => {
             {randomBool ? (
               <div className="cart-action-buttons">
                 <button
+                title="Remove"
+                aria-label="Remove"
                   className="decrease-items"
                   onClick={handleCartDecrease}
                   disabled={!cartValue}
@@ -47,12 +49,14 @@ const ProductCard = ({ thumbnail, product }) => {
                   <AiOutlineMinus/>
                 </button>
                 <div className="cart-val">{cartValue}</div>
-                <button className="increase-items" onClick={handleCartIncrease}>
+                <button     title="Add"
+                aria-label="Add" className="increase-items" onClick={handleCartIncrease}>
                   <AiOutlinePlus/>
                 </button>
               </div>
             ) : (
-              <button className="add-to-cart">Add To Card</button>
+              <button     title="Add to cart"
+              aria-label="Add to cart" className="add-to-cart">Add To Card</button>
             )}
           </div>
         </div>

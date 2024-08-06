@@ -38,7 +38,7 @@ const NavCategoryDropDown = ({ showDropDown, setShowDropDown }) => {
 
 export const CategoryItem = ({ image, name, count, brand }) => {
   return (
-    <Link to={`/shop?${brand ? "brand" : "category"}=${name.toLowerCase()}`}>
+    <Link to={`/shop?${brand ? "brand" : "category"}=${name.toLowerCase()}`} title="Shop Category" aria-label='Shop Category'>
       <div className={`category-card-container ${brand ? "hover:border border-customGreen" : ""}`}>
         <div className={`category-card-image ${brand ? "bg-transparent" : ""}`}>
           <img src={image} alt={name ?? "category/brand-image"} className={`${brand ? "rounded-full" : ""}`} loading="lazy" />

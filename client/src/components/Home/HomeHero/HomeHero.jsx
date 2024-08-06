@@ -11,7 +11,8 @@ const HomeHero = () => {
             Duis aute in eiusmod laborum aliquip ipsum amet. Sunt reprehenderit
             proident veniam eiusmod id est.
           </p>
-          <button>Learn More</button>
+          <button     title="Learn More"
+                aria-label="Learn More">Learn More</button>
         </div>
         <div className="hero-image">
           <img src={heroImage} alt="hero-image" loading="lazy"/>

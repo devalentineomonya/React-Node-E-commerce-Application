@@ -12,14 +12,15 @@ const DiscountBanner = () => {
           <h1> Get 5% Cash Discount</h1>
           <p>
             on
-            <Link to={location.href}>
+            <Link to={location.href} title={location.pathname} aria-label={location.pathname}>
               {location.origin.startsWith("http://")
                 ? location.origin.substring(7)
                 : location.origin.substring(8)}
             </Link>
           </p>
 
-          <button>Learn More</button>
+          <button     title="Learn More"
+                aria-label="Learn More">Learn More</button>
         </div>
         <div className="discount-card-thumbnail-wrap">
           <div className="card-one">

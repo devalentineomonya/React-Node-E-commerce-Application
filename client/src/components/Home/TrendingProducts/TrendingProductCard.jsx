@@ -8,7 +8,8 @@ const TrendingProductCard = () => {
         <div className="trending-product-info">
             <h5>Furniture Village</h5>
             <p>Delivery with in 24 hours</p>
-            <button>Shop Now</button>
+            <button     title="Shop Now"
+                aria-label="Shop Now">Shop Now</button>
         </div>
 
       
