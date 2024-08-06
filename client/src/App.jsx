@@ -9,11 +9,11 @@ function App() {
   return (
     <>
       <NavbarMain />
-      <Home />
-      {/* <ProductsLayout/>
-      <ProductDetails/> */}
+      {/* <Home /> */}
+      {/* <ProductsLayout/> */}
+      <ProductDetails/>
       {/* <Cart/> */}
-      {/* <Footer/> */}
+      <Footer/>
 
     </>
   );
