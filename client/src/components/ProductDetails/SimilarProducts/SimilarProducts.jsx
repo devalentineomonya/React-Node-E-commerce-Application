@@ -1,8 +1,9 @@
+import SectionLayout from "../../common/SectionLayout/SectionLayout"
+
 const SimilarProducts = () => {
   return (
-    <div>
-      Similar Products
-    </div>
+    <SectionLayout title="Similar Items You May Like!">
+    </SectionLayout>
   )
 }
 

@@ -1,0 +1,31 @@
+.more-about-product h5 {
+    @apply font-semibold text-base pt-5 pb-3
+}
+
+.more-info-card {
+    @apply w-full aspect-video bg-gray-200 rounded-md p-4
+}
+
+.more-info-card h6 {
+    @apply font-semibold text-base
+}
+
+.info-items {
+    @apply flex flex-col gap-y-2
+}
+
+.more-info-card .info-item:first-child {
+    @apply mt-2
+}
+
+.more-info-card .info-item {
+    @apply rounded-md w-full h-8 flex justify-between px-3 items-center text-sm
+}
+
+.more-info-card .info-item .info-label {
+    @apply text-slate-900 font-semibold flex-1 text-start
+}
+
+.more-info-card .info-item .info-value {
+    @apply text-gray-600 font-medium text-start w-full flex-1
+}
