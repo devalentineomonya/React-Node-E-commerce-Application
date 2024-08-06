@@ -3,7 +3,7 @@
 }
 
 .service-card {
-    @apply bg-[#f5f6f6] w-full max-w-full min-w-full grid grid-rows-2 max-h-72
+    @apply bg-[#fcfcfc] w-full max-w-full min-w-full grid grid-rows-2 max-h-72
 }
 
 .service-description{

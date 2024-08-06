@@ -1,0 +1,85 @@
+.product-info-container {
+    @apply lg:h-fit xl:h-[calc(100vh-20rem)] flex flex-col lg:flex-row justify-between items-start gap-x-12
+}
+
+.product-images, .product-description-container {
+    @apply flex-1 flex flex-col h-full w-full
+}
+
+.product-images img {
+    @apply rounded-md h-full bg-[#f5f6f6] w-full
+}
+
+.product-image-main {
+    @apply rounded-md w-full h-3/4
+}
+
+.product-image-small {
+    @apply grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-5 items-center h-1/4 py-3
+}
+
+.product-description-container {
+    @apply lg:pr-16 pb-3
+}
+
+.description-item {
+    @apply w-full border-t-2 border-t-gray-200 py-5
+}
+
+.description-item .title {
+    @apply font-bold text-3xl mb-3
+}
+
+.description-item .description {
+    @apply text-[14px] text-gray-600
+}
+
+.description-item:first-child {
+    @apply border-t-0 border-t-transparent pt-0
+}
+
+.description-item .pricing {
+    @apply text-2xl font-semibold
+}
+
+.description-item .color {
+    @apply font-bold text-[13px]
+}
+
+.color-palate-container {
+    @apply flex items-center gap-x-2 mt-2
+}
+
+.description-item .color-palate {
+    @apply h-10 w-10 border border-green-500 rounded-full overflow-hidden flex justify-center items-center flex-col cursor-pointer
+}
+
+.description-item .color-palate .item {
+    @apply h-full w-full
+}
+
+.delivery-options {
+    @apply w-full h-full border-2 border-r-gray-100 rounded-md  max-w-[450px] overflow-hidden
+}
+
+.delivery-option {
+    @apply h-1/2 p-4 flex 
+}
+.delivery-option .option-icon{
+    @apply min-w-10 max-w-10 flex items-center text-orange-500
+}
+.delivery-option .option-info{
+    @apply flex flex-col justify-center items-start
+}
+.delivery-option .option-info h6{
+    @apply text-sm font-bold
+}
+.delivery-option .option-info p{
+    @apply text-[10px] font-medium text-gray-500 overflow-hidden text-nowrap whitespace-nowrap text-ellipsis
+}
+.delivery-option .option-info p>span{
+    @apply underline
+}
+.delivery-option:nth-child(2) {
+    @apply border-t-2 border-r-gray-100
+}

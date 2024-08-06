@@ -158,7 +158,7 @@ const NavbarLower = () => {
         <div className="nav-left">
           <div
             className={`nav-left-item ${!mobileScreen ? "hidden" : ""}`}
-            onClick={() => setSearching(true)}
+            onClick={() => setSearching((prev) => !prev)}
           >
             <AiOutlineSearch size={18} />
             {searching && (
@@ -180,7 +180,6 @@ const NavbarLower = () => {
                 <div
                   className="icon"
                   onClick={() => {
-                    setSearching(false);
                     handleSearchRedirect();
                   }}
                 >

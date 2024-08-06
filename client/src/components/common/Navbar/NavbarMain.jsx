@@ -3,7 +3,7 @@ import "./navbar.css"
 import NavbarLower from './NavbarLower'
 const NavbarMain = () => {
   return (
-    <header>
+    <header className=''>
     <NavbarTop/>
     <NavbarLower/>
     </header>

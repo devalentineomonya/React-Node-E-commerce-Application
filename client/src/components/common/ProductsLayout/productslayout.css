@@ -3,15 +3,15 @@
 }
 
 .products-layout-hero-text {
-    @apply flex-1
+    @apply flex-1 flex flex-col justify-center items-center
 }
 
 .products-layout-hero-text h1 {
-    @apply text-5xl text-customGreen font-bold
+    @apply text-5xl text-customGreen font-bold text-center
 }
 
 .products-layout-hero-text button {
-    @apply px-10 py-3 mt-4 rounded-full bg-customGreen text-white hover:bg-black
+    @apply px-10 py-3 mt-4 rounded-full bg-customGreen text-white hover:bg-black max-w-52 
 }
 
 .products-layout-hero-image {

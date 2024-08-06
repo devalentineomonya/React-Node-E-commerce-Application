@@ -1,41 +1,47 @@
-.product-card-container{
-   @apply w-full max-w-full sm:max-w-[410px] sm:mr-6 hover:-translate-y-3 cursor-pointer
+.product-card-container {
+    @apply w-full max-w-full sm:max-w-[410px] sm:mr-6 hover:-translate-y-3 cursor-pointer
 }
-.product-image{
+
+.product-image {
     @apply bg-[#f5f6f6] rounded-lg h-[350px] flex justify-center items-center relative
 }
-.product-image img:hover{
-transform: scale(1.15);
+
+.product-image img:hover {
+    transform: scale(1.15);
 }
-.add-to-favorite{
+
+.add-to-favorite {
     @apply absolute top-3 right-2 h-10 w-10 rounded-full bg-white flex justify-center items-center hover:bg-pink-200 pt-1
 }
 
-.product-info .product-name{
+.product-info .product-name {
     @apply flex justify-between items-center text-gray-700 text-lg font-semibold mt-3
 }
-.product-info  p{
+
+.product-info p {
     @apply text-sm text-gray-500 font-bold mt-1
 }
-.product-rating{
+
+.product-rating {
     @apply flex justify-start items-center gap-x-2 mt-2
 }
-.increase-items,.decrease-items{
-    @apply rounded-full border h-5 w-5 flex justify-center items-center
-}
-.cart-action-buttons{
-    @apply flex justify-start items-center gap-x-3 mt-3 rounded-full border border-customGreen py-1 px-3 w-fit
-}
-.cart-action-buttons button:hover svg path{
-    @apply text-white
+
+.increase-items, .decrease-items {
+    @apply rounded-full 
 }
 
-.decrease-items{
-    @apply  border-red-500 hover:bg-red-500 disabled:bg-gray-300 disabled:text-white disabled:border-none disabled:hover:bg-slate-200
+.cart-action-buttons {
+    @apply flex justify-start items-center gap-x-3 mt-3 rounded-full border border-customGreen py-1 px-3 w-fit
 }
-.increase-items {
-    @apply  border-green-700 hover:bg-green-700
+
+.cart-action-buttons button:hover svg path {
+    @apply text-gray-900
 }
-    .add-to-cart{
-        @apply py-1 px-4 mt-3 rounded-full border-customGreen border hover:bg-customGreen hover:text-white
-    }
+
+.decrease-items {
+    @apply  disabled:text-gray-500
+}
+
+.add-to-cart {
+    @apply py-1 px-4 mt-3 rounded-full border-customGreen border hover:bg-customGreen hover:text-white
+}
