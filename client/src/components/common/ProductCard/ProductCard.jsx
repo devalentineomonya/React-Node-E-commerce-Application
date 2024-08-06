@@ -44,11 +44,11 @@ const ProductCard = ({ thumbnail, product }) => {
                   onClick={handleCartDecrease}
                   disabled={!cartValue}
                 >
-                  <AiOutlineMinus />
+                  <AiOutlineMinus/>
                 </button>
                 <div className="cart-val">{cartValue}</div>
                 <button className="increase-items" onClick={handleCartIncrease}>
-                  <AiOutlinePlus />
+                  <AiOutlinePlus/>
                 </button>
               </div>
             ) : (

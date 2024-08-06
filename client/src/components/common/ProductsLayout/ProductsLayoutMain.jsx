@@ -9,6 +9,7 @@ const ProductsLayoutMain = () => {
   return (
     <>
       <ProductsLayoutFilter />
+      
       <SectionLayout title="Products For You !">
         <div className="deals-grid-container">
           <ProductCard />

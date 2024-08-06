@@ -124,7 +124,6 @@ const NavbarLower = () => {
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 setSearching(true);
-                setShowDropDown(true);
               }
             }}
           >
