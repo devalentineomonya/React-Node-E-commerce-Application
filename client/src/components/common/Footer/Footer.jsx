@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <MainLayout>
       <footer className="footer-container">
-        <div className=" w-full lg:w-[50%]">
+        <div className=" w-full lg:w-1/2">
           <FooterLogo />
         </div>
         <div className="footer-links-container">
