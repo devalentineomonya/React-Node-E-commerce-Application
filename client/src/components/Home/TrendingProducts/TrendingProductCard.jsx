@@ -3,7 +3,7 @@ const TrendingProductCard = () => {
   return (
     <div className="trending-products-card-container">
         <div className="trending-product-image">
-            <img src={testImage} alt="" loading="lazy" />
+            <img src={testImage} alt="trending-product-image" loading="lazy" />
         </div>
         <div className="trending-product-info">
             <h5>Furniture Village</h5>

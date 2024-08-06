@@ -4,7 +4,7 @@ import "./bestdeals.css";
 const BestDeals = () => {
   return (
     <SectionLayout title="Todays Best Deals for you!">
-      <div>
+      <>
         <div className="filter-buttons">
           <button>All</button>
         </div>
@@ -19,7 +19,7 @@ const BestDeals = () => {
           <ProductCard />
           <ProductCard />
         </div>
-      </div>
+      </>
     </SectionLayout>
   );
 };

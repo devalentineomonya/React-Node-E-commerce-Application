@@ -4,7 +4,6 @@ import Home from "./pages/home/Home";
 import ProductsLayout from "./components/common/ProductsLayout/ProductsLayout";
 
 function App() {
-  console.log(document)
   return (
     <>
       <NavbarMain />

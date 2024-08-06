@@ -14,17 +14,16 @@ const NavbarTop = () => {
   const handleCurrencyChange = () => {
     console.log(currencyRef.current.value);
   };
-  const smallScreen = window.innerHeight < 420
   return (
     <MainLayout bg="bg-customGreen">
       <div className="navbar-top-content ">
         <div className="navbar-top-left">
           <Link to="tel:+254768133220">
-            <AiOutlinePhone className="icon" /> +254768133220
+            <AiOutlinePhone className="icon" /> <span className="hidden sm:inline-block">+254768133220</span>
           </Link>
         </div>
         <p>
-          <span className={`${smallScreen ? "hidden" : ""}`}>Get 50% off on selected items  |</span>  <Link to="/shop"> Shop Now</Link>
+          <span className="hidden md:inline-block">Get 50% off on selected items  |</span>  <Link to="/shop"> Shop Now</Link>
         </p>
         <div className="navbar-top-select-items">
           <select

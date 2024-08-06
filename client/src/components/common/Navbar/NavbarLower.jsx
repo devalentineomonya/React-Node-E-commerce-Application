@@ -44,11 +44,14 @@ const NavbarLower = () => {
     setActivePage(index);
   }, []);
 
-  const onEnterClick = useCallback((event, index) => {
-    if (event.key === "Enter") {
-      handlePageChange(index);
-    }
-  }, [handlePageChange]);
+  const onEnterClick = useCallback(
+    (event, index) => {
+      if (event.key === "Enter") {
+        handlePageChange(index);
+      }
+    },
+    [handlePageChange]
+  );
 
   const handleSearchValueChange = useCallback((e) => {
     setShowDropDown(false);
@@ -66,10 +69,10 @@ const NavbarLower = () => {
   }, [searchValue, toggle, navigate]);
 
   return (
-    <MainLayout>
+    <MainLayout overflow>
       <div className="navbar-lower-content">
         <div className="logo">
-          <img src={logo} alt="Logo"  loading="lazy"/>
+          <img src={logo} alt="Logo" loading="lazy" />
         </div>
         {window.innerWidth >= 1150 && (
           <NavCategoryDropDown
@@ -107,7 +110,11 @@ const NavbarLower = () => {
           </nav>
         )}
 
-        <div className={`nav-search ${searching ? "searching" : ""} ${mobileScreen ? "hidden" : ""}`}>
+        <div
+          className={`nav-search ${searching ? "searching" : ""} ${
+            mobileScreen ? "hidden" : ""
+          }`}
+        >
           <div
             className={`search-placeholder ${mobileScreen ? "hidden" : ""}`}
             onClick={() => {
@@ -164,7 +171,6 @@ const NavbarLower = () => {
                   className={`${searching ? "inline-block" : "hidden"}`}
                   type="text"
                   placeholder="Search Product"
-                  onBlur={() => setSearching((prev) => !prev)}
                   onKeyDown={(event) => {
                     if (event.key === "Enter") {
                       setSearching(false);
@@ -172,8 +178,14 @@ const NavbarLower = () => {
                     }
                   }}
                 />
-                <div className="icon" onClick={handleSearchRedirect}>
-                  <AiOutlineSearch size={40} />
+                <div
+                  className="icon"
+                  onClick={() => {
+                    setSearching(false);
+                    handleSearchRedirect();
+                  }}
+                >
+                  <AiOutlineSearch size={20} />
                 </div>
               </div>
             )}

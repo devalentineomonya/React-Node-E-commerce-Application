@@ -10,7 +10,7 @@ const OurServiceCard = ({ service }) => {
         </p>
       </div>
       <div className="service-image">
-        <img src={service?.image} alt={service?.name} loading="lazy" />
+        <img src={service?.image} alt={service?.name ?? "service-image"} loading="lazy" />
       </div>
     </div>
   );

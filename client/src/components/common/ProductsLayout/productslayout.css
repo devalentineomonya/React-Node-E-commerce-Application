@@ -1,5 +1,5 @@
-.products-layout-container {
-    @apply bg-[#ffe6cc] rounded-md h-96 flex justify-between items-center px-6
+.products-layout-hero-container {
+    @apply bg-[#ffe6cc] rounded-md h-[60vh] md:h-96 flex justify-between  items-center flex-col md:flex-row px-6 overflow-hidden
 }
 
 .products-layout-hero-text {
@@ -19,7 +19,7 @@
 }
 
 .products-layout-hero-image img {
-    @apply w-2/3 h-full
+    @apply w-3/4 md:w-2/3 h-full
 }
 
 .product-filter {
@@ -29,14 +29,14 @@
     @apply bg-white border border-gray-500 px-2 py-1 rounded-full  hover:bg-gray-200 
 }
 .product-filter .sort-by select{
-    @apply outline-none border-none cursor-pointer bg-transparent
+    @apply outline-none border-none cursor-pointer bg-transparent text-[10px]
 }
 .product-filter-options {
     @apply flex gap-x-3
 }
 
 .product-filter-options .filter-item {
-    @apply bg-gray-200 rounded-full px-2 py-1 flex justify-center items-center hover:bg-customGreen cursor-pointer
+    @apply bg-gray-200 rounded-full px-2 py-1 flex justify-center items-center hover:bg-customGreen cursor-pointer text-[10px]
 }
 
 .product-filter-options .filter-item:hover  select,  .all-filters {

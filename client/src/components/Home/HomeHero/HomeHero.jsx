@@ -14,7 +14,7 @@ const HomeHero = () => {
           <button>Learn More</button>
         </div>
         <div className="hero-image">
-          <img src={heroImage} alt="hero-image" />
+          <img src={heroImage} alt="hero-image" loading="lazy"/>
         </div>
       </div>
     </section>

@@ -10,17 +10,15 @@ const ProductCard = ({ thumbnail, product }) => {
   const handleCartDecrease = () => {
     if (cartValue) {
       setCartValue((cartValue) => cartValue - 1);
-      console.log(cartValue);
     }
   };
   const handleCartIncrease = () => {
     setCartValue((cartValue) => cartValue + 1);
-    console.log(cartValue);
   };
   return (
     <div className="product-card-container">
       <div className="product-image">
-        <img src={testImage} alt="" loading="lazy" />
+        <img src={testImage} alt="product-image" loading="lazy" />
         <div className="add-to-favorite">
           <BsHeart size={20} />
         </div>

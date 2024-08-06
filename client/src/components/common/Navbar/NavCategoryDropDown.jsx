@@ -41,7 +41,7 @@ export const CategoryItem = ({ image, name, count, brand }) => {
     <Link to={`/shop?${brand ? "brand" : "category"}=${name.toLowerCase()}`}>
       <div className={`category-card-container ${brand ? "hover:border border-customGreen" : ""}`}>
         <div className={`category-card-image ${brand ? "bg-transparent" : ""}`}>
-          <img src={image} alt={name} className={`${brand ? "rounded-full" : ""}`} loading="lazy" />
+          <img src={image} alt={name ?? "category/brand-image"} className={`${brand ? "rounded-full" : ""}`} loading="lazy" />
         </div>
         <div className="category-card-text">
           <h6>{name}</h6>

@@ -128,7 +128,7 @@
 }
 
 .nav-left-item .mobile-search {
-    @apply absolute bg-white rounded-lg mt-36 right-0 px-5 py-5 w-[calc(100vw-200px)] flex justify-center items-center;
+    @apply fixed md:absolute bg-white rounded-lg mt-36 right-0 px-5 py-5 w-[98%] mr-[1%] md:mr-[0%] md:w-[calc(100vw-200px)] flex justify-center items-center z-30;
     -webkit-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
     -moz-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
     box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;

@@ -7,7 +7,7 @@ const FooterEnding = () => {
       <div className="footer-ending-items">
         {footerEnding?.map((footerEndingItem) => (
           <div key={footerEndingItem.name}>
-            <img src={footerEndingItem.image} alt={footerEndingItem.name} />
+            <img src={footerEndingItem.image} alt={footerEndingItem.name ?? "footer-ending-image"} loading="lazy" />
             {footerEndingItem.name}
           </div>
         ))}

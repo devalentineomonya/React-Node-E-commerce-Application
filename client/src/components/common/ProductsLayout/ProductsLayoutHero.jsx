@@ -8,13 +8,13 @@ const ProductsLayoutHero = () => {
   };
   scrollReveal().reveal(options, ".products-layout-hero-image");
   return (
-    <div className="products-layout-container">
+    <div className="products-layout-hero-container">
       <div className="products-layout-hero-text">
         <h1>Grab upto 50% Off on selected Item</h1>
         <button>Buy Now</button>
       </div>
       <div className="products-layout-hero-image">
-        <img src={testImage} alt="product-layout-image" />
+        <img src={testImage} alt="product-layout-image" loading="lazy" />
       </div>
     </div>
   );

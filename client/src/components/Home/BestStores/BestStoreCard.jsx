@@ -6,16 +6,16 @@ const BestStoreCard = () => {
     <div className="best-store-card">
       <div className="best-store-images">
         <div className="best-store-product-image">
-          <img src={testImage} alt="" />
+          <img src={testImage} alt="best-store-product-image" loading="lazy" />
         </div>
         <div className="best-store-logo">
-          <img src={testLogo} alt="" />
+          <img src={testLogo} alt="best-store-logo" loading="lazy" />
         </div>
       </div>
       <div className="best-store-info">
         <h4>Staple</h4>
         <p>Bag. Perfume</p>
-        <p className="delivery"><img src={priceTag} alt="" /> Delivered within 24 hours</p>
+        <p className="delivery"><img src={priceTag} alt="price-tag" loading="lazy" /> Delivered within 24 hours</p>
       </div>
     </div>
   );

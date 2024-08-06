@@ -7,8 +7,8 @@ import FooterLogo from "./FooterLogo";
 const Footer = () => {
   return (
     <MainLayout>
-      <div className="footer-container">
-        <div className="w-[45%]">
+      <footer className="footer-container">
+        <div className=" w-full lg:w-[50%]">
           <FooterLogo />
         </div>
         <div className="footer-links-container">
@@ -20,7 +20,7 @@ const Footer = () => {
             />
           ))}
         </div>
-      </div>
+      </footer>
       <FooterEnding/>
     </MainLayout>
   );
