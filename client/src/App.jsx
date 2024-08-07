@@ -4,6 +4,7 @@ import Home from "./pages/home/Home";
 import ProductsLayout from "./components/common/ProductsLayout/ProductsLayout";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Cart from "./pages/Cart/Cart";
+import Auth from "./pages/Auth/Auth";
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
       {/* <Home /> */}
       {/* <ProductsLayout/> */}
       {/* <ProductDetails/> */}
-      <Cart/>
+      {/* <Cart/> */}
+      <Auth/>
       <Footer/>
 
     </>

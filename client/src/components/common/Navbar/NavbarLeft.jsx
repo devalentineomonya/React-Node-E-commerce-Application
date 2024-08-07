@@ -58,7 +58,7 @@ NavbarLeft.propTypes = {
   setNavBarOpen: PropTypes.func.isRequired,
   handleSearchRedirect:PropTypes.func.isRequired,
   handleSearchValueChange:PropTypes.func.isRequired,
-  searchValue:PropTypes.isRequired
+  searchValue:PropTypes.string
 };
 
 export default NavbarLeft;

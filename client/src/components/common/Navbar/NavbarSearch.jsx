@@ -46,7 +46,7 @@ NavbarSearch.propTypes = {
   mobileScreen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   handleSearchRedirect:PropTypes.func.isRequired,
-  searchValue:PropTypes.string.isRequired,
+  searchValue:PropTypes.string,
   handleSearchValueChange:PropTypes.func.isRequired
 
 };
