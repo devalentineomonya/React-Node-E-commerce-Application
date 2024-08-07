@@ -11,8 +11,8 @@ function App() {
       <NavbarMain />
       {/* <Home /> */}
       {/* <ProductsLayout/> */}
-      <ProductDetails/>
-      {/* <Cart/> */}
+      {/* <ProductDetails/> */}
+      <Cart/>
       <Footer/>
 
     </>

@@ -3,6 +3,7 @@ const CartItemCard = () => {
   return (
     <div className="cart-item-card">
       <div className="item-image">
+        <p>3</p>
         <img src={testImage} alt="" loading="lazy" />
       </div>
       <div className="item-info">

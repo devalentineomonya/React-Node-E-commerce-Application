@@ -16,7 +16,7 @@ const ProductCard = ({ thumbnail, product }) => {
     setCartValue((cartValue) => cartValue + 1);
   };
   return (
-    <div className="product-card-container">
+    <div className="product-card-container" onDrag={()=>console.log("Dragged")}>
       <div className="product-image">
         <img src={testImage} alt="product-image" loading="lazy" />
         <div className="add-to-favorite">

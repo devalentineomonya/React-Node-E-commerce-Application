@@ -3,7 +3,7 @@
 }
 
 .cart-mini-container {
-    @apply flex flex-col
+    @apply flex gap-x-12 flex-col md:flex-row
 }
 
 /*========================
@@ -11,17 +11,20 @@
 =========================*/
 
 .cart-content {
-    @apply w-3/5
+    @apply w-full md:w-3/5
 }
 
 .cart-items-container {
-    @apply border border-gray-200 rounded-md p-6
+    @apply border border-gray-200 rounded-md p-3 sm:p-6
 }
 
 .cart-items-container h5 {
     @apply font-semibold text-slate-900 text-xl
 }
-
+.cart-items{
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-x-6;
+    
+}
 /*========================
         CART CARD
 =========================*/
@@ -36,9 +39,11 @@
 }
 
 .cart-item-card .item-image {
-    @apply w-24 aspect-square
+    @apply w-24 aspect-square flex  justify-center  items-center gap-x-1 sm:gap-x-2
 }
-
+.cart-item-card .item-image p{
+    @apply font-bold text-slate-900 text-2xl
+}
 .cart-item-card .item-image img {
     @apply rounded-md bg-[#f5f6f6]
 }
@@ -52,16 +57,16 @@
 }
 
 .cart-item-card .item-info p {
-    @apply text-slate-600 text-sm mt-1
+    @apply text-slate-600 text-sm mt-1 
 }
 
 .cart-item-card .item-info .price {
-    @apply text-slate-800 text-sm font-semibold
+    @apply text-slate-800 text-sm font-semibold 
 }
 
 .cart-item-card .item-description,
 .cart-item-card .item-pricing {
-    @apply flex flex-1 flex-col
+    @apply flex flex-1 flex-col text-end sm:text-start
 }
 
 /*==========================
@@ -71,22 +76,34 @@
     @apply text-sm text-gray-500 mt-6  flex gap-x-3
 }
 
+/*============================
+    CART DELIVERY INFO CARD
+=============================*/
+.cart-delivery-card{
+    @apply border border-gray-200 rounded-md p-6 mt-6
+}
+.delivery-info .name {
+    @apply text-sm font-semibold text-slate-900
 
-
-
-
+}
+.delivery-info p{
+    @apply text-xs text-gray-600 mt-1
+}
 
 /*============================
     CART DELIVERY INFO FORM
 =============================*/
+.delivery-form-container{
+    @apply border border-gray-200 rounded-md p-6 mt-6
+}
 .form-button-container{
-    @apply flex justify-between py-6
+    @apply flex justify-between py-6 
 }
 .form-button-container h5{
     @apply text-slate-600 font-bold text-2xl
 }
 .form-button-container button{
-    @apply px-4 py-2 bg-gray-100 rounded-full
+    @apply px-4 py-2 bg-gray-100 rounded-full font-semibold text-gray-600
 }
 .input-item{
     @apply flex flex-col mt-3
@@ -94,4 +111,39 @@
 
 .input-item input{
     @apply border border-gray-200 px-4 py-2 mt-2 rounded-md   outline-none
+}
+
+/*============================
+    CART PAYMENT CONTAINER
+=============================*/
+.cart-payment-container{
+    @apply w-full md:w-2/5 border border-gray-100 rounded-md p-6
+}
+.cart-payment-container h2,.cart-payment-container h4{
+    @apply text-2xl font-semibold text-slate-700 border-b-2 border-b-gray-100 pb-3
+}
+.cart-payment-container h4{
+    @apply text-xl mb-2 border-t-2 border-b-gray-100 pt-3
+}
+.cart-payment-container .coupon-code{
+    @apply flex relative py-2 rounded-full w-full bg-gray-100 my-5 px-6 items-center 
+}
+.cart-payment-container .coupon-code input{
+    @apply outline-none border-none bg-transparent border border-gray-600 w-3/4 uppercase placeholder:capitalize
+}
+
+.cart-payment-container .coupon-code button{
+    @apply absolute right-1 py-[0.3rem] rounded-full bg-customGreen text-white px-2
+}
+.method-input{
+    @apply flex gap-x-3 text-sm mt-3  font-medium text-gray-600
+}
+.input-card label{
+    @apply mt-3 inline-block
+}
+.input-card .card{
+    @apply flex gap-x-3 items-center mt-2 border border-gray-200 px-4 py-2 rounded-md   outline-none
+}
+.input-card .card input{
+    @apply border-none outline-none 
 }

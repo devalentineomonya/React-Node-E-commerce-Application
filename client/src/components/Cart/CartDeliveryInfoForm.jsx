@@ -17,17 +17,25 @@ const CartDeliveryInfoForm = () => {
   };
   console.log(formData);
   return (
-    <div>
+    <div className="delivery-form-container">
       <form action="" method="post">
         <div className="form-button-container">
           <h5>Delivery Information</h5>
-          <button type="submit" title="Save Information" aria-label="Save Information">Save Information</button>
+          <button
+            type="submit"
+            title="Save Information"
+            aria-label="Save Information"
+          >
+            Save Information
+          </button>
         </div>
-        <div className="grid grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
           {deliveryInfoInputs?.slice(0, 2)?.map(({ name, label, type }) => (
             <div key={name} className="input-item">
               <label htmlFor={name}>{label}</label>
               <input
+                autoComplete="true"
+                id={name}
                 value={formData[name]}
                 type={type ?? "text"}
                 name={name}
@@ -43,6 +51,8 @@ const CartDeliveryInfoForm = () => {
             <div key={name} className="input-item">
               <label htmlFor={name}>{label}</label>
               <input
+                autoComplete="true"
+                id={name}
                 type={type ?? "text"}
                 name={name}
                 placeholder="Type here... "
@@ -52,13 +62,15 @@ const CartDeliveryInfoForm = () => {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-1 md:grid-cols-2  gap-x-4">
           {deliveryInfoInputs
             ?.slice(3, deliveryInfoInputs.length)
             ?.map(({ name, label, type }) => (
               <div key={name} className="input-item">
                 <label htmlFor={name}>{label}</label>
                 <input
+                  autoComplete="true"
+                  id={name}
                   type={type ?? "text"}
                   name={name}
                   placeholder="Type here... "

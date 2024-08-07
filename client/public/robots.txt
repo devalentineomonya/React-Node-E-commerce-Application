@@ -15,9 +15,3 @@ Disallow: /admin/       # Disallow access to admin pages
 Disallow: /login/       # Disallow access to login pages
 Disallow: /checkout/    # Disallow access to checkout pages if they are not meant to be indexed
 
-# Allow specific bots if needed
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /

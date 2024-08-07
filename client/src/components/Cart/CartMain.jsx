@@ -18,21 +18,23 @@ const CartMain = () => {
         <div className="cart-content">
           <div className="cart-items-container">
             <h5>Items Review and Shipping</h5>
-            <CartItemCard />
-            <CartItemCard />
-            <CartItemCard />
-            <CartItemCard />
-            <CartItemCard />
-            <CartItemCard />
+            <div className="cart-items">
+              <CartItemCard />
+              <CartItemCard />
+              <CartItemCard />
+              <CartItemCard />
+              <CartItemCard />
+              <CartItemCard />
+            </div>
           </div>
-        <div className="cart-delivery-info">
-          <label htmlFor="returning">Returning Customer</label>
-          <input type="checkbox" name="returning" onChange={handleChange} />
+          <div className="cart-delivery-info">
+            <label htmlFor="returning">Returning Customer</label>
+            <input type="checkbox" name="returning"  id="returning" onChange={handleChange}  />
+          </div>
+          {returning ? <CartDeliveryInfoCard /> : <CartDeliveryInfoForm />}
         </div>
-        {returning ? <CartDeliveryInfoCard /> : <CartDeliveryInfoForm />}
-        </div>
-      </div>
       <CartPayment />
+      </div>
     </div>
   );
 };
