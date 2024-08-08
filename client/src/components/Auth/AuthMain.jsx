@@ -1,39 +1,33 @@
-import {  useState } from "react";
-import OptInput from "./OptInput";
+import { Navigate, useParams } from "react-router-dom";
 import MainLayout from "../common/MainLayout/MainLayout";
+import "./auth.css";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 const AuthMain = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [showOtp, setShowOtp] = useState(false);
- 
-  const handlePhoneChange = (e) => {
-    const { value } = e.target;
-    setPhoneNumber(value);
-  };
+  const { authType } = useParams();
+  const checkLoginType = () => {
+    switch (authType) {
+      case "login":
+        return <SignIn />;
+      case "signin":
+        return <SignIn />;
 
-  const handlePhoneSubmit = (e) => {
-    e.preventDefault();
-    setShowOtp(true);
+      case "register":
+        return <SignUp />;
+
+      case "signup":
+        return <SignUp />;
+      default:
+        return <Navigate to="/auth/login" />;
+    }
   };
-const onOtpSubmit= (otp) =>{
-    console.log("Login Successfull with " + otp);
-}
+  console.log(authType);
   return (
     <MainLayout>
-
-    <div>
-      {!showOtp ? (
-        <form action="" onSubmit={handlePhoneSubmit}>
-            <label htmlFor="">Enter Phone Nummber</label>
-          <input type="tel" value={phoneNumber} onChange={handlePhoneChange} />
-        </form>
-      ) : (
-        <>
-        Enter OTP sent to {phoneNumber}
-        <OptInput onOtpSubmit={onOtpSubmit} length={6}/>
-        </>
-      )}
-    </div>
+      <div className="loginsignup">
+        <div className="loginsignup-container">{checkLoginType()}</div>
+      </div>
     </MainLayout>
   );
 };

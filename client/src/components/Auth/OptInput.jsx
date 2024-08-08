@@ -36,10 +36,32 @@ const OptInput = ({ length = 6, onOtpSubmit = () => {} }) => {
           inputRefs.current[index - 1].focus();
         }
         break;
-
-      case "Delete":
-        break;
     }
+  };
+
+  const handlePaste = (e) => {
+    const pasteData = e.clipboardData.getData("text").slice(0, length);
+    if (/^\d+$/.test(pasteData)) {
+      const newOtpValues = pasteData.split("").slice(0, length);
+      
+     
+      const updatedOtpValues = [...otpValue];
+      newOtpValues.forEach((value, index) => {
+        updatedOtpValues[index] = value;
+      });
+  
+      // Clear any remaining fields if the pasted data is shorter
+      for (let i = newOtpValues.length; i < length; i++) {
+        updatedOtpValues[i] = "";
+      }
+  
+      setOtpValue(updatedOtpValues);
+  
+      // Focus the last filled input field
+      const nextInputIndex = Math.min(newOtpValues.length, length - 1);
+      inputRefs.current[nextInputIndex].focus();
+    }
+    e.preventDefault();
   };
 
   useEffect(() => {
@@ -48,10 +70,8 @@ const OptInput = ({ length = 6, onOtpSubmit = () => {} }) => {
     }
   }, []);
 
-  const word = "q";
-  console.log(word.substring(word.length - 1));
   return (
-    <div>
+    <div onPaste={handlePaste}>
       {otpValue?.map((value, index) => (
         <input
           key={index}
@@ -60,6 +80,7 @@ const OptInput = ({ length = 6, onOtpSubmit = () => {} }) => {
           }}
           type="text"
           value={value}
+          id={`otp-input-${index}`}
           onChange={(e) => onOtpChange(e, index)}
           onClick={() => onOtpClick(index)}
           onKeyDown={(e) => onOtpKeyDown(e, index)}

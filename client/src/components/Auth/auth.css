@@ -1,0 +1,28 @@
+.loginsignup {
+    @apply pt-12 h-full min-h-[65vh] max-h-fit w-full flex justify-center
+}
+
+.loginsignup-container {
+
+    @apply max-w-[580px] max-h-[600px] min-h-fit w-full h-screen rounded-md px-4 border py-5
+}
+
+.loginsignup-container h2 {
+    @apply text-3xl font-semibold border-b-2 border-gray-100 pb-4
+}
+
+.login-signup-field {
+    @apply flex flex-col mt-5
+}
+
+.login-signup-field label {
+    @apply text-lg font-medium text-gray-600
+}
+
+.login-signup-field input {
+    @apply h-12 w-full pl-4 border border-gray-100 outline-none placeholder:text-gray-500 text-slate-900 text-base rounded-md mt-2
+}
+
+.signup-signin-button {
+    @apply w-full h-12 rounded-md bg-customGreen text-white mt-8 disabled:bg-gray-900 flex items-center justify-center
+}
