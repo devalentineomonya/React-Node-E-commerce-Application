@@ -44,7 +44,7 @@ const SignUp = () => {
   return (
     <>
       <h2>{showOtpInput ? "Enter OTP Code" : "Sign Up"}</h2>
-      {showOtpInput ? (
+      {!showOtpInput ? (
         <form>
           {signedUpField.map((field, index) => (
             <AuthInput

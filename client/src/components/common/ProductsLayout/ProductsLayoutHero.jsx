@@ -3,17 +3,12 @@ import "./productslayout.css";
 import testImage from "../../../assets/images/63e8c4e4aed3c6720e446aa1_airpod max-min.png";
 import scrollReveal from "scrollreveal";
 import MainLayout from "../MainLayout/MainLayout";
+import { revealConfig } from "../../../../config/ScrollConfig";
+
 
 const ProductsLayoutHero = () => {
   useEffect(() => {
-    const revealConfig = {
-      distance: "80px",
-      duration: 800,
-      scale: 0.9,
-      interval: 20,
-      reset: false,  // Animation won't reset on scroll
-      once: true,    // Animation triggers only once
-    };
+ 
 
     const revealImage = scrollReveal({
       ...revealConfig,
@@ -35,17 +30,11 @@ const ProductsLayoutHero = () => {
       delay: 500,
     });
 
-    // Manually trigger the reveal to ensure it runs on component mount
     revealImage.reveal(".products-layout-hero-image");
     revealText.reveal(".layout-hero-text");
     revealButton.reveal(".products-hero-button");
 
-    // Or you can use a timeout to ensure it's triggered after the component is mounted
-    setTimeout(() => {
-      revealImage.reveal(".products-layout-hero-image");
-      revealText.reveal(".layout-hero-text");
-      revealButton.reveal(".products-hero-button");
-    }, 100); // Adjust timeout as needed
+    
   }, []);
 
   return (
