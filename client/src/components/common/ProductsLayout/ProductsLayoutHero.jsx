@@ -6,42 +6,46 @@ import MainLayout from "../MainLayout/MainLayout";
 
 const ProductsLayoutHero = () => {
   useEffect(() => {
-    // Image reveal
-    const revealImage = scrollReveal({
-      origin: "right",
+    const revealConfig = {
       distance: "80px",
       duration: 800,
-      delay: 200,
       scale: 0.9,
       interval: 20,
-      reset: true,
+      reset: false,  // Animation won't reset on scroll
+      once: true,    // Animation triggers only once
+    };
+
+    const revealImage = scrollReveal({
+      ...revealConfig,
+      origin: "right",
+      delay: 200,
     });
 
-    // Text reveal
     const revealText = scrollReveal({
+      ...revealConfig,
       origin: "left",
-      distance: "80px",
       duration: 1200,
       delay: 300,
-      scale: 0.9,
-      interval: 10,
-      reset: true,
     });
 
-    // Button reveal
     const revealButton = scrollReveal({
+      ...revealConfig,
       origin: "bottom",
-      distance: "60px",
       duration: 1000,
       delay: 500,
-      scale: 0.95,
-      interval: 15,
-      reset: true,
     });
 
-    revealButton.reveal(".products-hero-button");
-    revealText.reveal(".layout-hero-text");
+    // Manually trigger the reveal to ensure it runs on component mount
     revealImage.reveal(".products-layout-hero-image");
+    revealText.reveal(".layout-hero-text");
+    revealButton.reveal(".products-hero-button");
+
+    // Or you can use a timeout to ensure it's triggered after the component is mounted
+    setTimeout(() => {
+      revealImage.reveal(".products-layout-hero-image");
+      revealText.reveal(".layout-hero-text");
+      revealButton.reveal(".products-hero-button");
+    }, 100); // Adjust timeout as needed
   }, []);
 
   return (
