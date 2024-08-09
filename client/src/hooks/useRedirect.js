@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const useRedirect = ({ to }) => {
   const navigate = useNavigate();
-  const from = location.pathname
+  const location = useLocation();
+  const from = location.pathname;
 
   useEffect(() => {
-
     localStorage.setItem('redirectTo', from);
     navigate(to);
-
-  }, [to, navigate]);
+  }, [to, navigate, from]);
 
   return null;
 };

@@ -63,7 +63,7 @@ export const FormCancelButton = () => {
   const onCancel = (e) => {
     e.preventDefault();
     navigate(pathTo);
-    console.log(pathTo);
+    return localStorage.removeItem("redirectTo");
   };
   return (
     <div className="login-signup-button w-full mt-4">
