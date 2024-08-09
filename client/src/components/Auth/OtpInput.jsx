@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-const OptInput = ({ length = 6, onOtpSubmit = () => {} }) => {
-  const [otpValue, setOtpValue] = useState(new Array(length).fill(""));
 
+const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
+  const [otpValue, setOtpValue] = useState(new Array(length).fill(""));
   const inputRefs = useRef([]);
 
   const onOtpChange = (e, index) => {
@@ -12,7 +12,6 @@ const OptInput = ({ length = 6, onOtpSubmit = () => {} }) => {
     newOtpValue[index] = value.substring(value.length - 1);
     setOtpValue(newOtpValue);
     const combinedOtp = newOtpValue.join("");
-    console.log(combinedOtp);
     if (combinedOtp.length === length) {
       return onOtpSubmit(combinedOtp);
     }
@@ -36,6 +35,32 @@ const OptInput = ({ length = 6, onOtpSubmit = () => {} }) => {
           inputRefs.current[index - 1].focus();
         }
         break;
+
+      case "Delete":
+        if (index < length - 1) {
+          const newOtpValue = [...otpValue];
+          if (newOtpValue[index + 1]) {
+            newOtpValue[index + 1] = "";
+            setOtpValue(newOtpValue);
+            inputRefs.current[index + 1].focus();
+          }
+        }
+        break;
+
+      case "ArrowRight":
+        if (index < length - 1) {
+          inputRefs.current[index + 1].focus();
+        }
+        break;
+
+      case "ArrowLeft":
+        if (index > 0) {
+          inputRefs.current[index - 1].focus();
+        }
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -43,21 +68,14 @@ const OptInput = ({ length = 6, onOtpSubmit = () => {} }) => {
     const pasteData = e.clipboardData.getData("text").slice(0, length);
     if (/^\d+$/.test(pasteData)) {
       const newOtpValues = pasteData.split("").slice(0, length);
-      
-     
       const updatedOtpValues = [...otpValue];
       newOtpValues.forEach((value, index) => {
         updatedOtpValues[index] = value;
       });
-  
-      // Clear any remaining fields if the pasted data is shorter
       for (let i = newOtpValues.length; i < length; i++) {
         updatedOtpValues[i] = "";
       }
-  
       setOtpValue(updatedOtpValues);
-  
-      // Focus the last filled input field
       const nextInputIndex = Math.min(newOtpValues.length, length - 1);
       inputRefs.current[nextInputIndex].focus();
     }
@@ -84,15 +102,16 @@ const OptInput = ({ length = 6, onOtpSubmit = () => {} }) => {
           onChange={(e) => onOtpChange(e, index)}
           onClick={() => onOtpClick(index)}
           onKeyDown={(e) => onOtpKeyDown(e, index)}
-          className="w-12 h-12 border-2 border-gray-300 rounded-md mr-2 outline-none text-center   "
+          className="w-12 h-12 border-2 border-gray-300 rounded-md mr-2 outline-none text-center"
         />
       ))}
     </div>
   );
 };
-OptInput.propTypes = {
+
+OtpInput.propTypes = {
   length: PropTypes.number.isRequired,
   onOtpSubmit: PropTypes.func.isRequired,
 };
 
-export default OptInput;
+export default OtpInput;

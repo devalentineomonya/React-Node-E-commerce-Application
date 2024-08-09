@@ -1,28 +1,71 @@
 .loginsignup {
-    @apply pt-12 h-full min-h-[65vh] max-h-fit w-full flex justify-center
+    @apply   h-[calc(100vh-15rem)] w-full mt-12 rounded-lg ;
+    -webkit-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
+    -moz-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
+    box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
 }
 
 .loginsignup-container {
 
-    @apply max-w-[580px] max-h-[600px] min-h-fit w-full h-screen rounded-md px-4 border py-5
+    @apply  h-full w-full rounded-md  flex justify-between;
+}
+.login-signup-image{
+    @apply flex-1 w-1/2 h-full overflow-hidden hidden lg:block
+}
+.login-signup-image img{
+    @apply w-full h-full rounded-r-md rounded-l-lg
 }
 
-.loginsignup-container h2 {
-    @apply text-3xl font-semibold border-b-2 border-gray-100 pb-4
+.login-signup-form {
+    @apply w-full lg:w-1/2 flex-1 h-full px-4 flex justify-center items-center bg-[#fffffa] flex-col
 }
+.login-sign-text{
+    @apply flex flex-col justify-center items-center  max-w-96 
+}
+.login-sign-text h2{
+    @apply text-center font-semibold text-3xl mt-3 text-gray-600
+}
+.login-sign-text p{
+    @apply text-center font-medium text-gray-500 mt-3 text-sm
+}
+.login-sign-text img{
+    @apply w-20 h-20 rounded-full p-2 border 
 
+}
+.login-signup-form form{
+    @apply max-w-96 w-full mt-4
+}
 .login-signup-field {
-    @apply flex flex-col mt-5
+    @apply flex flex-col mt-5 ;
 }
 
-.login-signup-field label {
-    @apply text-lg font-medium text-gray-600
+
+.login-signup-input {
+    @apply flex justify-between items-center h-12 w-full pl-4 border border-gray-100 rounded-md mt-2 px-4 text-gray-500 relative bg-[#f7fbff];
+
 }
 
-.login-signup-field input {
-    @apply h-12 w-full pl-4 border border-gray-100 outline-none placeholder:text-gray-500 text-slate-900 text-base rounded-md mt-2
+.login-signup-input label {
+    @apply text-lg font-normal text-gray-400 absolute top-2;
 }
 
-.signup-signin-button {
-    @apply w-full h-12 rounded-md bg-customGreen text-white mt-8 disabled:bg-gray-900 flex items-center justify-center
+
+.login-signup-input input {
+    @apply w-full outline-none placeholder:text-gray-500 text-slate-900 text-base bg-transparent select-none 
+}
+
+.remember-section{
+    @apply flex justify-between text-sm mt-2
+}
+.remember-input{
+    @apply flex gap-x-2 justify-center items-center text-gray-500
+}
+.remember-section a{
+    @apply text-sky-600 font-semibold text-xs
+}
+.login-signup-button{
+    @apply flex justify-center items-center
+}
+.login-signup-button button{
+    @apply w-full h-11  rounded-md text-sm  flex justify-center items-center gap-x-3
 }
