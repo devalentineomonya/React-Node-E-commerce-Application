@@ -25,49 +25,6 @@
     @apply grid grid-cols-1 lg:grid-cols-2 gap-x-6;
     
 }
-/*========================
-        CART CARD
-=========================*/
-
-.cart-item-card {
-    @apply w-full h-fit flex gap-x-4 max-w-[500px] min-h-28 items-center px-4 
-    border-b-2 border-gray-100 hover:bg-gray-50 cursor-pointer rounded-sm mt-2 pb-1
-}
-
-.cart-item-card:hover .item-image img {
-    @apply bg-[#d6d6d6]
-}
-
-.cart-item-card .item-image {
-    @apply w-24 aspect-square flex  justify-center  items-center gap-x-1 sm:gap-x-2
-}
-.cart-item-card .item-image p{
-    @apply font-bold text-slate-900 text-2xl
-}
-.cart-item-card .item-image img {
-    @apply rounded-md bg-[#f5f6f6]
-}
-
-.cart-item-card .item-info {
-    @apply flex w-full
-}
-
-.cart-item-card .item-info h2 {
-    @apply font-semibold text-slate-900
-}
-
-.cart-item-card .item-info p {
-    @apply text-slate-600 text-sm mt-1 
-}
-
-.cart-item-card .item-info .price {
-    @apply text-slate-800 text-sm font-semibold 
-}
-
-.cart-item-card .item-description,
-.cart-item-card .item-pricing {
-    @apply flex flex-1 flex-col text-end sm:text-start
-}
 
 /*==========================
     CART DELIVERY INFO CARD

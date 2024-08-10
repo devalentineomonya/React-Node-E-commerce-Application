@@ -166,7 +166,7 @@ header{
 }
 
 .category-drop-down-content {
-    @apply grid grid-cols-3 gap-3;
+    @apply grid grid-cols-2 md:grid-cols-3 gap-3;
     
 
 }

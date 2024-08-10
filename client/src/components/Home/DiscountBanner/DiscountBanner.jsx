@@ -12,7 +12,7 @@ const DiscountBanner = () => {
           <h1> Get 5% Cash Discount</h1>
           <p>
             on
-            <Link to={location.href} title={location.pathname} aria-label={location.pathname}>
+            <Link to="/shop" title="Start Shopping" aria-label="Start Shopping">
               {location.origin.startsWith("http://")
                 ? location.origin.substring(7)
                 : location.origin.substring(8)}

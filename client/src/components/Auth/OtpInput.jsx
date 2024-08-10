@@ -54,7 +54,7 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
         break;
 
       case "ArrowLeft":
-        if (index > 0) {
+        if (index > 0 ) {
           inputRefs.current[index - 1].focus();
         }
         break;
@@ -89,7 +89,7 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
   }, []);
 
   return (
-    <div onPaste={handlePaste}>
+    <div onPaste={handlePaste} className="flex flex-nowrap gap-x-2 justify-center items-center">
       {otpValue?.map((value, index) => (
         <input
           key={index}
@@ -102,7 +102,7 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
           onChange={(e) => onOtpChange(e, index)}
           onClick={() => onOtpClick(index)}
           onKeyDown={(e) => onOtpKeyDown(e, index)}
-          className="w-12 h-12 border-2 border-gray-300 rounded-md mr-2 outline-none text-center"
+          className="w-8 sm:w-12 aspect-square border-2 border-gray-300 rounded-md  outline-none text-center"
         />
       ))}
     </div>

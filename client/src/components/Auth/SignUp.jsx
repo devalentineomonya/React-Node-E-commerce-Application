@@ -6,7 +6,7 @@ import { HiAtSymbol } from "react-icons/hi";
 import signUpImage from "../../assets/images/signUpImage.png";
 import logo from "../../assets/images/logo_big.png";
 import { Link } from "react-router-dom";
-import { BsGoogle } from "react-icons/bs";
+import googleIcon from "../../assets/images/google.png"
 
 const SignUp = () => {
   const signUpSchema = Yup.object().shape({
@@ -61,7 +61,7 @@ const SignUp = () => {
                 onInputChange={handleChange}
                 value={values.firstName}
               />
-              <ErrorMessage name="firstName" component="div" className="error" />
+              <ErrorMessage name="firstName" component="div" className="validation-error" />
 
               <AuthInput
                 name="lastName"
@@ -72,7 +72,7 @@ const SignUp = () => {
                 onInputChange={handleChange}
                 value={values.lastName}
               />
-              <ErrorMessage name="lastName" component="div" className="error" />
+              <ErrorMessage name="lastName" component="div" className="validation-error" />
 
               <AuthInput
                 name="email"
@@ -83,7 +83,7 @@ const SignUp = () => {
                 onInputChange={handleChange}
                 value={values.email}
               />
-              <ErrorMessage name="email" component="div" className="error" />
+              <ErrorMessage name="email" component="div" className="validation-error" />
 
               <AuthInput
                 name="password"
@@ -94,7 +94,7 @@ const SignUp = () => {
                 onInputChange={handleChange}
                 value={values.password}
               />
-              <ErrorMessage name="password" component="div" className="error" />
+              <ErrorMessage name="password" component="div" className="validation-error" />
 
               <div className="login-signup-button mt-8">
                 <button type="submit" className="bg-customGreen text-white hover:bg-black">
@@ -105,10 +105,7 @@ const SignUp = () => {
           )}
         </Formik>
         <div className="login-signup-button w-full mt-4">
-          <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50">
-            <BsGoogle />
-            Sign in with Google
-          </button>
+        <SignInWithGoogle/>
         </div>
         <p className="mt-8 text-xs text-gray-700">
           Already have an account?{" "}
@@ -120,5 +117,14 @@ const SignUp = () => {
     </div>
   );
 };
+export const SignInWithGoogle = ()=>{
+  return (
+
+  <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50">
+  <img src={googleIcon} alt="" />
+  Sign in with Google
+</button>
+  )
+}
 
 export default SignUp;

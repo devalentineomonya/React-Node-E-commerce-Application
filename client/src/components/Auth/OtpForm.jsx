@@ -3,13 +3,10 @@ import accountVerify from "../../assets/images/accountVerify.png";
 import logo from "../../assets/images/logo_big.png";
 import { FormCancelButton } from "./PasswordReset";
 
-
 const OtpForm = () => {
-
-  const onOtpSubmit = () => {
-
-
-  };
+  const onOtpSubmit = (otp) => {
+    console.log(otp)
+};
 
   return (
     <div className="loginsignup-container">
@@ -25,16 +22,20 @@ const OtpForm = () => {
             ex ex tempor ea mollit cillum.
           </p>
         </div>
-        <form onSubmit={(e)=>e.preventDefault()}>
-        <OtpInput onOtpSubmit={onOtpSubmit}/>
-       
+        <form onSubmit={(e) => e.preventDefault()}>
+            <OtpInput onOtpSubmit={onOtpSubmit} />
+         
+
           <div className="login-signup-button mt-8">
-            <button type="submit" className="bg-customGreen text-white hover:bg-black ">
+            <button
+              type="submit"
+              className="bg-customGreen text-white hover:bg-black "
+            >
               Verify
             </button>
           </div>
         </form>
-       <FormCancelButton/>
+        <FormCancelButton />
       </div>
     </div>
   );

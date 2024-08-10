@@ -59,7 +59,7 @@ console.log(textBoxDimensions)
                 onInputChange={handleChange}
                 value={values.email}
               />
-              <ErrorMessage name="email" component="div" className="error" />
+              <ErrorMessage name="email" component="div" className="validation-error" />
 
               <div className="login-signup-button mt-8">
                 <button

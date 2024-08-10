@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import  { Suspense, lazy } from "react";
 import Loading from "./components/common/Loading/Loading";
 
-
 const Home = lazy(() => import("./pages/home/Home"));
 const ProductsLayout = lazy(() => import("./components/common/ProductsLayout/ProductsLayout"));
 const Auth = lazy(() => import("./pages/Auth/Auth"));
@@ -20,11 +19,12 @@ const Router = () => {
         <Route path="/deals" element={<ProductsLayout />} />
         <Route path="/auth/:authType" element={<Auth />} />
         <Route path="/auth" element={<Navigate to="login" />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/product/:productId" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/search" element={<ProductsLayout />} />
         <Route path="/profile" element={<Navigate to="me" />} />
         <Route path="profile/:profilePage" element={<Profile />} />
+        <Route path="profile/:profilePage/:pageAction" element={<Profile />} />
       </Routes>
     </Suspense>
   );

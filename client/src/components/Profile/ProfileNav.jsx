@@ -25,14 +25,14 @@ const ProfileNav = ({showProfileNav}) => {
             );
           })}
         </ul>
-        <Link to="/account" className="profile-nav-item">
+        <Link to="/my-account" className="profile-nav-item">
           Account Management
         </Link>
-        <Link to="/" className="profile-nav-item">
+        <Link to="/profile/address/new" className={`profile-nav-item ${profilePage.includes("address") ? "bg-gray-200" : ""}`}>
           Address Book
         </Link>
-        <Link to="/" className="profile-nav-item">
-          Close Account
+        <Link to="/auth/deactivate" className="profile-nav-item">
+          Deactivate Account
         </Link>
         <button>LOGOUT</button>
     </nav>

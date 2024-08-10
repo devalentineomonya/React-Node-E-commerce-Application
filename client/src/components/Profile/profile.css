@@ -3,8 +3,8 @@ PROFILE MAIN CONTAINER
 ================================*/
 .profile-container {
     @apply mt-3 border-t-2 border-gray-200 h-fit block lg:grid;
-   
-    grid-template-areas: 'sidebar main main main main main main';
+   grid-template-columns: 256px 1fr;
+
     column-gap: 1.5rem;
 }
 
@@ -12,8 +12,8 @@ PROFILE MAIN CONTAINER
 PROFILE NAV
 ================================*/
 .profile-nav {
-    grid-area: sidebar;
-    @apply bg-white rounded-sm shadow-lg absolute lg:static h-fit px-2 lg:px-0 
+   
+    @apply bg-white rounded-sm shadow-lg absolute lg:static h-fit  min-w-64 max-w-64 z-20
 }
 
 
@@ -35,6 +35,29 @@ PROFILE NAV
 }
 
 .profile-content {
-    grid-area: main;
-    @apply bg-green-400 min-h-[80vh]
+    
+    @apply h-fit min-h-[80vh] shadow-lg 
+}
+
+/*==============================
+PROFILE USER COMPONENT
+================================*/
+.profile-user-content{
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-x-3 gap-y-4 p-4
+}
+.profile-info-card{
+    @apply rounded-md w-full border py-2
+}
+.profile-info-card-title{
+    @apply flex justify-between border-b p-2 uppercase font-medium text-sm text-gray-500
+}
+.profile-info-card-content{
+    @apply p-2
+}
+.profile-page-title{
+    @apply border-b p-4 text-lg font-semibold text-gray-400 uppercase
+}
+
+.profile-items-grid{
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-3 gap-y-4 pt-4 px-4
 }

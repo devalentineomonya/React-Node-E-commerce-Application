@@ -10,8 +10,9 @@ import ProfileRecent from "./ProfileRecents";
 import ProfileDeliveries from "./ProfileDeliveries";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import { useState } from "react";
+import ProfileAddress from "./ProfileAddress";
 const ProfileMain = () => {
-  const pages = {
+  const profileComponents = {
     me: <ProfileUser />,
     orders: <ProfileOrder />,
     deliveries: <ProfileDeliveries />,
@@ -19,12 +20,13 @@ const ProfileMain = () => {
     vouchers: <ProfileVouchers />,
     saved: <ProfileSavedItems />,
     recent: <ProfileRecent />,
+    address:<ProfileAddress/>
   };
   const { profilePage } = useParams();
   const navigate = useNavigate();
   const [showProfileNav, setShowProfileNav] = useState(false);
   const getProfilePage = () => {
-    const profileComponent = pages[profilePage] || null;
+    const profileComponent = profileComponents[profilePage] || null;
     if (!profileComponent) return navigate("/profile/me");
     else {
       return profileComponent;

@@ -6,7 +6,7 @@ import { HiAtSymbol } from "react-icons/hi";
 import signInImage from "../../assets/images/signInImage.png";
 import logo from "../../assets/images/logo_big.png";
 import { Link } from "react-router-dom";
-import { BsGoogle } from "react-icons/bs";
+import { SignInWithGoogle } from "./SignUp";
 
 const SignIn = () => {
   const signInSchema = Yup.object().shape({
@@ -50,7 +50,7 @@ const SignIn = () => {
                 onInputChange={handleChange}
                 value={values.email}
               />
-              <ErrorMessage name="email" component="div" className="error" />
+              <ErrorMessage name="email" component="div" className="validation-error" />
 
               <AuthInput
                 name="password"
@@ -61,7 +61,7 @@ const SignIn = () => {
                 onInputChange={handleChange}
                 value={values.password}
               />
-              <ErrorMessage name="password" component="div" className="error" />
+              <ErrorMessage name="password" component="div" className="validation-error" />
 
               <div className="remember-section">
                 <div className="remember-input">
@@ -79,13 +79,10 @@ const SignIn = () => {
           )}
         </Formik>
         <div className="login-signup-button w-full mt-4">
-          <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50">
-            <BsGoogle />
-            Sign in with Google
-          </button>
+        <SignInWithGoogle/>
         </div>
         <p className="mt-8 text-xs text-gray-700">
-          Don&apos;t have an account?{" "}
+          Don&apos;t have an account?
           <Link to="/auth/register" className="font-semibold capitalize ml-3 text-sky-600">
             Sign Up
           </Link>

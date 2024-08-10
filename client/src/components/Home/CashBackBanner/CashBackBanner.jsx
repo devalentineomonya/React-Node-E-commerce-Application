@@ -9,6 +9,8 @@ const CashBackBanner = () => {
         style={{ "--banner-image": `url("${heroBackground}")` }}
       >
         <div className="banner-text-container">
+
+        <div className="banner-text-content">
           <h2>Get 5% Cash back on $200</h2>
           <p>
             Shopping is a bit of a relaxing hobby for me, which is sometimes
@@ -17,6 +19,7 @@ const CashBackBanner = () => {
           <button title="Learn More" aria-label="Learn More">
             Learn More
           </button>
+        </div>
         </div>
       </div>
     </section>

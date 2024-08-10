@@ -33,7 +33,7 @@ const NavbarLeft = ({ mobileScreen, setSearching, searching, setNavBarOpen, hand
         </div>
       )}
     </div>
-    <Link to="/auth" title="Profile" aria-label='Profile'>
+    <Link to="/profile" title="Profile" aria-label='Profile'>
       <div className="nav-left-item">
         <AiOutlineUser />
         {!mobileScreen && 'Account'}

@@ -5,28 +5,30 @@
 }
 
 .banner-image {
-    @apply flex  md:justify-end justify-center items-center pr-0 md:pr-32;
+  
     background-image: var(--banner-image);
     background-position: center;
     background-size: cover;
 }
-
-
-.banner-text-container {
-    @apply md:h-3/4 h-1/2 aspect-square bg-customGreen ;
+.banner-text-container{
+    @apply absolute w-full h-full top-0 left-0 z-10 flex  md:justify-end justify-center items-center  pr-0 md:pr-10 overflow-hidden
 }
 
-.banner-text-container {
-    @apply p-16 text-white 
+.banner-text-content {
+    @apply h-full md:h-3/4  aspect-square bg-customGreen ;
 }
 
-.banner-text-container h2 {
-    @apply text-5xl font-bold mb-10
+.banner-text-content {
+    @apply p-6 md:p-16 text-white
 }
-.banner-text-container p{
+
+.banner-text-content h2 {
+    @apply text-5xl font-bold mb-5 md:mb-10
+}
+.banner-text-content p{
     @apply text-lg
 }
 
-.banner-text-container button {
-    @apply border-2 border-white hover:bg-black py-2 px-7 mt-14 rounded-full
+.banner-text-content button {
+    @apply border-2 border-white hover:bg-black py-2 px-7 mt-8 md:mt-14 rounded-full
 }
