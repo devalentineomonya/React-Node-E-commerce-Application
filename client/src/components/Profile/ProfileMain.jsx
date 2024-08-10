@@ -5,7 +5,6 @@ import "./profile.css";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import Loading from "../common/Loading/Loading";
 
- add
 const ProfileUser = lazy(() => import("./ProfileUser"));
 const ProfileOrder = lazy(() => import("./ProfileOrder"));
 const ProfileDeliveries = lazy(() => import("./ProfileDeliveries"));

@@ -1,8 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import AccountFormInput from "./AccountFormInput";
-
-// Validation schema using Yup
+import { subYears } from 'date-fns'; 
 const validationSchema = Yup.object({
   firstName: Yup.string()
     .min(3, 'First Name must be at least 3 characters')
@@ -10,20 +9,26 @@ const validationSchema = Yup.object({
   lastName: Yup.string()
     .min(3, 'Last Name must be at least 3 characters')
     .required('Last Name is required'),
-  middleName: Yup.string() 
+  middleName: Yup.string()
     .min(3, 'Middle Name must be at least 3 characters'),
   email: Yup.string()
     .email('Invalid email address')
     .required('Email is required'),
   gender: Yup.string()
-  .oneOf(['male', 'female', 'other', 'M', 'F', 'O'], 'Invalid gender')
+    .oneOf(['male', 'female', 'other', 'M', 'F', 'O'], 'Invalid gender')
     .required('Gender is required'),
   dateOfBirth: Yup.date()
-    .required('Date of Birth is required'),
+    .required('Date of Birth is required')
+    .test('age', 'You must be at least 16 years old', function(value) {
+      const today = new Date();
+      const minAge = subYears(today, 16);
+      return value <= minAge;
+    }),
   phoneNumber: Yup.string()
     .matches(/^[0-9]{10}$/, 'Phone Number must be exactly 10 digits')
     .required('Phone Number is required'),
 });
+
 
 const AccountForm = () => {
   const formik = useFormik({

@@ -36,22 +36,23 @@
     @apply max-w-96 w-full mt-4
 }
 .login-signup-field {
-    @apply flex flex-col mt-5 ;
+    @apply flex flex-col mt-5;
 }
-
 
 .login-signup-input {
     @apply flex justify-between items-center h-12 w-full pl-4 border border-gray-100 rounded-md mt-2 px-4 text-gray-500 relative bg-[#f7fbff];
-
 }
-
-.login-signup-input label {
-    @apply text-lg font-normal text-gray-400 absolute top-2;
-}
-
 
 .login-signup-input input {
-    @apply w-full outline-none placeholder:text-gray-500 text-slate-900 text-base bg-transparent select-none 
+    @apply w-full outline-none placeholder:text-gray-500 text-slate-900 text-base bg-transparent select-none;
+}
+
+.floating-label {
+    @apply text-lg font-normal text-gray-400 absolute top-2 transition-all duration-200;
+}
+
+.floating-label.active {
+    @apply -top-3 text-blue-500; /* Change color if needed */
 }
 
 .remember-section{

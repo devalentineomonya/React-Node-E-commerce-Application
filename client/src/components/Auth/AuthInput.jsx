@@ -1,4 +1,6 @@
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+
 const AuthInput = ({
   type,
   name,
@@ -8,17 +10,44 @@ const AuthInput = ({
   onInputChange,
   icon,
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  // Handle focus and blur
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => {
+    if (!value) {
+      setIsFocused(false);
+    }
+  };
+
+  // Handle input change
+  const handleChange = (e) => {
+    onInputChange(e);
+    if (e.target.value) {
+      setIsFocused(true);
+    } else {
+      setIsFocused(false);
+    }
+  };
+
   return (
     <div className="login-signup-field">
       <div className="login-signup-input">
-      <label htmlFor={`${name}-${index}`}>{label}</label>
+        <label
+          htmlFor={`${name}-${index}`}
+          className={`floating-label ${isFocused || value ? 'active' : ''}`}
+        >
+          {label}
+        </label>
         <input
           type={type ?? "text"}
           name={name}
           id={`${name}-${index}`}
           value={value}
-          onChange={onInputChange}
-          // placeholder="Type Here ..."
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+  
         />
         {icon}
       </div>
@@ -35,4 +64,5 @@ AuthInput.propTypes = {
   onInputChange: PropTypes.func,
   icon: PropTypes.element,
 };
+
 export default AuthInput;
