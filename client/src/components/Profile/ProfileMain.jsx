@@ -1,16 +1,20 @@
+import  { useState, lazy, Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProfileNav from "./ProfileNav";
 import "./profile.css";
-import ProfileUser from "./ProfileUser";
-import ProfileOrder from "./ProfileOrder";
-import ProfileReview from "./ProfileReview";
-import ProfileVouchers from "./ProfileVouchers";
-import ProfileSavedItems from "./ProfileSavedItems";
-import ProfileRecent from "./ProfileRecents";
-import ProfileDeliveries from "./ProfileDeliveries";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
-import { useState } from "react";
-import ProfileAddress from "./ProfileAddress";
+import Loading from "../common/Loading/Loading";
+
+ add
+const ProfileUser = lazy(() => import("./ProfileUser"));
+const ProfileOrder = lazy(() => import("./ProfileOrder"));
+const ProfileDeliveries = lazy(() => import("./ProfileDeliveries"));
+const ProfileReview = lazy(() => import("./ProfileReview"));
+const ProfileVouchers = lazy(() => import("./ProfileVouchers"));
+const ProfileSavedItems = lazy(() => import("./ProfileSavedItems"));
+const ProfileRecent = lazy(() => import("./ProfileRecents"));
+const ProfileAddress = lazy(() => import("./ProfileAddress"));
+
 const ProfileMain = () => {
   const profileComponents = {
     me: <ProfileUser />,
@@ -20,18 +24,15 @@ const ProfileMain = () => {
     vouchers: <ProfileVouchers />,
     saved: <ProfileSavedItems />,
     recent: <ProfileRecent />,
-    address:<ProfileAddress/>
+    address: <ProfileAddress />,
   };
+
   const { profilePage } = useParams();
   const navigate = useNavigate();
   const [showProfileNav, setShowProfileNav] = useState(false);
-  const getProfilePage = () => {
-    const profileComponent = profileComponents[profilePage] || null;
-    if (!profileComponent) return navigate("/profile/me");
-    else {
-      return profileComponent;
-    }
-  };
+
+
+  const ProfileComponent = profileComponents[profilePage] || navigate("/profile/me");
 
   return (
     <>
@@ -39,11 +40,13 @@ const ProfileMain = () => {
         <HiOutlineMenuAlt4 size={20} />
       </div>
 
-      <div
-        className="profile-container"
-      >
-        <ProfileNav showProfileNav={showProfileNav}/>
-        <div className="profile-content">{getProfilePage()}</div>
+      <div className="profile-container">
+        <ProfileNav showProfileNav={showProfileNav} />
+        <div className="profile-content">
+          <Suspense fallback={<Loading/>}>
+            {ProfileComponent}
+          </Suspense>
+        </div>
       </div>
     </>
   );

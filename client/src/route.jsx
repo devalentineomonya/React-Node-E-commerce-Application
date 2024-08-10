@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import  { Suspense, lazy } from "react";
 import Loading from "./components/common/Loading/Loading";
-
+const MyAccount = lazy(()=> import("./pages/MyAccount/MyAccount"))
 const Home = lazy(() => import("./pages/home/Home"));
 const ProductsLayout = lazy(() => import("./components/common/ProductsLayout/ProductsLayout"));
 const Auth = lazy(() => import("./pages/Auth/Auth"));
@@ -25,6 +25,7 @@ const Router = () => {
         <Route path="/profile" element={<Navigate to="me" />} />
         <Route path="profile/:profilePage" element={<Profile />} />
         <Route path="profile/:profilePage/:pageAction" element={<Profile />} />
+        <Route path="/my-account" element={<MyAccount/>}/>
       </Routes>
     </Suspense>
   );
