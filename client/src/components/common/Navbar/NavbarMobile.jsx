@@ -1,9 +1,26 @@
-import { BsX } from 'react-icons/bs';
-import PropTypes from 'prop-types';
+import { BsX } from "react-icons/bs";
+import PropTypes from "prop-types";
 
-const NavbarMobile = ({ mobileScreen, setNavBarOpen, navBarOpen, children }) => (
-  <nav className={`navbar ${mobileScreen ? 'navbar-mobile' : ''} ${navBarOpen ? 'active' : ''}`}>
-    <div className={`close-menu ${!mobileScreen ? 'hidden' : ''}`} onClick={() => setNavBarOpen(false)}>
+const NavbarMobile = ({
+  mobileScreen,
+  setNavBarOpen,
+  navBarOpen,
+  children,
+}) => (
+  <nav
+    className={`navbar ${mobileScreen ? "navbar-mobile" : ""} ${
+      navBarOpen ? "active" : ""
+    }`}
+  >
+    <div
+      className={`close-menu ${!mobileScreen ? "hidden" : ""}`}
+      onClick={() => setNavBarOpen(false)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          setNavBarOpen(false);
+        }
+      }}
+    >
       <BsX size={40} />
     </div>
     {children}

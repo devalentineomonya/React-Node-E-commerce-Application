@@ -58,6 +58,9 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
           inputRefs.current[index - 1].focus();
         }
         break;
+        case "Enter":
+        onOtpClick(index)
+          break;
 
       default:
         break;
@@ -101,6 +104,7 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
           id={`otp-input-${index}`}
           onChange={(e) => onOtpChange(e, index)}
           onClick={() => onOtpClick(index)}
+          
           onKeyDown={(e) => onOtpKeyDown(e, index)}
           className="w-8 sm:w-12 aspect-square border-2 border-gray-300 rounded-md  outline-none text-center"
         />

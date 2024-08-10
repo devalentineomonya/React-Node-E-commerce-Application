@@ -33,7 +33,7 @@ const CustomAlert = ({ isShowing, hide, type, message, setSearching }) =>
           >
             <div className="modal-header">
               <button
-              aria-hidden="true"
+                aria-hidden="true"
                 title="Close Modal"
                 type="button"
                 className="modal-close-button"
@@ -41,6 +41,11 @@ const CustomAlert = ({ isShowing, hide, type, message, setSearching }) =>
                 aria-label="Close"
                 onClick={() => {
                   hide(), setSearching(true);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    hide(), setSearching(true);
+                  }
                 }}
               >
                 <RxCross1 size={18} className="icon" />

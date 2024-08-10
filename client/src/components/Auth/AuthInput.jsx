@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 const AuthInput = ({
   type,
@@ -12,7 +12,7 @@ const AuthInput = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
-  // Handle focus and blur
+
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => {
     if (!value) {
@@ -20,7 +20,7 @@ const AuthInput = ({
     }
   };
 
-  // Handle input change
+
   const handleChange = (e) => {
     onInputChange(e);
     if (e.target.value) {

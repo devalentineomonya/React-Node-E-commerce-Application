@@ -1,4 +1,4 @@
-import  { useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProfileNav from "./ProfileNav";
 import "./profile.css";
@@ -30,21 +30,27 @@ const ProfileMain = () => {
   const navigate = useNavigate();
   const [showProfileNav, setShowProfileNav] = useState(false);
 
-
-  const ProfileComponent = profileComponents[profilePage] || navigate("/profile/me");
+  const ProfileComponent =
+    profileComponents[profilePage] || navigate("/profile/me");
 
   return (
     <>
-      <div onClick={() => setShowProfileNav((prev) => !prev)} className="inline-block lg:hidden">
+      <div
+        onClick={() => setShowProfileNav((prev) => !prev)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setShowProfileNav((prev) => !prev);
+          }
+        }}
+        className="inline-block lg:hidden"
+      >
         <HiOutlineMenuAlt4 size={20} />
       </div>
 
       <div className="profile-container">
         <ProfileNav showProfileNav={showProfileNav} />
         <div className="profile-content">
-          <Suspense fallback={<Loading/>}>
-            {ProfileComponent}
-          </Suspense>
+          <Suspense fallback={<Loading />}>{ProfileComponent}</Suspense>
         </div>
       </div>
     </>

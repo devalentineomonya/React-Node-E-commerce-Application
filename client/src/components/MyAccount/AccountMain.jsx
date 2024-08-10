@@ -7,7 +7,11 @@ const AccountMain = () => {
     const [showProfileNav, setShowProfileNav] = useState(false);
   return (
     <>
-    <div onClick={() => setShowProfileNav((prev) => !prev)} className="inline-block lg:hidden">
+    <div onClick={() => setShowProfileNav((prev) => !prev)}  onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setShowProfileNav((prev) => !prev)
+              }
+            }} className="inline-block lg:hidden">
       <HiOutlineMenuAlt4 size={20} />
     </div>
 

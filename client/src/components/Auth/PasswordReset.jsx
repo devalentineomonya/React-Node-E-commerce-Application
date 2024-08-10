@@ -15,7 +15,7 @@ const PasswordReset = () => {
   useLayoutEffect(() => {
     if (textDisplay.current) {
       const textBoxDimensions = textDisplay.current.getBoundingClientRect();
-console.log(textBoxDimensions)
+      console.log(textBoxDimensions);
     }
   }, []);
 
@@ -59,7 +59,11 @@ console.log(textBoxDimensions)
                 onInputChange={handleChange}
                 value={values.email}
               />
-              <ErrorMessage name="email" component="div" className="validation-error" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="validation-error"
+              />
 
               <div className="login-signup-button mt-8">
                 <button
@@ -92,6 +96,11 @@ export const FormCancelButton = ({ navigate }) => {
       <button
         className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50"
         onClick={onCancel}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            onCancel();
+          }
+        }}
       >
         Cancel
       </button>

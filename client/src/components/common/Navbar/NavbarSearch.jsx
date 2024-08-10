@@ -33,7 +33,11 @@ const NavbarSearch = ({ searching, setSearching, mobileScreen, handleSearchValue
           searchValue ?? 'Search Product'
         )}
       </div>
-      <div className="icon" onClick={handleSearchRedirect}>
+      <div className="icon" onClick={handleSearchRedirect}  onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearchRedirect();
+              }
+            }}>
         <AiOutlineSearch size={18} />
       </div>
     </div>
