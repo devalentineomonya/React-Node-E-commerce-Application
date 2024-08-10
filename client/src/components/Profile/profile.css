@@ -1,0 +1,40 @@
+/*==============================
+PROFILE MAIN CONTAINER
+================================*/
+.profile-container {
+    @apply mt-3 border-t-2 border-gray-200 h-fit block lg:grid;
+   
+    grid-template-areas: 'sidebar main main main main main main';
+    column-gap: 1.5rem;
+}
+
+/*==============================
+PROFILE NAV
+================================*/
+.profile-nav {
+    grid-area: sidebar;
+    @apply bg-white rounded-sm shadow-lg absolute lg:static h-fit px-2 lg:px-0 
+}
+
+
+
+.profile-nav ul {
+    @apply border-b
+}
+
+.profile-nav ul li, .profile-nav .profile-nav-item, .profile-nav button {
+    @apply flex justify-start gap-x-4 items-center h-14 w-full pl-3 hover:bg-gray-100 text-sm text-gray-600
+}
+
+.profile-nav ul li a {
+    @apply w-full h-full flex items-center
+}
+
+.profile-nav button {
+    @apply border-t-2 text-base text-red-300 flex justify-center
+}
+
+.profile-content {
+    grid-area: main;
+    @apply bg-green-400 min-h-[80vh]
+}
