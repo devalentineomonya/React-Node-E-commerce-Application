@@ -17,7 +17,7 @@ const navItems = [
     {
       key: "4-deliveries",
       title: "Deliveries",
-      to: "/deliveries",
+      to: "/profile/deliveries",
     },
   ];
   export default navItems

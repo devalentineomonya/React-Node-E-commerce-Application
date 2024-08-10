@@ -16,6 +16,7 @@
 }
 
 .progress {
+    @apply cursor-grabbing;
     height: 100%;
     background-color: #76c7c0;
 }

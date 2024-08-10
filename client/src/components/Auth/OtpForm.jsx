@@ -1,20 +1,20 @@
 import OtpInput from "./OtpInput";
-import signUpImage from "../../assets/images/signUpImage.png";
+import accountVerify from "../../assets/images/accountVerify.png";
 import logo from "../../assets/images/logo_big.png";
 import { FormCancelButton } from "./PasswordReset";
 
 
 const OtpForm = () => {
 
-  const onOtpSubmit = (otp) => {
-    console.log(otp)
+  const onOtpSubmit = () => {
+
 
   };
 
   return (
     <div className="loginsignup-container">
       <div className="login-signup-image">
-        <img src={signUpImage} loading="lazy" />
+        <img src={accountVerify} loading="lazy" />
       </div>
       <div className="login-signup-form">
         <div className="login-sign-text">

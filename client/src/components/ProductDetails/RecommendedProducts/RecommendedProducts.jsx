@@ -4,7 +4,7 @@ import Swiper from "../../common/Swiper/Swiper"
 
 const RecommendedProducts = () => {
   return (
-    <SectionLayout title="Products recommended for you!">
+    <SectionLayout title="Products recommended for you!" overflow>
    <Swiper>
    <ProductCard  />
    <ProductCard  />

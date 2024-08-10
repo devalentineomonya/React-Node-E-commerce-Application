@@ -43,7 +43,7 @@ const CustomAlert = ({ isShowing, hide, type, message, setSearching }) =>
                   hide(), setSearching(true);
                 }}
               >
-                <RxCross1 size={25} />
+                <RxCross1 size={18} className="icon" />
               </button>
             </div>
             <div className="modal-content">

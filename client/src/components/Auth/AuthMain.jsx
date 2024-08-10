@@ -1,40 +1,35 @@
+import { Suspense, lazy } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import MainLayout from "../common/MainLayout/MainLayout";
 import "./auth.css";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import OtpForm from "./OtpForm";
-import PasswordReset from "./PasswordReset";
+import Loading from "../common/Loading/Loading";
+
+
+const SignIn = lazy(() => import("./SignIn"));
+const SignUp = lazy(() => import("./SignUp"));
+const OtpForm = lazy(() => import("./OtpForm"));
+const PasswordReset = lazy(() => import("./PasswordReset"));
 
 const AuthMain = () => {
   const { authType } = useParams();
-  const checkLoginType = () => {
-    switch (authType) {
-      case "login":
-        return <SignIn />;
-      case "signin":
-        return <SignIn />;
-
-      case "register":
-        return <SignUp />;
-
-      case "signup":
-        return <SignUp />;
-
-      case "verify":
-        return <OtpForm />;
-
-      case "reset-password":
-        return <PasswordReset />;
-
-      default:
-        return <Navigate to="/auth/login" />;
-    }
+  const authComponents = {
+    login: SignIn,
+    signin: SignIn,
+    register: SignUp,
+    signup: SignUp,
+    verify: OtpForm,
+    "reset-password": PasswordReset,
   };
-  console.log(authType);
+
+  const Component = authComponents[authType] || (() => <Navigate to="/auth/login" />);
+
   return (
     <MainLayout>
-      <div className="loginsignup">{checkLoginType()}</div>
+      <div className="loginsignup">
+        <Suspense fallback={<Loading/>}>
+          <Component />
+        </Suspense>
+      </div>
     </MainLayout>
   );
 };

@@ -4,7 +4,7 @@ import Swiper from '../../common/Swiper/Swiper'
 
 const PopularProducts = () => {
   return (
-    <SectionLayout title="Weekly Popular Products">
+    <SectionLayout title="Weekly Popular Products"overflow >
    <Swiper>
    <ProductCard  />
    <ProductCard  />

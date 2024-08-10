@@ -4,7 +4,7 @@ import Swiper from "../../common/Swiper/Swiper"
 
 const SimilarProducts = () => {
   return (
-    <SectionLayout title="Similar Items You May Like!">
+    <SectionLayout title="Similar Items You May Like!" overflow>
          <Swiper>
    <ProductCard  />
    <ProductCard  />

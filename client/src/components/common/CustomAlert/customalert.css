@@ -1,23 +1,17 @@
 .modal-wrapper,
 .modal {
-    max-width: 500px;
-    width: 100%;
-    border-radius: 10px;
+    @apply max-w-[500px] w-full rounded-lg ;
+
 }
 
 .modal-wrapper {
-    padding: 1px;
-    position: absolute;
-    top: -110%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    transition: all 0.5s;
-    z-index: 20;
+    @apply p-[1px] absolute -top-[110%] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white transition-all duration-500 z-[100]
+
 
 }
 
 .modal-wrapper.show {
+    
     top: 10%;
 }
 
@@ -31,17 +25,16 @@
 .modal-header {
     @apply flex justify-end items-start text-gray-400 absolute top-0 right-0 
 }
-
+.modal-header .icon{
+    @apply mr-2 mt-2
+}
 .modal-content {
     @apply flex justify-start items-start gap-4 pr-7 py-2 text-slate-700 text-lg font-semibold
 }
 
 .modal-content .icon {
-    @apply bg-white rounded-full flex justify-center items-center mt-1 ml-1;
-    height: 50px;
-    width: 50px;
-    min-height: 50px;
-    min-width: 50px;
+    @apply bg-white rounded-full flex justify-center items-center mt-1 ml-1 h-12 w-12 min-h-12 min-w-12 ;
+
     -webkit-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
     -moz-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
     box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;

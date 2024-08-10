@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { Formik, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import AuthInput from "./AuthInput";
 import { BiLock, BiUser } from "react-icons/bi";
 import { HiAtSymbol } from "react-icons/hi";
@@ -8,84 +9,113 @@ import { Link } from "react-router-dom";
 import { BsGoogle } from "react-icons/bs";
 
 const SignUp = () => {
-  const signedUpField = [
-    {
-      name: "firstName",
-      label: "First Name*",
-      icon: <BiUser />,
-    },
-    {
-      name: "lastName",
-      label: "Last Name*",
-      icon: <BiUser />,
-    },
-    {
-      name: "email",
-      type: "email",
-      label: "Email*",
-      icon: <HiAtSymbol />,
-    },
-
-    {
-      name: "password",
-      type: "password",
-      label: "Password*",
-      icon: <BiLock />,
-    },
-  ];
-  const [formData, setFormData] = useState({
-    userName: "",
-    password: "",
+  const signUpSchema = Yup.object().shape({
+    firstName: Yup.string()
+      .min(3, "First Name must be at least 3 characters long")
+      .required("First Name is required"),
+    lastName: Yup.string()
+      .min(3, "Last Name must be at least 3 characters long")
+      .required("Last Name is required"),
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters long")
+      .required("Password is required"),
   });
-
-  const onInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
   return (
     <div className="loginsignup-container">
       <div className="login-signup-image">
-        <img src={signUpImage} loading="lazy" />
+        <img src={signUpImage} loading="lazy" alt="Sign Up" />
       </div>
       <div className="login-signup-form">
         <div className="login-sign-text">
-          <img src={logo} alt="" />
+          <img src={logo} alt="Logo" />
           <h2>Join Us</h2>
           <p>
             Ullamco Lorem officia voluptate incididunt consectetur id duis elit
-            ex ex tempor ea mollit cillum.{" "}
+            ex ex tempor ea mollit cillum.
           </p>
         </div>
-        <form action="">
-          {signedUpField.map(({ name, type, label, icon }, index) => (
-            <AuthInput
-              key={name + "-" + index}
-              name={name}
-              type={type}
-              label={label}
-              icon={icon}
-              onInputChange={onInputChange}
-              value={formData[name]}
-            />
-          ))}
-       
-          <div className="login-signup-button mt-8">
-            <button type="submit" className="bg-customGreen text-white hover:bg-black ">
-              Sign Up
-            </button>
-          </div>
-        </form>
+        <Formik
+          initialValues={{
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+          }}
+          validationSchema={signUpSchema}
+          onSubmit={(values) => {
+            console.log(values);
+          }}
+        >
+          {({ handleChange, values }) => (
+            <Form>
+              <AuthInput
+                name="firstName"
+                type="text"
+                label="First Name*"
+                index={0}
+                icon={<BiUser />}
+                onInputChange={handleChange}
+                value={values.firstName}
+              />
+              <ErrorMessage name="firstName" component="div" className="error" />
+
+              <AuthInput
+                name="lastName"
+                type="text"
+                label="Last Name*"
+                index={1}
+                icon={<BiUser />}
+                onInputChange={handleChange}
+                value={values.lastName}
+              />
+              <ErrorMessage name="lastName" component="div" className="error" />
+
+              <AuthInput
+                name="email"
+                type="email"
+                label="Email*"
+                index={2}
+                icon={<HiAtSymbol />}
+                onInputChange={handleChange}
+                value={values.email}
+              />
+              <ErrorMessage name="email" component="div" className="error" />
+
+              <AuthInput
+                name="password"
+                type="password"
+                label="Password*"
+                index={3}
+                icon={<BiLock />}
+                onInputChange={handleChange}
+                value={values.password}
+              />
+              <ErrorMessage name="password" component="div" className="error" />
+
+              <div className="login-signup-button mt-8">
+                <button type="submit" className="bg-customGreen text-white hover:bg-black">
+                  Sign Up
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
         <div className="login-signup-button w-full mt-4">
-          <button className=" border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50">
+          <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50">
             <BsGoogle />
             Sign in with Google
           </button>
         </div>
-        <p className="mt-8 text-xs text-gray-700">Already have an account? <Link to="/auth/login" className="font-semibold capitalize ml-3 text-sky-600">Sign in</Link></p>
+        <p className="mt-8 text-xs text-gray-700">
+          Already have an account?{" "}
+          <Link to="/auth/login" className="font-semibold capitalize ml-3 text-sky-600">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   );

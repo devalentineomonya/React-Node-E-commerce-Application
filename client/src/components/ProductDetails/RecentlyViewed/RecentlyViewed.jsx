@@ -4,7 +4,7 @@ import Swiper from "../../common/Swiper/Swiper";
 
 const RecentlyViewed = () => {
   return (
-    <SectionLayout title="Recently Viewed! ">
+    <SectionLayout title="Recently Viewed!" overflow>
         <Swiper>
    <ProductCard  />
    <ProductCard  />

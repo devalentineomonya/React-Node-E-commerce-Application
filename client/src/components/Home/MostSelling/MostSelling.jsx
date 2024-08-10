@@ -4,7 +4,7 @@ import Swiper from '../../common/Swiper/Swiper'
 
 const MostSelling = () => {
   return (
-<SectionLayout title="Most Selling Products">
+<SectionLayout title="Most Selling Products" overflow>
 
 <Swiper>
 <ProductCard/>

@@ -23,8 +23,8 @@
     @apply py-3 px-8 bg-customGreen text-white  mt-5 rounded-full hover:bg-black
 }
 .home-hero-container .hero-image{
-    @apply w-full  relative flex-1 h-1/2
+    @apply w-full  relative flex-1 h-full 
 }
 .home-hero-container .hero-image img{
-    @apply absolute h-full w-full
+    @apply absolute w-full bottom-0
 }
