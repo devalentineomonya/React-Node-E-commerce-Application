@@ -6,19 +6,22 @@ const userSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { 
-    type: String, 
-    required: function() { return !this.googleId; } 
+  password: {
+    type: String,
+    required: function () { return !this.googleId; }
   },
-  primaryPhoneNumber: { type: String},
+  primaryPhoneNumber: { type: String },
   secondaryPhoneNumber: { type: String },
   address: [{ type: Schema.Types.ObjectId, ref: 'Address' }],
   recentItems: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
   likedItems: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
   orders: [{ type: Schema.Types.ObjectId, ref: 'Order' }],
   isActive: { type: Boolean, default: false },
+  
   verificationCode: { type: String },
   verificationCodeExpires: { type: Date },
+  passwordResetCode: { type: String, default: null },
+  passwordResetCodeExpires: { type: Date, default: null },
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

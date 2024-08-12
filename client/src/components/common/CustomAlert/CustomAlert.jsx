@@ -4,7 +4,7 @@ import "./customalert.css";
 import PropTypes from "prop-types";
 import { BsCheck, BsExclamation, BsInfo } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
-const CustomAlert = ({ isShowing, hide, type, message, setSearching }) =>
+const CustomAlert = ({ isShowing, hide, type, message, setSearching = ()=>{} }) =>
   ReactDOM.createPortal(
     <React.Fragment>
       <div

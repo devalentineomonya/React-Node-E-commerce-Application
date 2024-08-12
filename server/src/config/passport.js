@@ -7,12 +7,13 @@ const config = require('./config');
 passport.use(new GoogleStrategy({
     clientID: config.google.clientId,
     clientSecret: config.google.secret,
-    callbackURL: "http://localhost:8000/api/auth/google/callback"
+    callbackURL: "http://localhost:8000/api/auth/google/callback",
+    // passReqToCallback:true
   },
   async (accessToken, refreshToken, profile, done) => {
+    console.log(profile)
     try {
       let user = await userModel.findOne({ googleId: profile.id });
-
       if (!user) {
         user = new userModel({
           googleId: profile.id,

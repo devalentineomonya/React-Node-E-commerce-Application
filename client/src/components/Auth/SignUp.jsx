@@ -5,8 +5,17 @@ import { BiLock, BiUser } from "react-icons/bi";
 import { HiAtSymbol } from "react-icons/hi";
 import signUpImage from "../../assets/images/signUpImage.png";
 import logo from "../../assets/images/logo_big.png";
-import { Link } from "react-router-dom";
-import googleIcon from "../../assets/images/google.png"
+import { Link, useNavigate } from "react-router-dom";
+import googleIcon from "../../assets/images/google.png";
+import {
+  registerUser,
+  setRegisterError,
+  setRegisterLoading,
+} from "../../../app/features/user/userSlice";
+import { useRegisterUserMutation } from "../../../app/features/user/userAPI";
+import { useDispatch } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS for toast styling
 
 const SignUp = () => {
   const signUpSchema = Yup.object().shape({
@@ -24,8 +33,41 @@ const SignUp = () => {
       .required("Password is required"),
   });
 
+  const [register, { data, isLoading, error }] = useRegisterUserMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    dispatch(setRegisterLoading(true));
+    try {
+      const response = await register(values).unwrap();
+      await dispatch(registerUser(response));
+
+      const pathTo = localStorage.getItem("redirectTo") ?? "/";
+      localStorage.removeItem("redirectTo");
+      
+      if (!response.data.isActive) {
+        navigate("/auth/verify");
+      } else {
+        navigate(pathTo);
+      }
+
+      // Show success toast
+      toast.success(response.message);
+      console.log(response)
+    } catch (err) {
+      // Show error toast
+      toast.error(err.data.message || "An error occurred. Please try again.");
+      await dispatch(setRegisterError(err.data));
+    } finally {
+      setSubmitting(false);
+      dispatch(setRegisterLoading(false));
+    }
+  };
+
   return (
     <div className="loginsignup-container">
+       <ToastContainer position="top-center" /> 
       <div className="login-signup-image">
         <img src={signUpImage} loading="lazy" alt="Sign Up" />
       </div>
@@ -46,11 +88,9 @@ const SignUp = () => {
             password: "",
           }}
           validationSchema={signUpSchema}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
+          onSubmit={handleSubmit}
         >
-          {({ handleChange, values }) => (
+          {({ handleChange, values, isSubmitting }) => (
             <Form>
               <AuthInput
                 name="firstName"
@@ -61,7 +101,11 @@ const SignUp = () => {
                 onInputChange={handleChange}
                 value={values.firstName}
               />
-              <ErrorMessage name="firstName" component="div" className="validation-error" />
+              <ErrorMessage
+                name="firstName"
+                component="div"
+                className="validation-error"
+              />
 
               <AuthInput
                 name="lastName"
@@ -72,7 +116,11 @@ const SignUp = () => {
                 onInputChange={handleChange}
                 value={values.lastName}
               />
-              <ErrorMessage name="lastName" component="div" className="validation-error" />
+              <ErrorMessage
+                name="lastName"
+                component="div"
+                className="validation-error"
+              />
 
               <AuthInput
                 name="email"
@@ -83,7 +131,11 @@ const SignUp = () => {
                 onInputChange={handleChange}
                 value={values.email}
               />
-              <ErrorMessage name="email" component="div" className="validation-error" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="validation-error"
+              />
 
               <AuthInput
                 name="password"
@@ -94,22 +146,37 @@ const SignUp = () => {
                 onInputChange={handleChange}
                 value={values.password}
               />
-              <ErrorMessage name="password" component="div" className="validation-error" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="validation-error"
+              />
 
               <div className="login-signup-button mt-8">
-                <button type="submit" className="bg-customGreen text-white hover:bg-black">
-                  Sign Up
+                <button
+                  type="submit"
+                  className="bg-customGreen text-white hover:bg-black flex justify-center items-center"
+                  disabled={isSubmitting || isLoading}
+                >
+                  {isSubmitting || isLoading ? (
+                    <div className="h-6 w-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    "Sign Up"
+                  )}
                 </button>
               </div>
             </Form>
           )}
         </Formik>
         <div className="login-signup-button w-full mt-4">
-        <SignInWithGoogle/>
+          <SignInWithGoogle />
         </div>
         <p className="mt-8 text-xs text-gray-700">
           Already have an account?{" "}
-          <Link to="/auth/login" className="font-semibold capitalize ml-3 text-sky-600">
+          <Link
+            to="/auth/login"
+            className="font-semibold capitalize ml-3 text-sky-600"
+          >
             Sign in
           </Link>
         </p>
@@ -117,14 +184,14 @@ const SignUp = () => {
     </div>
   );
 };
-export const SignInWithGoogle = ()=>{
-  return (
 
-  <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50">
-  <img src={googleIcon} alt="" />
-  Sign in with Google
-</button>
-  )
-}
+export const SignInWithGoogle = () => {
+  return (
+    <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50">
+      <img src={googleIcon} alt="" />
+      Sign in with Google
+    </button>
+  );
+};
 
 export default SignUp;

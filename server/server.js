@@ -2,14 +2,13 @@ const express = require("express");
 const passport = require('passport');
 const cors = require("cors");
 const bodyParser = require("body-parser");
+var session = require('express-session');
 const path = require("path");
 const config = require("./src/config/config");
 const connectDB = require("./src/config/db");
 const userRouter = require("./src/routes/user.routes");
 const authRouter = require("./src/routes/auth.routes");
-
-// Import and configure Passport strategies
-require('./src/config/passport'); // Make sure this is required to configure Passport strategies
+require('./src/config/passport'); 
 
 const app = express();
 
@@ -24,6 +23,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
+// app.use(session({
+//     secret: 'keyboard cat',
+//     resave: false,
+//     saveUninitialized: false,
+//     store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
+//   }));
+//   app.use(passport.authenticate('session'));
+
 /*========================
         ROUTES
 ==========================*/
@@ -34,15 +41,11 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
-// Example route for digest token (uncomment if needed)
-// app.get("/digest/:token", (req, res) => {
-//   const { token } = req.params;
-//   // Handle token logic here
-// });
+
 
 const start = async () => {
     try {
-        await connectDB(); // Connect to the database
+        await connectDB(); 
         app.listen(config.port, () => {
             console.log(`App running on port ${config.port}`);
         });
