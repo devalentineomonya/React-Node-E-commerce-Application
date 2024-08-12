@@ -1,4 +1,4 @@
-const emailPage = (title, message, description, code, token, userId) => {
+const emailPage = (title, message, description, code, token, userId, action) => {
     return (
         `
         <!DOCTYPE html>
@@ -73,8 +73,8 @@ const emailPage = (title, message, description, code, token, userId) => {
 <body style="background-color: #e9ecef;">
 
     <div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
-        ${message}
-        ${code}
+        ${description}
+       
     </div>
 
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -83,7 +83,7 @@ const emailPage = (title, message, description, code, token, userId) => {
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td align="center" valign="top" style="padding: 36px 24px;">
-                            <img src="https://www.blogdesire.com/wp-content/uploads/2019/07/blogdesire-1.png" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
+                            <img src="https://neonize.gumlet.io/wp-content/uploads/2022/08/Shopping-Cart_light.jpg" alt="Logo" border="0" width="64" style="display: block; width: 64px;border-radius:50%; max-width: 64px; min-width: 64px;">
                         </td>
                     </tr>
                 </table>
@@ -107,26 +107,25 @@ const emailPage = (title, message, description, code, token, userId) => {
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                            <p style="margin: 0;">${description}</p>
+                            <p style="margin: 0 auto;text-align: center;">${description}</p>
                         </td>
                     </tr>
-
-                    <tr>
-                        <td align="center" bgcolor="#ffffff" style="padding: 24px;">
-                            <h2 style="margin: 0; font-size: 24px; font-weight: 700;">Your verification code is:</h2>
-                            <h1 style="margin: 10px 0 0; font-size: 32px; font-weight: 700;">${code}</h1>
-                        </td>
-                    </tr>
-
-                    <tr>
+                ${action !== "reset" ? `<tr>
+            <td align="center" bgcolor="#ffffff" style="padding: 24px;">
+                <h2 style="margin: 0; font-size: 24px; font-weight: 700;">${message}</h2>
+                <h1 style="margin: 15px 0 0; font-size: 32px; font-weight: 700;letter-spacing:10px;">${code}</h1>
+            </td>
+        </tr>` : ""
+        }
+                  <tr>
                         <td align="left" bgcolor="#ffffff">
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td align="center" bgcolor="#ffffff" style="padding: 12px;">
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td align="center" bgcolor="#28a745" style="border-radius: 6px;">
-                                                    <a href="http://localhost:8000?token=${token}&userId=${userId}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Auto Verify</a>
+                                                <td align="center" bgcolor="#003d29" style="border-radius: 6px;">
+                                                    <a href="http://localhost:8000/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank" style="display: inline-block; padding: 16px 40px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Auto Verify</a>
                                                 </td>
                                             </tr>
                                         </table>
@@ -139,7 +138,7 @@ const emailPage = (title, message, description, code, token, userId) => {
                     <tr>
                         <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                             <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
-                            <p style="margin: 0; word-wrap: break-word;"><a href="http://localhost:8000?token=${token}&userId=${userId}" target="_blank">http://localhost:8000?token=${token}&userId=${userId}</a></p>
+                            <p style="margin: 0; word-wrap: break-word;"><a href="http://localhost:8000/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank">http://localhost:8000/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}</a></p>
                         </td>
                     </tr>
 
@@ -158,7 +157,8 @@ const emailPage = (title, message, description, code, token, userId) => {
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-                            <p style="margin: 0;">You received this email because we received a signup request for your account. If you didn't request for signup, you can safely delete this email.</p>
+                            <p style="margin: 0;">You received this email because we received a ${action === "verify " ? "sign up " : action === "reset" ? "password reset" : ""} request for your account. If you didn't request for ${action === "verify " ? "sign up " : action === "reset" ? "password reset" : ""} , you can safely delete this email.</p>
+                            <p style="margin: 0;">Don't publicly share the code in this email</p>
                         </td>
                     </tr>
 
