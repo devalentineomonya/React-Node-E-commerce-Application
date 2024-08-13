@@ -1,5 +1,5 @@
 .loginsignup {
-    @apply   h-[calc(100vh-15rem)] w-full mt-12 rounded-lg ;
+    @apply h-[calc(100vh-15rem)] w-full mt-12 rounded-lg ;
     -webkit-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
     -moz-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
     box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
@@ -7,7 +7,7 @@
 
 .loginsignup-container {
 
-    @apply  h-full w-full rounded-md  flex justify-between;
+    @apply  h-full w-full rounded-md  flex justify-between ;
 }
 .login-signup-image{
     @apply flex-1 w-1/2 h-full overflow-hidden hidden lg:block
