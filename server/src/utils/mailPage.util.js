@@ -125,7 +125,7 @@ const emailPage = (title, message, description, code, token, userId, action) => 
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td align="center" bgcolor="#003d29" style="border-radius: 6px;">
-                                                    <a href="http://localhost:8000/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank" style="display: inline-block; padding: 16px 40px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Auto Verify</a>
+                                                    <a href="http:tf55555se3t5localhost:8000/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank" style="display: inline-block; padding: 16px 40px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Auto Verify</a>
                                                 </td>
                                             </tr>
                                         </table>
