@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { loginWithPassword } from "../../../app/features/auth/authSlice";
 import MainLayout from "../common/MainLayout/MainLayout";
+import { useLoginWithGoogleQuery } from "../../../app/features/auth/authAPI";
 
 const SignUp = () => {
   const signUpSchema = Yup.object().shape({
@@ -65,7 +66,7 @@ const SignUp = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout overflow>
       <div className="loginsignup">
     <div className="loginsignup-container">
       <div className="login-signup-image">
@@ -188,8 +189,9 @@ const SignUp = () => {
 };
 
 export const SignInWithGoogle = () => {
+
   return (
-    <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50">
+    <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50" onClick={useLoginWithGoogleQuery}>
       <img src={googleIcon} alt="" />
       Sign in with Google
     </button>

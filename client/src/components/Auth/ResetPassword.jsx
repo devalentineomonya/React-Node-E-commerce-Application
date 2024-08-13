@@ -8,19 +8,19 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import MainLayout from "../common/MainLayout/MainLayout";
 import { useDispatch } from "react-redux";
-import { useRequestPasswordResetMutation } from "../../../app/features/auth/authAPI";
+import { useResetPasswordMutation } from "../../../app/features/auth/authAPI";
 import { requestPasswordReset } from "../../../app/features/auth/authSlice";
 import { toast } from "react-toastify";
 
-const PasswordReset = () => {
+const ResetPassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [requestReset, { isLoading }] = useRequestPasswordResetMutation();
+  const [reset, { isLoading }] = useResetPasswordMutation()
  
 
 
 
-  const passwordResetSchema = Yup.object().shape({
+  const resetPasswordSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
@@ -29,7 +29,7 @@ const PasswordReset = () => {
   const onRequestSubmit = async (values, { setSubmitting }) => {
     setSubmitting(true);
     try {
-      const response = await requestReset(values);
+      const response = await reset(values);
       dispatch(requestPasswordReset(response));
      
       toast.error(response?.error?.data?.message)
@@ -59,7 +59,7 @@ const PasswordReset = () => {
               initialValues={{
                 email: "",
               }}
-              validationSchema={passwordResetSchema}
+              validationSchema={resetPasswordSchema}
               onSubmit={onRequestSubmit}
             >
               {({ handleChange, values, isSubmitting }) => (
@@ -132,4 +132,4 @@ FormCancelButton.propTypes = {
   navigate: PropTypes.func,
 };
 
-export default PasswordReset;
+export default ResetPassword;

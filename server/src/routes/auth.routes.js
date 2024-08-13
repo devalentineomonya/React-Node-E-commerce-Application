@@ -11,9 +11,9 @@ authRouter
     .get('/google/callback', passport.authenticate('google', { session: false, failureRedirect: '/' }), googleCallback)
     .get("/verify", verifyUser)
     .post("/verify", authMiddleware, verifyUser)
-    .get("/resendcode", authMiddleware, regenerateVerificationCode)
-    .get("/getpasswordresetcode", requestPasswordReset)
-    .get("/resetpassword",resetPassword)
+    .post("/resendcode", authMiddleware, regenerateVerificationCode)
+    .post("/getpasswordresetcode", requestPasswordReset)
+    .post("/resetpassword",resetPassword)
 
 // Password Authenticatio
 authRouter.post('/loginWithPassword', loginWithPassword);

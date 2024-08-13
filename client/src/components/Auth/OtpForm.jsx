@@ -62,7 +62,7 @@ const OtpForm = () => {
     }
   };
   return (
-    <MainLayout>
+    <MainLayout overflow>
       <div className="loginsignup">
     <div className="loginsignup-container">
       <div className="login-signup-image">

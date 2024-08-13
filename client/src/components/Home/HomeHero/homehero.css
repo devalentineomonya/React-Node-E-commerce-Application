@@ -11,10 +11,10 @@
     @apply flex justify-between items-center px-5 h-full lg:flex-row flex-col
 }
 .home-hero-content{
-    @apply flex-1 h-1/2 w-full sm:w-2/3
+    @apply flex-1 h-1/2 w-full sm:w-2/3  md:mt-0 mt-5
 }
 .home-hero-content h2{
-    @apply text-6xl font-bold text-customGreen
+    @apply text-4xl md:text-6xl font-bold text-customGreen
 }
 .home-hero-content p{
     @apply mt-8 text-lg  

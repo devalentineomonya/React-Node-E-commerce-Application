@@ -5,61 +5,62 @@ import { useSelector } from "react-redux";
 
 const Home = lazy(() => import("./pages/home/Home"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
-const SignUp = lazy(()=> import("./components/Auth/SignUp"))
-const SignIn = lazy(()=> import("./components/Auth/SignIn"))
+const SignUp = lazy(() => import("./components/Auth/SignUp"));
+const SignIn = lazy(() => import("./components/Auth/SignIn"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
-const OtpForm = lazy(()=> import("./components/Auth/OtpForm"))
-const UserRedirect = lazy(() => import("./hooks/useRedirect"));
+const OtpForm = lazy(() => import("./components/Auth/OtpForm"));
 const MyAccount = lazy(() => import("./pages/MyAccount/MyAccount"));
-const PasswordReset = lazy(()=> import("./components/Auth/PasswordReset"))
+const PasswordReset = lazy(() => import("./components/Auth/PasswordReset"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails/ProductDetails"));
 const ProductsLayout = lazy(() => import("./components/common/ProductsLayout/ProductsLayout"));
+const UserRedirect = lazy(() => import("./hooks/useRedirect"));
 
 const Router = () => {
   const user = useSelector((state) => state.auth.user);
-  
-const redirectTo = localStorage.getItem("redirectTo") ?? "/"
+  const redirectTo = localStorage.getItem("redirectTo") ?? "/";
+
   const requireAuth = (component) => {
     if (!user) {
-      return <UserRedirect to="/auth/login" />;
+      return <UserRedirect to="/auth/signin" />;
     } else if (!user.isActive) {
       return <UserRedirect to="/auth/verify" />;
     }
     return component;
   };
 
-  const isLoggedIn = (component)=>{
-    if(user){
-      if(!user.isActive){
-        return <UserRedirect to="/auth/verify"/>
+  const isLoggedIn = (component) => {
+    if (user) {
+      if (!user.isActive) {
+        return <UserRedirect to="/auth/verify" />;
       }
-      return <Navigate to={redirectTo}/>
-    }else{
-      return component
+      return <Navigate to={redirectTo} />;
     }
-  }
+    return component;
+  };
 
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<ProductsLayout />} />
-        <Route path="/auth" element={<Navigate to="/auth/login" />} />
-        <Route path="/cart" element={requireAuth(<Cart />)} />
         <Route path="/deals" element={<ProductsLayout />} />
         <Route path="/search" element={<ProductsLayout />} />
-        <Route path="/profile" element={<Navigate to="me" />} />
-        <Route path="/auth/login" element={<SignIn />} />
-        <Route path="/my-account" element={requireAuth(<MyAccount />)} />
-        <Route path="/auth/verify" element={isLoggedIn(<OtpForm />)} />
-        <Route path="/auth/signup" element={isLoggedIn(<SignUp />)} />
-        <Route path="/auth/signin" element={isLoggedIn(<SignIn />)} />
         <Route path="/new-products" element={<ProductsLayout />} />
-        <Route path="/auth/register" element={isLoggedIn(<SignUp />)} />
-        <Route path="/auth/resetpassword" element={isLoggedIn(<PasswordReset />)} />
+        <Route path="/cart" element={requireAuth(<Cart />)} />
+        <Route path="/profile" element={<Navigate to="me" />} />
+        <Route path="/profile/:profilePage" element={requireAuth(<Profile />)} />
+        <Route path="/profile/:profilePage/:pageAction" element={requireAuth(<Profile />)} />
         <Route path="/product/:productId" element={<ProductDetails />} />
-        <Route path="profile/:profilePage" element={requireAuth(<Profile />)} />
-        <Route path="profile/:profilePage/:pageAction" element={requireAuth(<Profile />)} />
+        <Route path="/my-account" element={requireAuth(<MyAccount />)} />
+
+        {/* Authentication Routes */}
+        <Route path="/auth" element={<Navigate to="/auth/signin" />} />
+        <Route path="/auth/signin" element={isLoggedIn(<SignIn />)} />
+        <Route path="/auth/login" element={isLoggedIn(<SignIn />)} />
+        <Route path="/auth/signup" element={isLoggedIn(<SignUp />)} />
+        <Route path="/auth/register" element={<Navigate to="/auth/signup" />} />
+        <Route path="/auth/verify" element={isLoggedIn(<OtpForm />)} />
+        <Route path="/auth/reset-password" element={isLoggedIn(<PasswordReset />)} />
       </Routes>
     </Suspense>
   );

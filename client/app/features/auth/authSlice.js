@@ -20,13 +20,13 @@ const authSlice = createSlice({
       state.user = action.payload.data;
       state.token = action.payload.token;
       localStorage.setItem('token', state.token);
-      localStorage.setItem('userId', state.user.id); 
+      localStorage.setItem('userId', state.user._id); 
     },
     loginWithGoogle(state, action) {
       state.user = action.payload.data;
       state.token = action.payload.token;
       localStorage.setItem('token', state.token);
-      localStorage.setItem('userId', state.user.id); 
+      localStorage.setItem('userId', state.user._id); 
     },
     logout(state) {
       state.user = null;

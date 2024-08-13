@@ -17,10 +17,10 @@ const NavbarLeft = ({
 }) => {
   const user = useSelector((state) => state.auth.user);
   const profileLink = user
-  ? user.isActive
-    ? "/profile/me"
-    : "/auth/verify"
-  : "/auth/login";
+    ? user.isActive
+      ? "/profile/me"
+      : "/auth/verify"
+    : "/auth/login";
   return (
     <div className="nav-left">
       <div
@@ -32,7 +32,7 @@ const NavbarLeft = ({
           }
         }}
       >
-        <AiOutlineSearch size={18} />
+        <AiOutlineSearch size={20} />
         {searching && (
           <div className={`${mobileScreen ? "mobile-search" : ""}`}>
             <input
@@ -64,23 +64,23 @@ const NavbarLeft = ({
         )}
       </div>
       <Link to={profileLink} title="Profile" aria-label="Profile">
-      <div className="nav-left-item">
-        {user ? (
-          <>
-            <TbUserCheck />
-            {!mobileScreen && user.firstName}
-          </>
-        ) : (
-          <>
-            <AiOutlineUser />
-            {!mobileScreen && "Account"}
-          </>
-        )}
-      </div>
-    </Link>
+        <div className="nav-left-item">
+          {user ? (
+            <>
+              <TbUserCheck size={20} />
+              {!mobileScreen && user.firstName}
+            </>
+          ) : (
+            <>
+              <AiOutlineUser size={20} />
+              {!mobileScreen && "Account"}
+            </>
+          )}
+        </div>
+      </Link>
       <Link to="/cart" title="Cart" aria-label="Cart">
         <div className="nav-left-item">
-          <BsCartPlus />
+          <BsCartPlus size={20} />
           {!mobileScreen && "Cart"}
         </div>
       </Link>
@@ -93,7 +93,7 @@ const NavbarLeft = ({
           }
         }}
       >
-        <HiOutlineMenuAlt4 />
+        <HiOutlineMenuAlt4 size={20} />
       </div>
     </div>
   );
