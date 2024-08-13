@@ -22,7 +22,7 @@ const generateToken = (verificationCode) => {
 
 /*=======================
 REGISTER USER CONTROLLER
-=========================*/ 
+=========================*/
 
 const registerUser = async (req, res) => {
     try {
@@ -70,21 +70,28 @@ const registerUser = async (req, res) => {
 
 /*=======================
 GET USER CONTROLLER
-=========================*/ 
+=========================*/
 
 const getUser = async (req, res) => {
     const userId = req.params.userId
     if (!userId) return res.status(400).json({ success: false, message: "UserId is required" })
-    const user = await userModel.findById(userId);
-    if (!user) return res.status(400).json({ success: false, message: "User with specified id was not found" })
-    const userObject = user.toObject()
+    try {
+        const user = await userModel.findById(userId);
+        if (!user) return res.status(400).json({ success: false, message: "User with specified id was not found" })
+        const userObject = user.toObject()
 
-    delete userObject.password
-    delete userObject.verificationCode
-    delete userObject.verificationCodeExpires
-    delete userObject.passwordResetCode;
-    delete userObject.passwordResetCodeExpires
-    res.status(200).json({ success: true, message: "User queried successfully", data: userObject })
+        delete userObject.password
+        delete userObject.verificationCode
+        delete userObject.verificationCodeExpires
+        delete userObject.passwordResetCode;
+        delete userObject.passwordResetCodeExpires
+        res.status(200).json({ success: true, message: "User queried successfully", data: userObject })
+    } catch (error) {
+        res.status(500).json({ success: false, message: "An error occurred while querying user data.", error: error.message });
+    }
+
+
+
 }
 
 
