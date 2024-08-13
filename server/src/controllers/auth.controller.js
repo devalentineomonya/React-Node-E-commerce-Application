@@ -87,7 +87,7 @@ const googleCallback = (req, res) => {
 
             res.status(200).json({
                 success: true,
-                token: `Bearer ${token}`,
+                token,
                 user: userObject
             });
         } catch (error) {
