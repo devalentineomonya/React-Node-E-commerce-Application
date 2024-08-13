@@ -20,16 +20,19 @@ const authSlice = createSlice({
       state.user = action.payload.data;
       state.token = action.payload.token;
       localStorage.setItem('token', state.token);
+      localStorage.setItem('userId', state.user.id); 
     },
     loginWithGoogle(state, action) {
       state.user = action.payload.data;
       state.token = action.payload.token;
       localStorage.setItem('token', state.token);
+      localStorage.setItem('userId', state.user.id); 
     },
     logout(state) {
       state.user = null;
       state.token = null;
       localStorage.removeItem('token');
+      localStorage.removeItem('userId'); 
     },
     verifyWithToken(state, action) {
       state.verificationStatus = action.payload.success;
@@ -57,6 +60,15 @@ const authSlice = createSlice({
     setAuthError(state, action) {
       state.error = action.payload.data;
     },
+    setUser(state, action) {
+      state.user = action.payload;
+    },
+    clearUser(state) {
+      state.user = null;
+      state.token = null;
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId'); 
+    },
   },
 });
 
@@ -70,7 +82,9 @@ export const {
   resetPassword, 
   regenerateVerificationCode, 
   setAuthLoading, 
-  setAuthError 
+  setAuthError, 
+  setUser, 
+  clearUser 
 } = authSlice.actions;
 
 export default authSlice.reducer;

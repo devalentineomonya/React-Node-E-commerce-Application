@@ -13,10 +13,21 @@ export const userApi = createApi({
                 body: userDataPayload
             })
 
-        })
+        }),
+        fetchUserData: builder.query({
+            query: (userId) => {
+                console.log(userId)
+                return ({
+              url: `/get/${userId}`, 
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`, 
+              },
+            })},
+          }),
     })
 
 
 
 })
-export const { useRegisterUserMutation} = userApi
+export const { useRegisterUserMutation, useFetchUserDataQuery} = userApi

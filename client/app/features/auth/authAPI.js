@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8000/api/auth', // Dynamically set the base URL
+    baseUrl: 'http://localhost:8000/api/auth',
   }),
   endpoints: (builder) => ({
     loginWithPassword: builder.mutation({
@@ -32,7 +32,7 @@ export const authApi = createApi({
     requestPasswordReset: builder.mutation({
       query: (userDataPayload) => ({
         url: '/getpasswordresetcode',
-        method: 'POST', // Changed to POST
+        method: 'POST', 
         body: userDataPayload,
       }),
     }),
@@ -40,7 +40,7 @@ export const authApi = createApi({
     resetPassword: builder.mutation({
       query: (userDataPayload) => ({
         url: '/resetpassword',
-        method: 'POST', // Changed to POST
+        method: 'POST', 
         body: userDataPayload,
       }),
     }),
@@ -48,9 +48,9 @@ export const authApi = createApi({
     resendVerificationCode: builder.mutation({
       query: (userDataPayload) => ({
         url: '/resendcode',
-        method: 'POST', // Changed to POST
+        method: 'POST', 
         headers: {
-          Authorization: `Bearer ${userDataPayload.token}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`, 
         },
         body: userDataPayload,
       }),
@@ -64,15 +64,16 @@ export const authApi = createApi({
     }),
 
     verifyWithCode: builder.mutation({
-      query: (userDataPayload) => ({
+      query: (verificationCode) => ({
         url: '/verify',
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${userDataPayload.token}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`, 
         },
-        body: userDataPayload,
+        body: verificationCode,
       }),
     }),
+    
   }),
 });
 
