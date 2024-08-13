@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useLayoutEffect, useRef } from "react";
+import MainLayout from "../common/MainLayout/MainLayout";
 
 const PasswordReset = () => {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ const PasswordReset = () => {
   });
 
   return (
+    <MainLayout>
+      <div className="loginsignup">
     <div className="loginsignup-container">
       <div className="login-signup-image" ref={textDisplay}>
         <img src={resetPassword} loading="lazy" alt="Reset Password" />
@@ -79,6 +82,8 @@ const PasswordReset = () => {
         <FormCancelButton navigate={navigate} />
       </div>
     </div>
+    </div>
+    </MainLayout>
   );
 };
 
