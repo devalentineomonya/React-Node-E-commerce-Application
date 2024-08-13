@@ -15,12 +15,13 @@ import {
 } from "../../../app/features/auth/authSlice";
 import { useLoginWithPasswordMutation } from "../../../app/features/auth/authAPI";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import MainLayout from "../common/MainLayout/MainLayout";
+
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [login, { data, isLoading, error }] = useLoginWithPasswordMutation();
+  const [login, { isLoading }] = useLoginWithPasswordMutation();
 
   const signInSchema = Yup.object().shape({
     email: Yup.string()
@@ -36,16 +37,18 @@ const SignIn = () => {
     try {
       const response = await login(values).unwrap();
       await dispatch(loginWithPassword(response));
+      toast.success(response.message);
+
 
       const pathTo = localStorage.getItem("redirectTo") ?? "/";
       localStorage.removeItem("redirectTo");
       if (!response.data.isActive) navigate("/auth/verify");
       else navigate(pathTo);
 
-      toast.success(response.message);
     } catch (err) {
       dispatch(setAuthError(err.data));
       toast.error(err.data.message);
+      
     } finally {
       setSubmitting(false);
       dispatch(setAuthLoading(false));
@@ -53,7 +56,10 @@ const SignIn = () => {
   };
 
   return (
+    <MainLayout>
+      <div className="loginsignup">
     <div className="loginsignup-container">
+     
       <div className="login-signup-form">
         <div className="login-sign-text">
           <img src={logo} alt="Logo" />
@@ -143,6 +149,8 @@ const SignIn = () => {
         <img src={signInImage} loading="lazy" alt="Sign In" />
       </div>
     </div>
+    </div>
+    </MainLayout>
   );
 };
 
