@@ -16,14 +16,14 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
       return onOtpSubmit(combinedOtp);
     }
     if (value && index < length - 1 && inputRefs.current[index + 1]) {
-      inputRefs.current[index + 1].focus();
+      inputRefs.current[index + 1]?.focus();
     }
   };
 
   const onOtpClick = (index) => {
     inputRefs.current[index].setSelectionRange(1, 1);
     if (index > 0 && !setOtpValue[index - 1]) {
-      inputRefs.current[otpValue.indexOf("")].focus();
+      inputRefs.current[otpValue.indexOf("")]?.focus();
     }
   };
 
@@ -32,7 +32,7 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
     switch (e.key) {
       case "Backspace":
         if (!otpValue[index] && index > 0 && inputRefs.current[index - 1]) {
-          inputRefs.current[index - 1].focus();
+          inputRefs.current[index - 1]?.focus();
         }
         break;
 
@@ -42,25 +42,25 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
           if (newOtpValue[index + 1]) {
             newOtpValue[index + 1] = "";
             setOtpValue(newOtpValue);
-            inputRefs.current[index + 1].focus();
+            inputRefs.current[index + 1]?.focus();
           }
         }
         break;
 
       case "ArrowRight":
         if (index < length - 1) {
-          inputRefs.current[index + 1].focus();
+          inputRefs.current[index + 1]?.focus();
         }
         break;
 
       case "ArrowLeft":
-        if (index > 0 ) {
-          inputRefs.current[index - 1].focus();
+        if (index > 0) {
+          inputRefs.current[index - 1]?.focus();
         }
         break;
-        case "Enter":
-        onOtpClick(index)
-          break;
+      case "Enter":
+        onOtpClick(index);
+        break;
 
       default:
         break;
@@ -69,7 +69,16 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
 
   const handlePaste = (e) => {
     const pasteData = e.clipboardData.getData("text").slice(0, length);
-    if (/^\d+$/.test(pasteData)) {
+
+    if (/^\d+$/.test(pasteData) && pasteData.length === length) {
+      // Update OTP values
+      const newOtpValues = pasteData.split("").slice(0, length);
+      setOtpValue(newOtpValues);
+
+      // Call onOtpSubmit with the pasted OTP
+      onOtpSubmit(pasteData);
+    } else if (/^\d+$/.test(pasteData)) {
+      // If the pasted data is numeric but not of the correct length, update fields
       const newOtpValues = pasteData.split("").slice(0, length);
       const updatedOtpValues = [...otpValue];
       newOtpValues.forEach((value, index) => {
@@ -79,20 +88,26 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
         updatedOtpValues[i] = "";
       }
       setOtpValue(updatedOtpValues);
+
+      // Focus on the next input field if there are more digits
       const nextInputIndex = Math.min(newOtpValues.length, length - 1);
-      inputRefs.current[nextInputIndex].focus();
+      inputRefs.current[nextInputIndex]?.focus();
     }
+
     e.preventDefault();
   };
 
   useEffect(() => {
     if (inputRefs.current[0]) {
-      inputRefs.current[0].focus();
+      inputRefs.current[0]?.focus();
     }
   }, []);
 
   return (
-    <div onPaste={handlePaste} className="flex flex-nowrap gap-x-2 justify-center items-center">
+    <div
+      onPaste={handlePaste}
+      className="flex flex-nowrap gap-x-2 justify-center items-center"
+    >
       {otpValue?.map((value, index) => (
         <input
           key={index}
@@ -101,12 +116,12 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
           }}
           type="text"
           value={value}
+          name={`otp-${index}`} 
           id={`otp-input-${index}`}
           onChange={(e) => onOtpChange(e, index)}
           onClick={() => onOtpClick(index)}
-          
           onKeyDown={(e) => onOtpKeyDown(e, index)}
-          className="w-8 sm:w-12 aspect-square border-2 border-gray-300 rounded-md  outline-none text-center"
+          className="w-8 sm:w-12 aspect-square border-2 border-gray-300 rounded-md outline-none text-center"
         />
       ))}
     </div>
