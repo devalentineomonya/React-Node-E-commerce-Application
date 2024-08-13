@@ -7,8 +7,28 @@
 }
 
 .swiper > * {
+    @apply flex-none; /* Flexbox item does not grow or shrink */
     flex: 0 0 calc(25% - 10px);
     margin: 0 5px;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 1200px) {
+    .swiper > * {
+        flex: 0 0 calc(33.33% - 10px);
+    }
+}
+
+@media (max-width: 900px) {
+    .swiper > * {
+        flex: 0 0 calc(50% - 10px);
+    }
+}
+
+@media (max-width: 600px) {
+    .swiper > * {
+        flex: 0 0 calc(100% - 10px);
+    }
 }
 
 .progress-bar {
