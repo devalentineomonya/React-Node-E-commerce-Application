@@ -8,14 +8,15 @@ import logo from "../../assets/images/logo_big.png";
 import { Link, useNavigate } from "react-router-dom";
 import googleIcon from "../../assets/images/google.png";
 import {
-  registerUser,
+  // registerUser,
   setRegisterError,
   setRegisterLoading,
 } from "../../../app/features/user/userSlice";
 import { useRegisterUserMutation } from "../../../app/features/user/userAPI";
 import { useDispatch } from "react-redux";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import the CSS for toast styling
+import { toast } from "react-toastify";
+import { loginWithPassword } from "../../../app/features/auth/authSlice";
+import MainLayout from "../common/MainLayout/MainLayout";
 
 const SignUp = () => {
   const signUpSchema = Yup.object().shape({
@@ -33,7 +34,7 @@ const SignUp = () => {
       .required("Password is required"),
   });
 
-  const [register, { data, isLoading, error }] = useRegisterUserMutation();
+  const [register, { isLoading }] = useRegisterUserMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -41,7 +42,8 @@ const SignUp = () => {
     dispatch(setRegisterLoading(true));
     try {
       const response = await register(values).unwrap();
-      await dispatch(registerUser(response));
+      await dispatch(loginWithPassword(response));
+      toast.success(response.message);        
 
       const pathTo = localStorage.getItem("redirectTo") ?? "/";
       localStorage.removeItem("redirectTo");
@@ -52,9 +54,6 @@ const SignUp = () => {
         navigate(pathTo);
       }
 
-      // Show success toast
-      toast.success(response.message);
-      console.log(response)
     } catch (err) {
       // Show error toast
       toast.error(err.data.message || "An error occurred. Please try again.");
@@ -66,8 +65,9 @@ const SignUp = () => {
   };
 
   return (
+    <MainLayout>
+      <div className="loginsignup">
     <div className="loginsignup-container">
-       <ToastContainer position="top-center" /> 
       <div className="login-signup-image">
         <img src={signUpImage} loading="lazy" alt="Sign Up" />
       </div>
@@ -182,6 +182,8 @@ const SignUp = () => {
         </p>
       </div>
     </div>
+    </div>
+    </MainLayout>
   );
 };
 
