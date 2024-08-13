@@ -109,7 +109,7 @@ const footerLinks = [
       },
       {
         name: "Account Sign up",
-        href: "Auth/Login",
+        href: "auth/Login",
       },
     ],
   },
