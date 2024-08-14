@@ -2,6 +2,10 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import AccountFormInput from "./AccountFormInput";
 import { subYears } from 'date-fns'; 
+import { useSelector } from "react-redux";
+import { useState } from 'react';
+import { BsArrowLeft } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 const validationSchema = Yup.object({
   firstName: Yup.string()
     .min(3, 'First Name must be at least 3 characters')
@@ -31,31 +35,41 @@ const validationSchema = Yup.object({
 
 
 const AccountForm = () => {
+  const user = useSelector(state=>state.auth.user)
+  console.log(user)
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      middleName: '',
-      email: '',
-      gender: '',
-      dateOfBirth: '',
-      phoneNumber: '',
+      firstName: user?.firstName ?? "",
+      lastName: user?.lastName ?? "",
+      middleName: user?.middleName ?? "",
+      email:  user?.email ?? "",
+      gender: user?.gender ?? "",
+      dateOfBirth: user?.dateOfBirth ?? "",
+      phoneNumber: user?.primaryPhoneNumber ?? "",
     },
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
     },
   });
+  const [editForm, setEditForm] = useState(false)
+  const [formChanged, setFormChanged] = useState(false)
+  const navigate = useNavigate()
 
   return (
-    <div className="min-h-[50vh] shadow-lg p-8">
-      <div>
-        <h2>Profile Details</h2>
-        <button type="button">Edit Profile</button>
+    <div className="min-h-[50vh] shadow-lg p-8 rounded-md">
+      <div className='flex justify-between items-center'>
+      <div className='flex items-center gap-x-3'>
+        <BsArrowLeft size={30} onClick={()=>navigate("/profile/me")} className='cursor-pointer'/>
+        <h2 className='text-xl font-semibold text-gray-800 '>Profile Details</h2>
+        
       </div>
-      <form onSubmit={formik.handleSubmit}>
+        <button className="bg-gray-50 text-orange-600 px-3 py-1 text-lg font-medium" onClick={()=>setEditForm(prev=>!prev)}>{editForm ? "Lock Form" : "Edit Form"}</button>
+      </div>
+      <form onSubmit={formik.handleSubmit} onChange={()=>setFormChanged(true)}>
         <div>
           <AccountFormInput
+          readOnly={!editForm}
             name="firstName"
             label="First Name"
             value={formik.values.firstName}
@@ -69,8 +83,10 @@ const AccountForm = () => {
 
         <div>
           <AccountFormInput
+          readOnly={!editForm}
             name="lastName"
             label="Last Name"
+            
             value={formik.values.lastName}
             onInputChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -82,6 +98,7 @@ const AccountForm = () => {
 
         <div>
           <AccountFormInput
+          readOnly={!editForm}
             name="middleName"
             label="Middle Name"
             value={formik.values.middleName}
@@ -95,6 +112,7 @@ const AccountForm = () => {
 
         <div>
           <AccountFormInput
+          readOnly={!editForm}
             name="email"
             label="Email"
             value={formik.values.email}
@@ -108,6 +126,7 @@ const AccountForm = () => {
 
         <div>
           <AccountFormInput
+          readOnly={!editForm}
             name="gender"
             label="Gender"
             value={formik.values.gender}
@@ -121,6 +140,7 @@ const AccountForm = () => {
 
         <div>
           <AccountFormInput
+          readOnly={!editForm}
             name="dateOfBirth"
             label="Date of Birth"
             type="date"
@@ -135,6 +155,7 @@ const AccountForm = () => {
 
         <div>
           <AccountFormInput
+          readOnly={!editForm}
             name="phoneNumber"
             label="Phone Number"
             value={formik.values.phoneNumber}
@@ -145,8 +166,11 @@ const AccountForm = () => {
             <div className="validation-error">{formik.errors.phoneNumber}</div>
           ) : null}
         </div>
+        {
 
-        <button type="submit" className="mt-4">Save Changes</button>
+        editForm && <button type="submit" className="mt-4 rounded-md px-6 py-2 bg-green-700 text-white hover:bg-green-600 disabled:bg-slate-700" disabled={!formChanged}>Save Changes</button>
+        }
+
       </form>
     </div>
   );
