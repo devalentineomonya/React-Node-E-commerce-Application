@@ -140,7 +140,7 @@ const emailPage = (title, message, description, code, token, userId, action) => 
                     <tr>
                         <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                             <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
-                            <p style="margin: 0; word-wrap: break-word;"><a href="${serverUrl}/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank">${clientUrl}/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}</a></p>
+                            <p style="margin: 0; word-wrap: break-word;"><a href="${serverUrl}/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank">${serverUrl}/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}</a></p>
                         </td>
                     </tr>
 
