@@ -10,37 +10,38 @@ import {
   useResendVerificationCodeMutation,
   useVerifyWithCodeMutation,
 } from "../../../app/features/auth/authAPI";
-import {
-  Navigate,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import {
   regenerateVerificationCode,
   setAuthError,
   setAuthLoading,
   setUser,
 } from "../../../app/features/auth/authSlice";
+import { useEffect } from "react";
+
 
 const OtpForm = () => {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [verify, { isLoading: isVerifying }] = useVerifyWithCodeMutation();
   const [resendCode, { isLoading }] = useResendVerificationCodeMutation();
   const user = useSelector((state) => state.auth.user);
-  const search = useSearchParams();
-  const query = useParams();
-  console.log(search);
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
+  
+  const [searchParams] = useSearchParams();
+  
+  const message = searchParams.get("message");
+ 
 
   const fetchUserData = useFetchUserDataQuery(user?._id, {
     skip: !user?._id,
   });
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
   if ((!token && !user && !userId) || user?.isVerified) {
     return <Navigate to="/" replace />;
   }
+
 
   const onOtpSubmit = async (verificationCode) => {
     console.log(verificationCode);
@@ -90,18 +91,13 @@ const OtpForm = () => {
       toast.error(error?.data?.message);
     }
   };
-  console.log(user);
-  // console.log(message)
-  // window.addEventListener("load", () => {
-  //   setTimeout(() => {
-  //     if (message && !user.) {
-  //       toast.error(message);
-  //       alert("Hello world");
-  //       console.log("Loaded")
-  //       console.log(message)
-  //     }
-  //   }, 2000);
-  // });
+
+  useEffect(() => {
+    if (message && !user?.isVerified) {
+      toast.error(message);
+      navigate("/auth/verify", { replace: true });
+    }
+  }, [message, user.isVerified, navigate]);
 
   return (
     <MainLayout overflow>

@@ -166,7 +166,7 @@ const emailPage = (title, message, description, code, token, userId, action) => 
 
                     <tr>
                         <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-                            <p style="margin: 0;">To stop receiving these emails, you can <a href="${clientUrl}/unsubscribe" target="_blank">unsubscribe</a> at any time.</p>
+                            <p style="margin: 0;">To stop receiving these emails, you can <a href="${clientUrl}/unsubscribeff5r5" target="_blank">unsubscribe</a> at any time.</p>
                             <p style="margin: 0;">DevalShoppingCart, Nairobi Kenya</p>
                         </td>
                     </tr>
