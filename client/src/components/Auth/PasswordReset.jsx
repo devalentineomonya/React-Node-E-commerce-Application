@@ -107,8 +107,8 @@ export const FormCancelButton = ({ navigate }) => {
 
   const onCancel = (e) => {
     e.preventDefault();
-    navigate(pathTo);
     localStorage.removeItem("redirectTo");
+    navigate(pathTo);
   };
 
   return (
