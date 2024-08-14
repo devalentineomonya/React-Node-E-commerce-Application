@@ -42,7 +42,7 @@ const SignIn = () => {
 
       const pathTo = localStorage.getItem("redirectTo") ?? "/";
       localStorage.removeItem("redirectTo");
-      if (!response.data.isActive) navigate("/auth/verify");
+      if (!response.data.isVerified) navigate("/auth/verify");
       else navigate(pathTo);
 
     } catch (err) {

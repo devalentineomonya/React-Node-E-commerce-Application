@@ -49,7 +49,7 @@ const SignUp = () => {
       const pathTo = localStorage.getItem("redirectTo") ?? "/";
       localStorage.removeItem("redirectTo");
       
-      if (!response.data.isActive) {
+      if (!response.data.isVerified) {
         navigate("/auth/verify");
       } else {
         navigate(pathTo);
