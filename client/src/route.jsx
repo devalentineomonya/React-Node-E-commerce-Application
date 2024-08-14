@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Loading from "./components/common/Loading/Loading";
 import { useSelector } from "react-redux";
-
+import UseRedirect from "./hooks/useRedirect"
 const Home = lazy(() => import("./pages/home/Home"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
 const SignUp = lazy(() => import("./components/Auth/SignUp"));
@@ -13,27 +13,34 @@ const MyAccount = lazy(() => import("./pages/MyAccount/MyAccount"));
 const PasswordReset = lazy(() => import("./components/Auth/PasswordReset"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails/ProductDetails"));
 const ProductsLayout = lazy(() => import("./components/common/ProductsLayout/ProductsLayout"));
-const UserRedirect = lazy(() => import("./hooks/useRedirect"));
 
 const Router = () => {
   const user = useSelector((state) => state.auth.user);
   const redirectTo = localStorage.getItem("redirectTo") ?? "/";
 
+ 
+
+
   const requireAuth = (component) => {
     if (!user) {
-      return <UserRedirect to="/auth/signin" />;
-    } else if (!user.isActive) {
-      return <UserRedirect to="/auth/verify" />;
+      return <UseRedirect to="/auth/signin" />;
+    } else if (!user.isVerified) {
+      return <UseRedirect to="/auth/verify" />;
     }
     return component;
   };
 
+
   const isLoggedIn = (component) => {
     if (user) {
-      if (!user.isActive) {
-        return <UserRedirect to="/auth/verify" />;
+    
+      if (!user.isVerified) {
+     
+        return <Navigate to="/auth/verify" />;
       }
-      return <Navigate to={redirectTo} />;
+      
+      return <Navigate to={redirectTo} replace />;
+    
     }
     return component;
   };
@@ -59,7 +66,7 @@ const Router = () => {
         <Route path="/auth/login" element={isLoggedIn(<SignIn />)} />
         <Route path="/auth/signup" element={isLoggedIn(<SignUp />)} />
         <Route path="/auth/register" element={<Navigate to="/auth/signup" />} />
-        <Route path="/auth/verify" element={isLoggedIn(<OtpForm />)} />
+        <Route path="/auth/verify" element={<OtpForm />} />
         <Route path="/auth/reset-password" element={isLoggedIn(<PasswordReset />)} />
       </Routes>
     </Suspense>
