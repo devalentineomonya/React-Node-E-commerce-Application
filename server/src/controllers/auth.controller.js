@@ -5,7 +5,7 @@ const userModel = require("../models/user.model");
 const config = require("../config/config");
 const { generateToken, generateCode } = require("./user.controller");
 const { sendVerificationEmail } = require("./mail.controller");
-const { clientUrl } = require("../utils/clientUrl");
+const { clientUrl } = require("../utils/url.util");
 
 
 /*=============================
