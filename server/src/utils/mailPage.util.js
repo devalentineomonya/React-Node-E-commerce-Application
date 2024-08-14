@@ -1,3 +1,5 @@
+const { clientUrl } = require("./clientUrl");
+
 const emailPage = (title, message, description, code, token, userId, action) => {
     return (
         `
@@ -125,7 +127,7 @@ const emailPage = (title, message, description, code, token, userId, action) => 
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td align="center" bgcolor="#003d29" style="border-radius: 6px;">
-                                                    <a href="http:tf55555se3t5localhost:8000/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank" style="display: inline-block; padding: 16px 40px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Auto Verify</a>
+                                                    <a href="${clientUrl}/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank" style="display: inline-block; padding: 16px 40px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Auto Verify</a>
                                                 </td>
                                             </tr>
                                         </table>
@@ -138,7 +140,7 @@ const emailPage = (title, message, description, code, token, userId, action) => 
                     <tr>
                         <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                             <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
-                            <p style="margin: 0; word-wrap: break-word;"><a href="http://localhost:8000/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank">http://localhost:8000/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}</a></p>
+                            <p style="margin: 0; word-wrap: break-word;"><a href="${clientUrl}/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank">${clientUrl}/${action === "verify " ? "auth/verify" : action === "reset" ? "/auth/resetpassword" : ""}?token=${token}&userId=${userId}</a></p>
                         </td>
                     </tr>
 
@@ -164,7 +166,7 @@ const emailPage = (title, message, description, code, token, userId, action) => 
 
                     <tr>
                         <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-                            <p style="margin: 0;">To stop receiving these emails, you can <a href="https://your_unsubscribe_url" target="_blank">unsubscribe</a> at any time.</p>
+                            <p style="margin: 0;">To stop receiving these emails, you can <a href="${clientUrl}/unsubscribe" target="_blank">unsubscribe</a> at any time.</p>
                             <p style="margin: 0;">DevalShoppingCart, Nairobi Kenya</p>
                         </td>
                     </tr>

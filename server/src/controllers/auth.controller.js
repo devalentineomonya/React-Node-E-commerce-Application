@@ -5,11 +5,12 @@ const userModel = require("../models/user.model");
 const config = require("../config/config");
 const { generateToken, generateCode } = require("./user.controller");
 const { sendVerificationEmail } = require("./mail.controller");
+const { clientUrl } = require("../utils/clientUrl");
 
 
 /*=============================
 LOGIN WITH PASSWORD CONTROLLER
-=================================*/ 
+=================================*/
 
 const loginWithPassword = async (req, res) => {
     const { email, password } = req.body;
@@ -18,13 +19,13 @@ const loginWithPassword = async (req, res) => {
         const user = await userModel.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({ success: false, message: "User not found." });
+            return res.status(404).json({ success: false, message: "Wrong username or password" });
         }
         if (user.googleId) return res.status(400).json({ success: false, message: "Password Authentication is not allowed for this account. Try logging in with google" })
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.status(400).json({ success: false, message: "Invalid credentials." });
+            return res.status(400).json({ success: false, message: "Wrong username or password" });
         }
         const userObject = user.toObject();
 
@@ -37,7 +38,8 @@ const loginWithPassword = async (req, res) => {
         const payload = {
             id: user._id,
             email: user.email,
-            isActive: user.isActive,
+            isVerified: user.isVerified,
+            isActive:user.isActive
         };
 
 
@@ -56,7 +58,7 @@ const loginWithPassword = async (req, res) => {
 
 /*=============================
 GOOGLE CALLBACK CONTROLLER
-=================================*/ 
+=================================*/
 const googleCallback = (req, res) => {
     passport.authenticate('google', { session: false }, async (err, user, info) => {
         if (err) {
@@ -80,7 +82,8 @@ const googleCallback = (req, res) => {
             const payload = {
                 id: user._id,
                 email: user.email,
-                isActive: user.isActive
+                isVerified: user.isVerified,
+                isActive:user.isActive
             };
 
             const token = jwt.sign(payload, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
@@ -99,7 +102,7 @@ const googleCallback = (req, res) => {
 
 /*=============================
 VERIFY TOKEN FUNCTION
-=================================*/ 
+=================================*/
 const verifyToken = async (userId, token) => {
     try {
 
@@ -107,12 +110,12 @@ const verifyToken = async (userId, token) => {
 
 
         if (!user) return { success: false, message: "User not found" }
-        if (user.isActive) return { success: false, message: "Account is already verified" }
+        if (user.isVerified) return { success: true, message: "Account is already verified" }
 
         const hashedCode = generateToken(user.verificationCode)
 
         if (Date.now() > user.verificationCodeExpires) {
-            return { success: false, message: "Verification code has expired." };
+            return { success: false, message: "Verification code has expired.Request a resend for the code" }
         }
         if (hashedCode === token) return ({ success: true, message: "Account Verified Successfully" })
         return { success: false, message: "Invalid Verification Token" }
@@ -126,58 +129,63 @@ const verifyToken = async (userId, token) => {
 
 /*=============================
 VERIFY USER CONTROLLER
-=================================*/ 
+=================================*/
 
 const verifyUser = async (req, res) => {
-    try {
 
-        if (req?.method === "GET") {
-            const { userId, token } = req.query
+    if (req?.method === "GET") {
+        const { userId, token } = req.query
+        try {
 
             if (userId && token) {
                 const result = await verifyToken(userId, token)
                 if (result.success) {
-                    await userModel.findByIdAndUpdate(userId, { isActive: true, verificationCode: null, verificationCodeExpires: null });
-                    res.status(200).json({ success: true, message: "Account verified successfully." });
+                    await userModel.findByIdAndUpdate(userId, { isVerified: true, verificationCode: null, verificationCodeExpires: null });
+                    res.redirect(`${clientUrl}/`)
                 } else {
-                    res.status(400).json(result);
+                    res.redirect(`${clientUrl}/auth/verify?message=${result.message}`)
                 }
             } else {
-                res.status(400).json({ success: false, message: "Invalid userId or verification token" })
+                res.redirect(`${clientUrl}/auth/verify?message=${result.message}`)
             }
+        } catch (error) {
+            res.redirect(`${clientUrl}/auth/verify?message=Internal server error occured while verifying user`)
+        }
+    } else if (req?.method == "POST") {
+        const { verificationCode } = req.body
+        const userId = req.user.id
+        try {
 
-        } else if (req?.method == "POST") {
-            const { verificationCode } = req.body
-            const userId = req.user.id
             const user = await userModel.findById(userId)
 
             if (!user) return res.status(404).json({ success: false, message: "User With Specified Id was not found" })
 
-            if (user.isActive) return res.status(400).json({ success: false, message: "Account is already verified" })
+            if (user.isVerified) return res.status(400).json({ success: false, message: "Account is already verified" })
 
             if (Date.now() > user.verificationCodeExpires) return res.status(400).json({ success: false, message: "Verification code has expired.Request a resend for the code" })
 
 
             if (user.verificationCode === verificationCode) {
-                await userModel.findByIdAndUpdate(userId, { isActive: true, verificationCode: null, verificationCodeExpires: null });
+                await userModel.findByIdAndUpdate(userId, { isVerified: true, verificationCode: null, verificationCodeExpires: null });
                 return (
                     res.status(200).json({ success: true, message: "User Verified successfully" })
                 )
             }
 
             res.status(400).json({ success: false, message: "Invalid verification code" })
-
-
+        } catch (error) {
+            res.status(500).json({ success: false, message: "An error occurred while verifying user", error: error.message })
         }
-    } catch (error) {
-        res.status(500).json({ success: false, message: "An error occurred while verifying user", error: error.message })
-    }
 
-};
+
+    }
+}
+
+
 
 /*=======================================
 REGENERATE VERIFICATION CODE CONTROLLER
-=======================================*/ 
+=======================================*/
 const regenerateVerificationCode = async (req, res) => {
     const userId = req.user.id
     try {
@@ -185,13 +193,13 @@ const regenerateVerificationCode = async (req, res) => {
         if (!userId) return res.status(400).json({ success: false, message: "UserId is required" })
         const user = await userModel.findById(userId)
         if (!user) return res.status(404).json({ success: false, message: "No user with specified id was found" })
-        if (user.isActive) return res.status(400).json({ success: false, message: "User account has already been verified" })
+        if (user.isVerified) return res.status(400).json({ success: false, message: "User account has already been verified" })
 
         const newVerificationCode = generateCode()
 
         const newToken = generateToken(newVerificationCode)
 
-        await userModel.findByIdAndUpdate(userId, { isActive: false, verificationCode: newVerificationCode, verificationCodeExpires: Date.now() + 3 * 24 * 60 * 60 * 1000 });
+        await userModel.findByIdAndUpdate(userId, {isVerified : false, verificationCode: newVerificationCode, verificationCodeExpires: Date.now() + 3 * 24 * 60 * 60 * 1000 });
         await sendVerificationEmail(user.email, user._id, newVerificationCode, newToken, "verify");
         res.status(200).json({ success: true, message: "Verification Code has been sent to your email" })
     } catch (error) {
@@ -202,7 +210,7 @@ const regenerateVerificationCode = async (req, res) => {
 
 /*=======================================
 REQUEST PASSWORD RESET CODE CONTROLLER
-=======================================*/ 
+=======================================*/
 
 const requestPasswordReset = async (req, res) => {
     const { email } = req.body

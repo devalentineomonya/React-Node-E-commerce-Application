@@ -38,7 +38,7 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 
 app.get("/", (req, res) => {
-    res.render("index");
+    res.render("pages/index");
 });
 
 

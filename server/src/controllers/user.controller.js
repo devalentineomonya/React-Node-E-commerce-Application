@@ -37,7 +37,6 @@ const registerUser = async (req, res) => {
             firstName,
             lastName,
             email,
-            primaryPhoneNumber: "0948947447",
             password: hashedPassword,
             verificationCode,
             verificationCodeExpires: Date.now() + 3 * 24 * 60 * 60 * 1000
@@ -50,7 +49,8 @@ const registerUser = async (req, res) => {
         const payload = {
             id: userObject._id,
             email: userObject.email,
-            isActive: userObject.isActive,
+            isVerified: userObject.isVerified,
+            isActive: userObject.isActive
         };
 
 

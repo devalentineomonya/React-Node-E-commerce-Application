@@ -7,13 +7,13 @@ const config = {
   },
   email: {
     service: process.env.EMAIL_SERVICE || 'Gmail',
-    host:process.env.EMAIL_HOST || "smtp.gmail.com",
+    host: process.env.EMAIL_HOST || "smtp.gmail.com",
     user: process.env.EMAIL_USER || 'your-email@gmail.com',
     pass: process.env.EMAIL_PASS || 'your-email-password'
   },
-  google:{
+  google: {
     secret: process.env.GOOGLE_CLIENT_SECRET,
-    clientId:process.env.GOOGLE_CLIENT_ID
+    clientId: process.env.GOOGLE_CLIENT_ID
   },
   jwt: {
     secret: process.env.JWT_SECRET || 'your_jwt_secret_key',
@@ -24,7 +24,10 @@ const config = {
     resave: false,
     saveUninitialized: true
   },
-  
+  env: {
+    dev: process.env.NODE_ENV === 'development',
+    prod: process.env.NODE_ENV === 'production'
+  }
 };
 
 module.exports = config;
