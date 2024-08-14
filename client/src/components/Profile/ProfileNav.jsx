@@ -1,9 +1,19 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import profileNav from "../../assets/data/ProfileNav/ProfileNav";
 import PropTypes from "prop-types"
+import { useDispatch } from "react-redux";
+import { logout } from "../../../app/features/auth/authSlice";
+import { toast } from "react-toastify";
 const ProfileNav = ({showProfileNav}) => {
   const { profilePage } = useParams();
+const dispatch = useDispatch();
+const navigate = useNavigate()
 
+const logoutUser = async ()=>{
+  await dispatch(logout());
+  toast.success("User Logged out successfully")
+  navigate("/")
+}
   return (
     <nav  className={`profile-nav ${
         showProfileNav ? "left-0" : "-left-96"
@@ -34,7 +44,7 @@ const ProfileNav = ({showProfileNav}) => {
         <Link to="/auth/deactivate" className="profile-nav-item">
           Deactivate Account
         </Link>
-        <button>LOGOUT</button>
+        <button onClick={logoutUser}>LOGOUT</button>
     </nav>
   );
 };
