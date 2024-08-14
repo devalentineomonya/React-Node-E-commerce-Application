@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-const AccountFormInput = ({ name, index, type, value,label, onInputChange }) => {
+const AccountFormInput = ({ name, index, type, value,label, onInputChange,readOnly }) => {
   return (
     <div className="flex flex-col  border-gray-300 border-b-2 mt-8">
       <label htmlFor={`${name}-${index}`} className="text-sm text-gray-400 ">{label}</label>
@@ -7,6 +7,7 @@ const AccountFormInput = ({ name, index, type, value,label, onInputChange }) => 
       className="outline-none border-none w-full h-10 text-gray-600 placeholder:text-gray-300"
         type={type ?? "text"}
         name={name}
+        readOnly={readOnly}
         id={`${name}-${index}`}
         value={value}
         onChange={onInputChange}
@@ -22,6 +23,7 @@ AccountFormInput.propTypes = {
   type: PropTypes.string,
   value: PropTypes.string,
   label:PropTypes.string,
+  readOnly:PropTypes.bool,
   onInputChange: PropTypes.func,
 };
 export default AccountFormInput;
