@@ -12,7 +12,7 @@ const validationSchema = Yup.object({
     .required("Primary Phone Number is required"),
   secondaryPhone: Yup.string()
     .matches(/^[0-9]{10}$/, "Phone Number must be exactly 10 digits")
-    .nullable(), // secondaryPhone is optional
+    .nullable(),
   firstName: Yup.string()
     .min(3, "First Name must be at least 3 characters")
     .required("First Name is required"),
@@ -30,6 +30,7 @@ const ProfileAddress = () => {
       postalCode: "",
       primaryPhone: "",
       secondaryPhone: "",
+      email: "",
       firstName: "",
       lastName: "",
     },
@@ -89,6 +90,25 @@ const ProfileAddress = () => {
               <div className="validation-error">{formik.errors.lastName}</div>
             ) : null}
           </div>
+        </div>
+        <div>
+          <fieldset className="border px-4 pb-2 rounded mt-4 md:mt-0">
+            <legend className="px-2 text-md font-medium text-gray-500 ">
+              Email
+            </legend>
+            <input
+              type="email"
+              name="email"
+              className="outline-none border-none border rounded p-2 w-full mt-1"
+              placeholder="Enter your email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </fieldset>
+          {formik.touched.lastName && formik.errors.lastName ? (
+            <div className="validation-error">{formik.errors.lastName}</div>
+          ) : null}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
           <div>
