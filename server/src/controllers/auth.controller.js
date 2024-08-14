@@ -272,6 +272,17 @@ const resetPassword = async (req, res) => {
 
 }
 
+// On user logout
+function logout(req, res) {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (token) {
+      const decoded = jwt.decode(token);
+      blacklistToken(token, decoded.exp); // Blacklist the token
+      res.status(200).json({ message: 'Logged out successfully' });
+    } else {
+      res.status(400).json({ message: 'No token provided' });
+    }
+  }
 
 module.exports = {
     regenerateVerificationCode,
