@@ -30,10 +30,8 @@ function App() {
 
   useEffect(() => {
     if (data?.data) {
-      // Ensure this is only done after render
       dispatch(setUser(data.data));
     } else if (error) {
-      // Also ensure this is only done after render
       dispatch(clearUser());
     }
   }, [data, error, dispatch]);
