@@ -19,19 +19,24 @@ import {
 } from "../../../app/features/auth/authSlice";
 import { useEffect } from "react";
 
-
 const OtpForm = () => {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [verify, { isLoading: isVerifying }] = useVerifyWithCodeMutation();
   const [resendCode, { isLoading }] = useResendVerificationCodeMutation();
   const user = useSelector((state) => state.auth.user);
-  
+
   const [searchParams] = useSearchParams();
+
+  const message = searchParams.get("message");  
   
-  const message = searchParams.get("message");
- 
+  useEffect(() => {
+    if (message && !user?.isVerified) {
+      toast.error(message);
+      navigate("/auth/verify", { replace: true });
+    }
+  }, [message, user.isVerified, navigate]);
+
 
   const fetchUserData = useFetchUserDataQuery(user?._id, {
     skip: !user?._id,
@@ -41,7 +46,6 @@ const OtpForm = () => {
   if ((!token && !user && !userId) || user?.isVerified) {
     return <Navigate to="/" replace />;
   }
-
 
   const onOtpSubmit = async (verificationCode) => {
     console.log(verificationCode);
@@ -92,12 +96,6 @@ const OtpForm = () => {
     }
   };
 
-  useEffect(() => {
-    if (message && !user?.isVerified) {
-      toast.error(message);
-      navigate("/auth/verify", { replace: true });
-    }
-  }, [message, user.isVerified, navigate]);
 
   return (
     <MainLayout overflow>

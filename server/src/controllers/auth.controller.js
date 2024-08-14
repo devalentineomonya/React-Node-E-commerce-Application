@@ -149,7 +149,7 @@ const verifyUser = async (req, res) => {
                 res.redirect(`${clientUrl}/auth/verify?message=${result.message}`)
             }
         } catch (error) {
-            res.redirect(`${clientUrl}/auth/verify?message=Internal server error occured while verifying user`)
+            res.redirect(`${clientUrl}/auth/verify?message=Internal server error occurred while verifying user`)
         }
     } else if (req?.method == "POST") {
         const { verificationCode } = req.body
