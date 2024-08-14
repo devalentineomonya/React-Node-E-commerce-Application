@@ -55,13 +55,16 @@ const registerUser = async (req, res) => {
 
 
         const token = jwt.sign(payload, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
+        
 
         delete userObject.password
         delete userObject.verificationCode
         delete userObject.verificationCodeExpires
-        await sendVerificationEmail(email, user._id, verificationCode, token, "verify");
+        delete userObject.passwordResetCode;
+        delete userObject.passwordResetCodeExpires
+        await sendVerificationEmail(email, user._id, verificationCode, verificationToken, "verify");
 
-        res.status(201).json({ success: true, message: "User registered successfully. Please check your email to verify your account.", token, data: userObject, verificationToken });
+        res.status(201).json({ success: true, message: "User registered successfully. Please check your email to verify your account.", token, data: userObject });
     } catch (error) {
         res.status(500).json({ success: false, message: "An error occurred during registration.", error: error.message });
     }
