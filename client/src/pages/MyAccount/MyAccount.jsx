@@ -3,7 +3,7 @@ import AccountMain from "../../components/MyAccount/AccountMain";
 
 const MyAccount = () => {
   return (
-    <MainLayout>
+    <MainLayout overflow>
       <AccountMain />
     </MainLayout>
   );
