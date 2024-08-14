@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { apiBaseUrl } from '../../../utils/apiUtils';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8000/api/auth',
+    baseUrl: `${apiBaseUrl}/auth`,
   }),
   endpoints: (builder) => ({
     loginWithPassword: builder.mutation({
@@ -22,17 +23,19 @@ export const authApi = createApi({
     }),
 
     logout: builder.mutation({
-      query: (userToken) => ({
+      query: () => ({
         url: '/logout',
         method: 'DELETE',
-        body: userToken,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
       }),
     }),
 
     requestPasswordReset: builder.mutation({
       query: (userDataPayload) => ({
         url: '/getpasswordresetcode',
-        method: 'POST', 
+        method: 'POST',
         body: userDataPayload,
       }),
     }),
@@ -40,19 +43,19 @@ export const authApi = createApi({
     resetPassword: builder.mutation({
       query: (userDataPayload) => ({
         url: '/resetpassword',
-        method: 'POST', 
+        method: 'POST',
         body: userDataPayload,
       }),
     }),
 
     resendVerificationCode: builder.mutation({
-      query: (userDataPayload) => ({
+      query: () => ({
         url: '/resendcode',
-        method: 'POST', 
+        method: 'POST',
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, 
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: userDataPayload,
+     
       }),
     }),
 
@@ -68,12 +71,12 @@ export const authApi = createApi({
         url: '/verify',
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, 
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: verificationCode,
       }),
     }),
-    
+
   }),
 });
 
