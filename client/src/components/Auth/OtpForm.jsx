@@ -29,7 +29,7 @@ const OtpForm = () => {
   const [searchParams] = useSearchParams();
 
   const message = searchParams.get("message");  
-  
+
   useEffect(() => {
     if (message && !user?.isVerified) {
       toast.error(message);
@@ -48,14 +48,16 @@ const OtpForm = () => {
   }
 
   const onOtpSubmit = async (verificationCode) => {
-    console.log(verificationCode);
+    
     dispatch(setAuthLoading(true));
     try {
       const result = await verify({ verificationCode }).unwrap();
+      console.log(result)
       if (result.success) {
+        toast.success(result?.message);
+
         const newUser = await fetchUserData.refetch().unwrap();
         dispatch(setUser(newUser));
-        toast.success(result.message);
         navigate("/profile");
       } else {
         toast.error(result.message);

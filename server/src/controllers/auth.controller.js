@@ -141,7 +141,7 @@ const verifyUser = async (req, res) => {
                 const result = await verifyToken(userId, token)
                 if (result.success) {
                     await userModel.findByIdAndUpdate(userId, { isVerified: true, verificationCode: null, verificationCodeExpires: null });
-                    res.redirect(`${clientUrl}/`)
+                    res.redirect(`${clientUrl}/message=${result.message}`)
                 } else {
                     res.redirect(`${clientUrl}/auth/verify?message=${result.message}`)
                 }
