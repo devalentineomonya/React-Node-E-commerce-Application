@@ -21,6 +21,7 @@ const sendVerificationEmail = async (email, userId, verificationCode, token, act
     }
 
     const emailHTML = emailPage(title, message, description, verificationCode, token, userId, action)
+    console.log(emailHTML)
 
 
 

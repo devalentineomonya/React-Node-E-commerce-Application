@@ -3,6 +3,8 @@ import { Suspense, lazy } from "react";
 import Loading from "./components/common/Loading/Loading";
 import { useSelector } from "react-redux";
 import UseRedirect from "./hooks/useRedirect"
+import ResetPassword from "./components/Auth/ResetPassword";
+
 const Home = lazy(() => import("./pages/home/Home"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
 const SignUp = lazy(() => import("./components/Auth/SignUp"));
@@ -68,6 +70,7 @@ const Router = () => {
         <Route path="/auth/register" element={<Navigate to="/auth/signup" />} />
         <Route path="/auth/verify" element={<OtpForm />} />
         <Route path="/auth/reset-password" element={isLoggedIn(<PasswordReset />)} />
+        <Route path="/auth/new-password" element={isLoggedIn(<ResetPassword />)} />
       </Routes>
     </Suspense>
   );

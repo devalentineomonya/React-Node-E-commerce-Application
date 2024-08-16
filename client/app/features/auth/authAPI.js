@@ -43,7 +43,7 @@ export const authApi = createApi({
     resetPassword: builder.mutation({
       query: (userDataPayload) => ({
         url: '/resetpassword',
-        method: 'POST',
+        method: 'PUT',
         body: userDataPayload,
       }),
     }),
@@ -59,13 +59,7 @@ export const authApi = createApi({
       }),
     }),
 
-    verifyWithToken: builder.mutation({
-      query: (userDataPayload) => ({
-        url: `/verify?token=${userDataPayload.token}&userId=${userDataPayload.userId}`,
-        method: 'GET',
-      }),
-    }),
-
+   
     verifyWithCode: builder.mutation({
       query: (verificationCode) => ({
         url: '/verify',
@@ -87,6 +81,5 @@ export const {
   useRequestPasswordResetMutation,
   useResetPasswordMutation,
   useResendVerificationCodeMutation,
-  useVerifyWithTokenMutation,
   useVerifyWithCodeMutation,
 } = authApi;

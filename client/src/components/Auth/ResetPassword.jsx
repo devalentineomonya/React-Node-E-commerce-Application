@@ -1,41 +1,73 @@
-import resetPassword from "../../assets/images/resetPassword.png";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import resetPasswordImage from "../../assets/images/resetPassword.png";
 import logo from "../../assets/images/logo_big.png";
 import AuthInput from "./AuthInput";
 import { HiAtSymbol } from "react-icons/hi";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import MainLayout from "../common/MainLayout/MainLayout";
 import { useDispatch } from "react-redux";
 import { useResetPasswordMutation } from "../../../app/features/auth/authAPI";
 import { requestPasswordReset } from "../../../app/features/auth/authSlice";
 import { toast } from "react-toastify";
+import { FormCancelButton } from "./PasswordReset";
+import { BiLock } from "react-icons/bi";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [reset, { isLoading }] = useResetPasswordMutation()
- 
+  const [searchParams] = useSearchParams();
+  const [reset, { isLoading }] = useResetPasswordMutation();
 
+  const token = searchParams.get("token");
+  const userId = searchParams.get("userId");
+
+  useEffect(() => {
+    if (!token || !userId) {
+      toast.error("Invalid or missing token and user ID.");
+      navigate("/");
+    }
+  }, [token, userId, navigate]);
 
 
   const resetPasswordSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
+    newPassword: Yup.string()
+      .min(8, "Password must be at least 8 characters")
+      .required("New password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("newPassword")], "Passwords must match")
+      .required("Please confirm your new password"),
   });
 
+ 
   const onRequestSubmit = async (values, { setSubmitting }) => {
     setSubmitting(true);
     try {
-      const response = await reset(values);
-      dispatch(requestPasswordReset(response));
-     
-      toast.error(response?.error?.data?.message)
-      toast.success(response?.success?.data?.message)
+      const userDataPayload = {
+        ...values,
+        token,
+        userId,
+      };
+      const response = await reset(userDataPayload);
+      await dispatch(requestPasswordReset(response));
+
+      if (response?.error) {
+        toast.error(response.error.data.message);
+
+      } else {
+        toast.success(response?.data?.message || "Password reset successful!");
+        navigate("/auth/login"); 
+      }
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
+     
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -43,21 +75,22 @@ const ResetPassword = () => {
     <MainLayout overflow>
       <div className="loginsignup">
         <div className="loginsignup-container">
-          <div className="login-signup-image" >
-            <img src={resetPassword} loading="lazy" alt="Reset Password" />
+          <div className="login-signup-image">
+            <img src={resetPasswordImage} loading="lazy" alt="Reset Password" />
           </div>
           <div className="login-signup-form">
             <div className="login-sign-text">
               <img src={logo} alt="Logo" />
               <h2>Reset Password</h2>
               <p>
-                Ullamco Lorem officia voluptate incididunt consectetur id duis
-                elit ex ex tempor ea mollit cillum.
+                Please enter your email and new password to reset your password.
               </p>
             </div>
             <Formik
               initialValues={{
                 email: "",
+                newPassword: "",
+                confirmPassword: "",
               }}
               validationSchema={resetPasswordSchema}
               onSubmit={onRequestSubmit}
@@ -74,6 +107,34 @@ const ResetPassword = () => {
                   />
                   <ErrorMessage
                     name="email"
+                    component="div"
+                    className="validation-error"
+                  />
+
+                  <AuthInput
+                    type="password"
+                    label="New Password*"
+                    name="newPassword"
+                    icon={<BiLock/>}
+                    onInputChange={handleChange}
+                    value={values.newPassword}
+                  />
+                  <ErrorMessage
+                    name="newPassword"
+                    component="div"
+                    className="validation-error"
+                  />
+
+                  <AuthInput
+                    type="password"
+                    label="Confirm Password*"
+                    icon={<BiLock/>}
+                    name="confirmPassword"
+                    onInputChange={handleChange}
+                    value={values.confirmPassword}
+                  />
+                  <ErrorMessage
+                    name="confirmPassword"
                     component="div"
                     className="validation-error"
                   />
@@ -102,34 +163,6 @@ const ResetPassword = () => {
   );
 };
 
-export const FormCancelButton = ({ navigate }) => {
-  const pathTo = localStorage.getItem("redirectTo") ?? "/";
 
-  const onCancel = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("redirectTo");
-    navigate(pathTo);
-  };
-
-  return (
-    <div className="login-signup-button w-full mt-4">
-      <button
-        className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50"
-        onClick={onCancel}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            onCancel();
-          }
-        }}
-      >
-        Cancel
-      </button>
-    </div>
-  );
-};
-
-FormCancelButton.propTypes = {
-  navigate: PropTypes.func,
-};
 
 export default ResetPassword;

@@ -13,7 +13,7 @@ authRouter
     .post("/verify", authMiddleware, verifyUser)
     .post("/resendcode", authMiddleware, regenerateVerificationCode)
     .post("/getpasswordresetcode", requestPasswordReset)
-    .post("/resetpassword",resetPassword)
+    .put("/resetpassword",resetPassword)
 
 // Password Authenticatio
 authRouter.post('/loginWithPassword', loginWithPassword);

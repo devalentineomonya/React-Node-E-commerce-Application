@@ -236,40 +236,53 @@ const requestPasswordReset = async (req, res) => {
 
 const resetPassword = async (req, res) => {
     try {
+      const { token, userId, email, newPassword, confirmPassword } = req.body;
+  
+      if (!token || !userId || !email || !newPassword || !confirmPassword) {
+        return res.status(400).json({ success: false, message: 'All fields are required.' });
+      }
+      if (newPassword !== confirmPassword) {
+        return res.status(400).json({ success: false, message: 'Passwords do not match.' });
+      }
+  
+      const user = await userModel.findById(userId);
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found.' });
+      }
+      if (user.email !== email) {
+        return res.status(400).json({ success: false, message: 'Invalid email address.' });
+      }
+  
+      const currentTime = new Date();
+      if (user.passwordResetCodeExpires < currentTime) {
+        return res.status(400).json({ success: false, message: 'Token has expired.' });
+      }
 
-        const { token, userId } = req.query
-        const { newPassword } = req.body
-        if (token && userId) {
-            if (!newPassword) return res.status(400).json({ success: false, message: "New password is required" })
+     const hashedToken = generateToken(user.passwordResetCode)
+     if (hashedToken  !== token) {
+       return res.status(400).json({ message: 'Invalid or expired token.' });
+     }
+ 
+     const isMatch = await bcrypt.compare(newPassword, user.password)
+     
+     if(isMatch) return res.status(400).json({success:false, message:"New password can not be same as old password"})
+  
+     
+      const hashedPassword = await bcrypt.hash(newPassword, 15);
 
-            const user = await userModel.findById(userId)
-            if (!user) return res.status(400).json({ success: false, message: "User with specified id does not exist" })
 
-            if (!user.passwordResetCode) return res.status(400).json({ success: false, message: "Not password reset for this account" })
-
-            const hashedResetCode = generateToken(user.passwordResetCode)
-            if (token === hashedResetCode) {
-                const isMatch = await bcrypt.compare(newPassword, user.password)
-
-                if (isMatch) return res.status(400).json({ success: false, message: "New password should not be same as current password" })
-
-                const newHashedPassword = await bcrypt.hash(newPassword, 15)
-
-                await userModel.findByIdAndUpdate(user._id, { password: newHashedPassword, passwordResetCode: null, passwordResetCodeExpires: null });
-                return res.status(200).json({ success: false, message: 'Password updated successfully' })
-
-            } else {
-                return res.status(400).json({ success: false, message: "Invalid password reset token" })
-            }
-
-        } else {
-            res.status(400).json({ success: false, message: "Reset token and userId are required" })
-        }
-
+  
+     
+      user.password = hashedPassword;
+      user.passwordResetCode = null;
+      user.passwordResetCodeExpires = null; 
+  
+      await user.save();
+  
+      return res.status(200).json({ success: true, message: 'Password reset successful.' });
     } catch (error) {
-        res.status(500).json({ success: false, message: "An error occurred while resetting password", error: error.message })
+      return res.status(500).json({ success: false, message: 'An error occurred while resetting password', error: error.message });
     }
-
 }
 
 // On user logout
