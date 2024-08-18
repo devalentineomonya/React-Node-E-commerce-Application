@@ -126,7 +126,7 @@ const emailPage = (title, message, description, code, token, userId, action) => 
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td align="center" bgcolor="#003d29" style="border-radius: 6px;">
-                                                    <a href="${serverUrl}/${action === "verify" ? "auth/verify" : action === "reset" ? "auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank" style="display: inline-block; padding: 16px 40px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Auto Verify</a>
+                                                    <a href="${action === "verify" ? serverUrl : clientUrl}/${action === "verify" ? "auth/verify" : action === "reset" ? "auth/new-password" : ""}?token=${token}&userId=${userId}" target="_blank" style="display: inline-block; padding: 16px 40px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Auto Verify</a>
                                                 </td>
                                             </tr>
                                         </table>
@@ -139,7 +139,7 @@ const emailPage = (title, message, description, code, token, userId, action) => 
                     <tr>
                         <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                             <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
-                            <p style="margin: 0; word-wrap: break-word;"><a href="${serverUrl}/${action === "verify" ? "auth/verify" : action === "reset" ? "auth/resetpassword" : ""}?token=${token}&userId=${userId}" target="_blank">${serverUrl}/${action === "verify" ? "auth/verify" : action === "reset" ? "auth/resetpassword" : ""}?token=${token}&userId=${userId}</a></p>
+                            <p style="margin: 0; word-wrap: break-word;"><a href="${action === "verify" ? serverUrl : clientUrl}/${action === "verify" ? "auth/verify" : action === "reset" ? "auth/new-password" : ""}?token=${token}&userId=${userId}" target="_blank">${action === "verify" ? serverUrl : clientUrl}/${action === "verify" ? "auth/verify" : action === "reset" ? "auth/new-password" : ""}?token=${token}&userId=${userId}</a></p>
                         </td>
                     </tr>
 

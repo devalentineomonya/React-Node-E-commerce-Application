@@ -16,9 +16,6 @@ const PasswordReset = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [requestReset, { isLoading }] = useRequestPasswordResetMutation();
- 
-
-
 
   const passwordResetSchema = Yup.object().shape({
     email: Yup.string()
@@ -30,12 +27,15 @@ const PasswordReset = () => {
     setSubmitting(true);
     try {
       const response = await requestReset(values);
-      dispatch(requestPasswordReset(response));
-     
-      toast.error(response?.error?.data?.message)
-      toast.success(response?.success?.data?.message)
+      await dispatch(requestPasswordReset(response));
+
+      if (response?.error) {
+        toast.error(response?.error?.data?.message);
+      } else {
+        toast.success(response?.success?.data?.message);
+      }
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
   };
 
@@ -43,7 +43,7 @@ const PasswordReset = () => {
     <MainLayout overflow>
       <div className="loginsignup">
         <div className="loginsignup-container">
-          <div className="login-signup-image" >
+          <div className="login-signup-image">
             <img src={resetPassword} loading="lazy" alt="Reset Password" />
           </div>
           <div className="login-signup-form">

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import MainLayout from "../common/MainLayout/MainLayout";
 import { useDispatch } from "react-redux";
 import { useResetPasswordMutation } from "../../../app/features/auth/authAPI";
-import { requestPasswordReset } from "../../../app/features/auth/authSlice";
+import { resetPassword } from "../../../app/features/auth/authSlice";
 import { toast } from "react-toastify";
 import { FormCancelButton } from "./PasswordReset";
 import { BiLock } from "react-icons/bi";
@@ -54,11 +54,11 @@ const ResetPassword = () => {
         userId,
       };
       const response = await reset(userDataPayload);
-      await dispatch(requestPasswordReset(response));
+      await dispatch(resetPassword(response));
 
       if (response?.error) {
         toast.error(response.error.data.message);
-
+console.error(response.error.data.error)
       } else {
         toast.success(response?.data?.message || "Password reset successful!");
         navigate("/auth/login"); 

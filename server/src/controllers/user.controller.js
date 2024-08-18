@@ -4,20 +4,10 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken")
 const config = require("../config/config")
 const { sendVerificationEmail } = require("./mail.controller")
+const { generateToken } = require("../utils/mailToken.util");
+const { generateCode } = require("../utils/mailCode.util");
 
 
-const generateCode = () => {
-    let code;
-    do {
-        code = Math.floor(100000 + Math.random() * 900000).toString();
-    } while (/^(\d)\1{5}$/.test(code));
-    return code;
-};
-
-
-const generateToken = (verificationCode) => {
-    return crypto.createHash('sha512').update(verificationCode).digest('hex');
-};
 
 
 /*=======================
@@ -55,7 +45,7 @@ const registerUser = async (req, res) => {
 
 
         const token = jwt.sign(payload, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
-        
+
 
         delete userObject.password
         delete userObject.verificationCode
@@ -72,7 +62,7 @@ const registerUser = async (req, res) => {
 
 
 /*=======================
-GET USER CONTROLLER
+GET SINGLE USER CONTROLLER
 =========================*/
 
 const getUser = async (req, res) => {
@@ -97,8 +87,30 @@ const getUser = async (req, res) => {
 
 }
 
+/*=======================
+UPDATE USER CONTROLLER
+=========================*/
+const updateUser = async (req, res) => {
+    const { userId } = req.params
+    const { firstName, lastName, middleName, email, gender, dateOfBirth, primaryPhoneNumber, secondaryPhoneNumber } = req.body
+
+    if (!userId) return res.status(400).json({ success: false, message: "User id is required" })
+    try {
+        const user = await userModel.findById(userId)
+        if (!user) return res.status(404).json({ success: false, message: "User with the specified id was not found" })
+        const isDuplicate = await userModel.findOne({ email, _id: { $ne: userId }  })
+        if (isDuplicate) return res.status(400).json({ success: false, message: "User with the specified email already exists." })
+        await userModel.findByIdAndUpdate(userId, { firstName, lastName, middleName, gender, dateOfBirth, primaryPhoneNumber, secondaryPhoneNumber })
+        res.status(200).json({ success: true, message: "User updated successfully" })
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: "An error occurred while querying user data.", error: error.message });
+    }
 
 
 
+}
 
-module.exports = { registerUser, getUser, generateToken, generateCode };
+
+
+module.exports = { registerUser, getUser, updateUser };

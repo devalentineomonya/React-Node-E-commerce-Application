@@ -3,9 +3,10 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const userModel = require("../models/user.model");
 const config = require("../config/config");
-const { generateToken, generateCode } = require("./user.controller");
 const { sendVerificationEmail } = require("./mail.controller");
 const { clientUrl } = require("../utils/url.util");
+const { generateToken } = require("../utils/mailToken.util");
+const { generateCode } = require("../utils/mailCode.util");
 
 
 /*=============================
@@ -39,7 +40,7 @@ const loginWithPassword = async (req, res) => {
             id: user._id,
             email: user.email,
             isVerified: user.isVerified,
-            isActive:user.isActive
+            isActive: user.isActive
         };
 
 
@@ -83,7 +84,7 @@ const googleCallback = (req, res) => {
                 id: user._id,
                 email: user.email,
                 isVerified: user.isVerified,
-                isActive:user.isActive
+                isActive: user.isActive
             };
 
             const token = jwt.sign(payload, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
@@ -199,7 +200,7 @@ const regenerateVerificationCode = async (req, res) => {
 
         const newToken = generateToken(newVerificationCode)
 
-        await userModel.findByIdAndUpdate(userId, {isVerified : false, verificationCode: newVerificationCode, verificationCodeExpires: Date.now() + 3 * 24 * 60 * 60 * 1000 });
+        await userModel.findByIdAndUpdate(userId, { isVerified: false, verificationCode: newVerificationCode, verificationCodeExpires: Date.now() + 3 * 24 * 60 * 60 * 1000 });
         await sendVerificationEmail(user.email, user._id, newVerificationCode, newToken, "verify");
         res.status(200).json({ success: true, message: "Verification Code has been sent to your email" })
     } catch (error) {
@@ -236,52 +237,40 @@ const requestPasswordReset = async (req, res) => {
 
 const resetPassword = async (req, res) => {
     try {
-      const { token, userId, email, newPassword, confirmPassword } = req.body;
-  
-      if (!token || !userId || !email || !newPassword || !confirmPassword) {
-        return res.status(400).json({ success: false, message: 'All fields are required.' });
-      }
-      if (newPassword !== confirmPassword) {
-        return res.status(400).json({ success: false, message: 'Passwords do not match.' });
-      }
-  
-      const user = await userModel.findById(userId);
-      if (!user) {
-        return res.status(404).json({ success: false, message: 'User not found.' });
-      }
-      if (user.email !== email) {
-        return res.status(400).json({ success: false, message: 'Invalid email address.' });
-      }
-  
-      const currentTime = new Date();
-      if (user.passwordResetCodeExpires < currentTime) {
-        return res.status(400).json({ success: false, message: 'Token has expired.' });
-      }
+        const { token, userId, email, newPassword, confirmPassword } = req.body;
 
-     const hashedToken = generateToken(user.passwordResetCode)
-     if (hashedToken  !== token) {
-       return res.status(400).json({ message: 'Invalid or expired token.' });
-     }
- 
-     const isMatch = await bcrypt.compare(newPassword, user.password)
-     
-     if(isMatch) return res.status(400).json({success:false, message:"New password can not be same as old password"})
-  
-     
-      const hashedPassword = await bcrypt.hash(newPassword, 15);
+        if (!token || !userId || !email || !newPassword || !confirmPassword) return res.status(400).json({ success: false, message: 'All fields are required.' });
+
+        if (newPassword !== confirmPassword) return res.status(400).json({ success: false, message: 'Passwords do not match.' });
 
 
-  
-     
-      user.password = hashedPassword;
-      user.passwordResetCode = null;
-      user.passwordResetCodeExpires = null; 
-  
-      await user.save();
-  
-      return res.status(200).json({ success: true, message: 'Password reset successful.' });
+        const user = await userModel.findById(userId);
+
+        if (!user) return res.status(404).json({ success: false, message: 'User not found.' });
+
+        if (user.email !== email) return res.status(400).json({ success: false, message: 'Invalid email address.' });
+
+        const isMatch = await bcrypt.compare(newPassword, user.password)
+
+        if (isMatch) return res.status(400).json({ success: false, message: "New password can not be same as old password" })
+
+        const currentTime = new Date();
+        if (user.passwordResetCodeExpires < currentTime) return res.status(400).json({ success: false, message: 'Token has expired.' });
+
+        const hashedToken = generateToken(user.passwordResetCode)
+        if (hashedToken !== token) return res.status(400).json({ message: 'Invalid or expired token.' });
+
+        const hashedPassword = await bcrypt.hash(newPassword, 15);
+
+        user.password = hashedPassword;
+        user.passwordResetCode = null;
+        user.passwordResetCodeExpires = null;
+
+        await user.save();
+
+        return res.status(200).json({ success: true, message: 'Password reset successful.' });
     } catch (error) {
-      return res.status(500).json({ success: false, message: 'An error occurred while resetting password', error: error.message });
+        return res.status(500).json({ success: false, message: 'An error occurred while resetting password', error: error.message });
     }
 }
 
@@ -289,13 +278,13 @@ const resetPassword = async (req, res) => {
 function logout(req, res) {
     const token = req.headers.authorization?.split(' ')[1];
     if (token) {
-      const decoded = jwt.decode(token);
-      blacklistToken(token, decoded.exp); // Blacklist the token
-      res.status(200).json({ message: 'Logged out successfully' });
+        const decoded = jwt.decode(token);
+        blacklistToken(token, decoded.exp); 
+        res.status(200).json({ message: 'Logged out successfully' });
     } else {
-      res.status(400).json({ message: 'No token provided' });
+        res.status(400).json({ message: 'No token provided' });
     }
-  }
+}
 
 module.exports = {
     regenerateVerificationCode,

@@ -4,7 +4,7 @@ import { apiBaseUrl } from "../../../utils/apiUtils"
 export const userApi = createApi({
     reducerPath: "userApi",
     baseQuery: fetchBaseQuery({
-        baseUrl:`${apiBaseUrl}/users`,
+        baseUrl: `${apiBaseUrl}/users`,
     }),
     endpoints: (builder) => ({
         registerUser: builder.mutation({
@@ -19,16 +19,29 @@ export const userApi = createApi({
             query: (userId) => {
                 console.log(userId)
                 return ({
-              url: `/get/${userId}`, 
-              method: 'GET',
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`, 
-              },
-            })},
-          }),
+                    url: `/get/${userId}`,
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                })
+            },
+        }),
+        updateUser: builder.mutation({
+            query: (userData) => ({
+                url: `/update/${userData.id}`,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
+                method: 'PUT',
+                body: userData
+
+            })
+        })
+
     })
 
 
 
 })
-export const { useRegisterUserMutation, useFetchUserDataQuery} = userApi
+export const { useRegisterUserMutation, useFetchUserDataQuery, useUpdateUserMutation } = userApi
