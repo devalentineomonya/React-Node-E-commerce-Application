@@ -92,7 +92,7 @@ UPDATE USER CONTROLLER
 =========================*/
 const updateUser = async (req, res) => {
     const { userId } = req.params
-    const { firstName, lastName, middleName, email, gender, dateOfBirth, primaryPhoneNumber, secondaryPhoneNumber } = req.body
+    const { firstName, lastName, middleName, email, gender, dateOfBirth, phoneNumber:primaryPhoneNumber, secondaryPhoneNumber } = req.body
 
     if (!userId) return res.status(400).json({ success: false, message: "User id is required" })
     try {
@@ -100,8 +100,16 @@ const updateUser = async (req, res) => {
         if (!user) return res.status(404).json({ success: false, message: "User with the specified id was not found" })
         const isDuplicate = await userModel.findOne({ email, _id: { $ne: userId }  })
         if (isDuplicate) return res.status(400).json({ success: false, message: "User with the specified email already exists." })
-        await userModel.findByIdAndUpdate(userId, { firstName, lastName, middleName, gender, dateOfBirth, primaryPhoneNumber, secondaryPhoneNumber })
-        res.status(200).json({ success: true, message: "User updated successfully" })
+        const newUser =  await userModel.findByIdAndUpdate(userId, { firstName, lastName, middleName, gender, dateOfBirth, primaryPhoneNumber, secondaryPhoneNumber },{new:true})
+   
+        const userObject = newUser.toObject()
+
+        delete userObject.password
+        delete userObject.verificationCode
+        delete userObject.verificationCodeExpires
+        delete userObject.passwordResetCode;
+
+        res.status(200).json({ success: true, message: "User updated successfully" ,data:userObject})
 
     } catch (error) {
         res.status(500).json({ success: false, message: "An error occurred while querying user data.", error: error.message });

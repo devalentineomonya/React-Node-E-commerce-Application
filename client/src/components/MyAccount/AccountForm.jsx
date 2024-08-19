@@ -2,12 +2,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import AccountFormInput from "./AccountFormInput";
 import { subYears } from "date-fns";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { useFetchUserDataQuery, useUpdateUserMutation } from "../../../app/features/user/userAPI";
+import { useUpdateUserMutation } from "../../../app/features/user/userAPI";
 import { toast } from "react-toastify";
+import { setUser } from "../../../app/features/auth/authSlice";
 const validationSchema = Yup.object({
   firstName: Yup.string()
     .min(3, "First Name must be at least 3 characters")
@@ -37,17 +38,20 @@ const validationSchema = Yup.object({
 const AccountForm = () => {
   const [updateUser, { isLoading }] = useUpdateUserMutation();
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
   const onFormSubmit = async (values, { isSubmitting }) => {
     const newValues = {
       ...values,
-      id: user._id || localStorage.getItem("userId"),
+      id: user._id ?? localStorage.getItem("userId"),
     };
     const response = await updateUser(newValues);
-    // await useFetchUserDataQuery(user._id)
+
     if (response?.error) {
       toast.error(response.error.data.message);
     } else {
+      console.log(response.data.data)
+      await dispatch(setUser(response.data.data));
       toast.success(response.data.message);
     }
   };
