@@ -40,7 +40,7 @@ const AccountForm = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
-  const onFormSubmit = async (values, { isSubmitting }) => {
+  const onFormSubmit = async (values) => {
     const newValues = {
       ...values,
       id: user._id ?? localStorage.getItem("userId"),

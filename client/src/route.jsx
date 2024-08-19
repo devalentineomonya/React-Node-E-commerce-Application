@@ -61,6 +61,7 @@ const Router = () => {
         <Route path="/profile/:profilePage/:pageAction" element={requireAuth(<Profile />)} />
         <Route path="/product/:productId" element={<ProductDetails />} />
         <Route path="/my-account" element={requireAuth(<MyAccount />)} />
+        <Route path="/my-account/:action" element={requireAuth(<MyAccount />)} />
 
         {/* Authentication Routes */}
         <Route path="/auth" element={<Navigate to="/auth/signin" />} />

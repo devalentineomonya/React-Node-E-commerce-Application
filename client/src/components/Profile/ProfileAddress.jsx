@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import ProfileAddressInput from "./ProfileAddressInput";
 
 const validationSchema = Yup.object({
   streetAddress: Yup.string().required("Street Address is required"),
@@ -19,9 +21,14 @@ const validationSchema = Yup.object({
   lastName: Yup.string()
     .min(3, "Last Name must be at least 3 characters")
     .required("Last Name is required"),
+  email: Yup.string("The email should be a string")
+    .email("Please enter valid email")
+    .required("Email is required"),
 });
 
 const ProfileAddress = () => {
+  const [loading, setLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       streetAddress: "",
@@ -35,8 +42,17 @@ const ProfileAddress = () => {
       lastName: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log("Form Data", values);
+    onSubmit: async (values) => {
+      setLoading(true); // Set loading to true
+      try {
+        // Simulate form submission with a timeout
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        console.log("Form Data", values);
+      } catch (error) {
+        console.error("Submission Error", error);
+      } finally {
+        setLoading(false); // Set loading to false
+      }
     },
   });
 
@@ -51,200 +67,117 @@ const ProfileAddress = () => {
 
       <form onSubmit={formik.handleSubmit} className="space-y-4 mt-5 px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          <div>
-            <fieldset className="border px-4 pb-2 rounded mt-4 md:mt-0">
-              <legend className="px-2 text-md font-medium text-gray-500 ">
-                First Name
-              </legend>
-              <input
-                type="text"
-                name="firstName"
-                className="outline-none border-none border rounded p-2 w-full mt-1"
-                placeholder="Enter your first name"
-                value={formik.values.firstName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            </fieldset>
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <div className="validation-error">{formik.errors.firstName}</div>
-            ) : null}
-          </div>
+          <ProfileAddressInput
+            label="First Name"
+            name="firstName"
+            placeholder="Enter your first name"
+            value={formik.values.firstName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.firstName}
+            touched={formik.touched.firstName}
+          />
+          <ProfileAddressInput
+            label="Last Name"
+            name="lastName"
+            placeholder="Enter your last name"
+            value={formik.values.lastName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.lastName}
+            touched={formik.touched.lastName}
+          />
+        </div>
 
-          <div>
-            <fieldset className="border px-4 pb-2 rounded mt-4 md:mt-0">
-              <legend className="px-2 text-md font-medium text-gray-500 ">
-                Last Name
-              </legend>
-              <input
-                type="text"
-                name="lastName"
-                className="outline-none border-none border rounded p-2 w-full mt-1"
-                placeholder="Enter your last name"
-                value={formik.values.lastName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            </fieldset>
-            {formik.touched.lastName && formik.errors.lastName ? (
-              <div className="validation-error">{formik.errors.lastName}</div>
-            ) : null}
-          </div>
-        </div>
-        <div>
-          <fieldset className="border px-4 pb-2 rounded mt-4 md:mt-0">
-            <legend className="px-2 text-md font-medium text-gray-500 ">
-              Email
-            </legend>
-            <input
-              type="email"
-              name="email"
-              className="outline-none border-none border rounded p-2 w-full mt-1"
-              placeholder="Enter your email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-          </fieldset>
-          {formik.touched.lastName && formik.errors.lastName ? (
-            <div className="validation-error">{formik.errors.lastName}</div>
-          ) : null}
-        </div>
+        <ProfileAddressInput
+          label="Email"
+          name="email"
+          type="email"
+          placeholder="Enter your email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.email}
+          touched={formik.touched.email}
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          <div>
-            <fieldset className="border px-4 pb-2 rounded mt-4 md:mt-0">
-              <legend className="px-2 text-md font-medium text-gray-500 ">
-                Primary Phone Number
-              </legend>
-              <input
-                type="tel"
-                name="primaryPhone"
-                className="outline-none border-none border rounded p-2 w-full mt-1"
-                placeholder="Enter your primary phone number"
-                value={formik.values.primaryPhone}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            </fieldset>
-            {formik.touched.primaryPhone && formik.errors.primaryPhone ? (
-              <div className="validation-error">
-                {formik.errors.primaryPhone}
-              </div>
-            ) : null}
-          </div>
-          <div>
-            <fieldset className="border px-4 pb-2 rounded mt-4 md:mt-0">
-              <legend className="px-2 text-md font-medium text-gray-500 ">
-                Secondary Phone Number (Optional)
-              </legend>
-              <input
-                type="tel"
-                name="secondaryPhone"
-                className="outline-none border-none border rounded p-2 w-full mt-1"
-                placeholder="Enter your secondary phone number"
-                value={formik.values.secondaryPhone}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            </fieldset>
-            {formik.touched.secondaryPhone && formik.errors.secondaryPhone ? (
-              <div className="validation-error">
-                {formik.errors.secondaryPhone}
-              </div>
-            ) : null}
-          </div>
+          <ProfileAddressInput
+            label="Primary Phone Number"
+            name="primaryPhone"
+            type="tel"
+            placeholder="Enter your primary phone number"
+            value={formik.values.primaryPhone}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.primaryPhone}
+            touched={formik.touched.primaryPhone}
+          />
+          <ProfileAddressInput
+            label="Secondary Phone Number (Optional)"
+            name="secondaryPhone"
+            type="tel"
+            placeholder="Enter your secondary phone number"
+            value={formik.values.secondaryPhone}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.secondaryPhone}
+            touched={formik.touched.secondaryPhone}
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          <div>
-            <fieldset className="border px-4 pb-2 rounded mt-4 md:mt-0">
-              <legend className="px-2 text-md font-medium text-gray-500 ">
-                State/Province
-              </legend>
-              <input
-                type="text"
-                name="state"
-                className="outline-none border-none  rounded p-2 w-full mt-1"
-                placeholder="Enter your state or province"
-                value={formik.values.state}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            </fieldset>
-            {formik.touched.state && formik.errors.state ? (
-              <div className="validation-error">{formik.errors.state}</div>
-            ) : null}
-          </div>
-
-          <div>
-            <fieldset className="border px-4 pb-2 rounded mt-4 md:mt-0">
-              <legend className="px-2 text-md font-medium text-gray-500 ">
-                City
-              </legend>
-              <input
-                type="text"
-                name="city"
-                className="outline-none border-none  rounded p-2 w-full mt-1"
-                placeholder="Enter your city"
-                value={formik.values.city}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.city && formik.errors.city ? (
-                <div className="validation-error">{formik.errors.city}</div>
-              ) : null}
-            </fieldset>
-          </div>
+          <ProfileAddressInput
+            label="State/Province"
+            name="state"
+            placeholder="Enter your state or province"
+            value={formik.values.state}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.state}
+            touched={formik.touched.state}
+          />
+          <ProfileAddressInput
+            label="City"
+            name="city"
+            placeholder="Enter your city"
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.city}
+            touched={formik.touched.city}
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          <div>
-            <fieldset className="border px-4 pb-2 rounded mt-4 md:mt-0">
-              <legend className="px-2 text-md font-medium text-gray-500 ">
-                Street Address
-              </legend>
-              <input
-                type="text"
-                name="streetAddress"
-                className="outline-none border-none  rounded p-2 w-full mt-1"
-                placeholder="Enter your street address"
-                value={formik.values.streetAddress}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            </fieldset>
-            {formik.touched.streetAddress && formik.errors.streetAddress ? (
-              <div className="validation-error">
-                {formik.errors.streetAddress}
-              </div>
-            ) : null}
-          </div>
-          <div>
-            <fieldset className="border px-4 pb-2 rounded mt-4 md:mt-0">
-              <legend className="px-2 text-md font-medium text-gray-500 ">
-                Postal Code
-              </legend>
-              <input
-                type="text"
-                name="postalCode"
-                className="outline-none border-none  rounded p-2 w-full mt-1"
-                placeholder="Enter your postal code"
-                value={formik.values.postalCode}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            </fieldset>
-            {formik.touched.postalCode && formik.errors.postalCode ? (
-              <div className="validation-error">{formik.errors.postalCode}</div>
-            ) : null}
-          </div>
+          <ProfileAddressInput
+            label="Street Address"
+            name="streetAddress"
+            placeholder="Enter your street address"
+            value={formik.values.streetAddress}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.streetAddress}
+            touched={formik.touched.streetAddress}
+          />
+          <ProfileAddressInput
+            label="Postal Code"
+            name="postalCode"
+            placeholder="Enter your postal code"
+            value={formik.values.postalCode}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.postalCode}
+            touched={formik.touched.postalCode}
+          />
         </div>
 
         <button
           type="submit"
-          className="px-4 py-2 bg-customGreen text-white rounded hover:bg-black"
+          className={`px-4 py-2 text-white rounded hover:bg-black ${loading ? "bg-gray-500 cursor-not-allowed" : "bg-customGreen"}`}
+          disabled={loading}
         >
-          Save Address
+          {loading ? "Saving..." : "Save Address"}
         </button>
       </form>
     </div>

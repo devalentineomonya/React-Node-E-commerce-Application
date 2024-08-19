@@ -1,10 +1,23 @@
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
-import "../Profile/profile.css";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import "../Profile/profile.css";
 import AccountNav from "./AccountNav";
 import AccountForm from "./AccountForm";
+import AccountChangePassword from "./AccountChangePassword";
+
 const AccountMain = () => {
   const [showProfileNav, setShowProfileNav] = useState(false);
+  const location = useLocation();
+
+
+  const renderContent = () => {
+    if (location.pathname === "/my-account/change-password") {
+      return <AccountChangePassword />;
+    }
+    return <AccountForm />;
+  };
+
   return (
     <>
       <div
@@ -21,7 +34,7 @@ const AccountMain = () => {
 
       <div className="profile-container">
         <AccountNav showProfileNav={showProfileNav} />
-        <AccountForm />
+        {renderContent()} {/* Conditionally render the content */}
       </div>
     </>
   );
