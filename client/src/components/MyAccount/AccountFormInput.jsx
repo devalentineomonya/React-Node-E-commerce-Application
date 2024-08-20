@@ -1,16 +1,28 @@
-import PropTypes from "prop-types";
-const AccountFormInput = ({ name, index, type, value,label, onInputChange,readOnly }) => {
+import PropTypes from 'prop-types';
+
+const AccountFormInput = ({
+  name,
+  type,
+  value,
+  label,
+  onInputChange,
+  onBlur,
+  readOnly,
+}) => {
   return (
-    <div className="flex flex-col  border-gray-300 border-b-2 mt-8">
-      <label htmlFor={`${name}-${index}`} className="text-sm text-gray-400 ">{label}</label>
+    <div className="flex flex-col border-gray-300 border-b-2 mt-8">
+      <label htmlFor={name} className="text-sm text-gray-400">
+        {label}
+      </label>
       <input
-      className="outline-none border-none w-full h-10 text-gray-600 placeholder:text-gray-300"
-        type={type ?? "text"}
+        type={type}
         name={name}
-        readOnly={readOnly}
-        id={`${name}-${index}`}
+        id={name}
         value={value}
         onChange={onInputChange}
+        onBlur={onBlur}
+        readOnly={readOnly}
+        className="outline-none border-none w-full h-10 text-gray-600 placeholder:text-gray-300"
         placeholder="Type Here..."
       />
     </div>
@@ -18,12 +30,13 @@ const AccountFormInput = ({ name, index, type, value,label, onInputChange,readOn
 };
 
 AccountFormInput.propTypes = {
-  name: PropTypes.string,
-  index: PropTypes.number,
+  name: PropTypes.string.isRequired,
   type: PropTypes.string,
-  value: PropTypes.string,
-  label:PropTypes.string,
-  readOnly:PropTypes.bool,
-  onInputChange: PropTypes.func,
+  value: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  readOnly: PropTypes.bool,
 };
+
 export default AccountFormInput;

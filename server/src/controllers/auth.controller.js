@@ -279,17 +279,46 @@ function logout(req, res) {
     const token = req.headers.authorization?.split(' ')[1];
     if (token) {
         const decoded = jwt.decode(token);
-        blacklistToken(token, decoded.exp); 
+        blacklistToken(token, decoded.exp);
         res.status(200).json({ message: 'Logged out successfully' });
     } else {
         res.status(400).json({ message: 'No token provided' });
     }
 }
 
+const changePassword = async (req, res) => {
+    const { userId } = req.params;
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    try {
+
+        const user = await userModel.findById(userId);
+        if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) return res.status(400).json({ success: false, message: 'Incorrect current password' });
+
+        const isSamePassword = await bcrypt.compare(newPassword, user.password);
+        if (isSamePassword) return res.status(400).json({ success: false, message: 'New password must be different from the current password' });
+
+
+        const hashedPassword = await bcrypt.hash(newPassword, 15);
+        user.password = hashedPassword;
+        await user.save();
+        res.status(200).json({ success: true, message: 'Password changed successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
+    }
+};
+
+
 module.exports = {
     regenerateVerificationCode,
     requestPasswordReset,
     loginWithPassword,
+    changePassword,
     googleCallback,
     resetPassword,
     verifyUser

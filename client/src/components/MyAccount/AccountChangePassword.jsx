@@ -1,36 +1,52 @@
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import AccountFormInput from './AccountFormInput';
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import AccountFormInput from "./AccountFormInput";
+import { useChangePasswordMutation } from "../../../app/features/auth/authAPI";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
-// Define the validation schema
+
 const validationSchema = Yup.object({
-  currentPassword: Yup.string()
-    .required("Current password is required"),
+  currentPassword: Yup.string().required("Current password is required"),
   newPassword: Yup.string()
     .min(8, "New password must be at least 8 characters")
     .required("New password is required"),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('newPassword'), null], "Passwords must match")
+    .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
     .required("Confirm password is required"),
 });
 
-// Main component
+
 const AccountChangePassword = () => {
+const [changePassword, {isLoading}] = useChangePasswordMutation()
+const user = useSelector(state=>state.auth.user)
+  const handlePasswordChange = async (values)=>{
+    const newUser = {
+      ...values, 
+      id:user._id ??   localStorage.getItem('userId') 
+     }
+    const response = await changePassword(newUser)
+    console.log(response)
+    if(response?.error){
+      toast.error(response.error.data.message)
+    }else{
+      toast.success(response.data.message)
+    }
+    
+
+  }
   const formik = useFormik({
     initialValues: {
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log('Form Data', values);
-      // Handle form submission here
-    },
+    onSubmit: handlePasswordChange,
   });
 
   return (
-    <div className="p-4 max-w-lg mx-auto">
+    <div className="p-4 w-full">
       <h1 className="text-xl font-semibold mb-4">Change Password</h1>
       <form onSubmit={formik.handleSubmit} className="space-y-4">
         <AccountFormInput
@@ -42,7 +58,9 @@ const AccountChangePassword = () => {
           readOnly={false}
         />
         {formik.touched.currentPassword && formik.errors.currentPassword ? (
-          <div className="text-red-500 text-sm">{formik.errors.currentPassword}</div>
+          <div className="text-red-500 text-sm">
+            {formik.errors.currentPassword}
+          </div>
         ) : null}
 
         <AccountFormInput
@@ -54,7 +72,9 @@ const AccountChangePassword = () => {
           readOnly={false}
         />
         {formik.touched.newPassword && formik.errors.newPassword ? (
-          <div className="text-red-500 text-sm">{formik.errors.newPassword}</div>
+          <div className="text-red-500 text-sm">
+            {formik.errors.newPassword}
+          </div>
         ) : null}
 
         <AccountFormInput
@@ -66,14 +86,20 @@ const AccountChangePassword = () => {
           readOnly={false}
         />
         {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-          <div className="text-red-500 text-sm">{formik.errors.confirmPassword}</div>
+          <div className="text-red-500 text-sm">
+            {formik.errors.confirmPassword}
+          </div>
         ) : null}
 
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="mt-4 rounded-md px-6 py-2 bg-green-700 text-white hover:bg-green-600 disabled:bg-slate-700"
         >
-          Change Password
+          {isLoading ? (
+            <div className="h-6 w-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            "Save Changes"
+          )}
         </button>
       </form>
     </div>

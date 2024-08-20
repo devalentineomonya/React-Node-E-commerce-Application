@@ -17,7 +17,7 @@ const AccountNav = ({ showProfileNav }) => {
         <BsGear />
         Security Setting
       </div>
-      <Link to="/my-account" className="profile-nav-item">
+      <Link to="/my-account/change-password" className="profile-nav-item">
         Change Password
       </Link>
       <Link

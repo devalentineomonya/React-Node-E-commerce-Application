@@ -55,11 +55,11 @@ export const authApi = createApi({
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-     
+
       }),
     }),
 
-   
+
     verifyWithCode: builder.mutation({
       query: (verificationCode) => ({
         url: '/verify',
@@ -70,6 +70,16 @@ export const authApi = createApi({
         body: verificationCode,
       }),
     }),
+    changePassword: builder.mutation({
+      query: (userPayload) => ({
+        url: `/changepassword/${userPayload.id}`,
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: userPayload
+      })
+    })
 
   }),
 });
@@ -82,4 +92,5 @@ export const {
   useResetPasswordMutation,
   useResendVerificationCodeMutation,
   useVerifyWithCodeMutation,
+  useChangePasswordMutation
 } = authApi;
