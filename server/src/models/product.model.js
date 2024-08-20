@@ -17,17 +17,17 @@ const sizeSchema = new Schema({
 
 const productSchema = new Schema({
   name: { type: String, required: true },
+  price: { type: Number, required: true },
   shortDescription: { type: String },
   longDescription: { type: String },
-  price: { type: Number, required: true },
-  category: { type: String },
-  images: [imageSchema],  
-  colorVariants: [colorVariantSchema],  
-  sizes: [sizeSchema],  
-  type: { type: String }, 
-  brand:{type:String}, 
-  additionalInfo: { type: Map, of: String },  
+  type: { type: String },
+  additionalInfo: { type: Map, of: String },
+  sizes: [sizeSchema],
+  images: [imageSchema],
+  colorVariants: [colorVariantSchema],
   stock: { type: Number, required: true },
+  brand: [{ type: Schema.Types.ObjectId, ref: "Brand" }],
+  category: [{ type: Schema.Types.ObjectId, ref: "Category" }],
   ratings: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
 }, { timestamps: true });
 

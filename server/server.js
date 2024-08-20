@@ -8,6 +8,7 @@ const config = require("./src/config/config");
 const connectDB = require("./src/config/db");
 const userRouter = require("./src/routes/user.routes");
 const authRouter = require("./src/routes/auth.routes");
+const productRouter = require("./src/routes/product.routes");
 require('./src/config/passport'); 
 
 const app = express();
@@ -23,21 +24,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-// app.use(session({
-//     secret: 'keyboard cat',
-//     resave: false,
-//     saveUninitialized: false,
-//     store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
-//   }));
-//   app.use(passport.authenticate('session'));
 
 /*========================
         ROUTES
 ==========================*/
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/products", productRouter)
 
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
     res.render("pages/index");
 });
 
