@@ -9,6 +9,8 @@ const connectDB = require("./src/config/db");
 const userRouter = require("./src/routes/user.routes");
 const authRouter = require("./src/routes/auth.routes");
 const productRouter = require("./src/routes/product.routes");
+const brandRouter = require("./src/routes/brand.routes");
+const categoryRouter = require("./src/routes/category.routes");
 require('./src/config/passport'); 
 
 const app = express();
@@ -31,6 +33,8 @@ app.use(cors());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter)
+app.use("/api/brands", brandRouter)
+app.use("/api/category", categoryRouter)
 
 app.get("/", (_, res) => {
     res.render("pages/index");

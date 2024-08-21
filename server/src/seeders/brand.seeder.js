@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const Brand = require('../models/brand.model');
+const BrandModel = require('../models/brand.model');
 const connectDB = require('../config/db');
 
 const seedBrand = async () => {
-await connectDB()
+  await connectDB()
 
-  await Brand.deleteMany({});
+  await BrandModel.deleteMany({});
 
   const brands = [
     {
@@ -22,7 +22,7 @@ await connectDB()
     },
   ];
 
-  await Brand.insertMany(brands);
+  await BrandModel.insertMany(brands);
   console.log('Brands seeded successfully');
   mongoose.connection.close();
 };

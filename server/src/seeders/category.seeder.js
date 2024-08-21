@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const Category = require('../models/category.model');
+const CategoryModel = require('../models/category.model');
 const connectDB = require('../config/db');
 
 const seedCategory = async () => {
   await connectDB()
 
-  await Category.deleteMany({});
+  await CategoryModel.deleteMany({});
 
   const categories = [
     {
@@ -20,7 +20,7 @@ const seedCategory = async () => {
     },
   ];
 
-  await Category.insertMany(categories);
+  await CategoryModel.insertMany(categories);
   console.log('Categories seeded successfully');
   mongoose.connection.close();
 };

@@ -1,4 +1,4 @@
-const productModel = require('../models/product.model')
+const ProductModel = require('../models/product.model')
 const { isValidObjectId } = require("mongoose");
 
 const formatProductResponse = (product) => {
@@ -15,7 +15,7 @@ const formatProductResponse = (product) => {
 
 const getAllProducts = async (_, res) => {
   try {
-    const products = await productModel.find({}, 'name shortDescription price images ratings')
+    const products = await ProductModel.find({}, 'name shortDescription price images ratings')
       .populate('ratings', 'rating')
       .exec();
 
@@ -33,7 +33,7 @@ const getProductById = async (req, res) => {
     const isValidId = isValidObjectId(productId)
     
     if(!isValidId) return res.status(404).json({success:false, message:"Product with the specified id does not exist"})
-    const product = await productModel.findById(productId).exec();
+    const product = await ProductModel.findById(productId).exec();
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
 
     res.status(200).json(product);
@@ -45,7 +45,7 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const product = new productModel(req.body);
+    const product = new ProductModel(req.body);
     await product.save();
     res.status(201).json({ success: true, message: "Product added successfully", data: product });
   } catch (err) {
@@ -60,7 +60,7 @@ const updateProduct = async (req, res) => {
     const isValidId = isValidObjectId(productId)
     
     if(!isValidId) return res.status(404).json({success:false, message:"Product with the specified id does not exist"})
-    const product = await productModel.findByIdAndUpdate(productId, req.body, { new: true }).exec();
+    const product = await ProductModel.findByIdAndUpdate(productId, req.body, { new: true }).exec();
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
 
     res.status(200).json({ success: true, message: 'Product updated successfully', data: product });
@@ -76,7 +76,7 @@ const deleteProduct = async (req, res) => {
     const isValidId = isValidObjectId(productId)
     
     if(!isValidId) return res.status(404).json({success:false, message:"Product with the specified id does not exist"})
-    const product = await productModel.findByIdAndDelete(productId).exec();
+    const product = await ProductModel.findByIdAndDelete(productId).exec();
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
 
     res.status(200).json({ success: false, message: 'Product deleted successfully' });

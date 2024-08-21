@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const userModel = require("../models/user.model");
+const UserModel = require("../models/user.model");
 const config = require("../config/config");
 const { sendVerificationEmail } = require("./mail.controller");
 const { clientUrl } = require("../utils/url.util");
@@ -18,7 +18,7 @@ const loginWithPassword = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await userModel.findOne({ email });
+        const user = await UserModel.findOne({ email });
 
         if (!user) {
             return res.status(404).json({ success: false, message: "Wrong username or password" });
@@ -110,7 +110,7 @@ const verifyToken = async (userId, token) => {
         const isValidId = isValidObjectId(userId)
     
         if(!isValidId) return {success:false, message:"User with the specified id does not exist"}
-        const user = await userModel.findOne({ _id: userId })
+        const user = await UserModel.findOne({ _id: userId })
 
 
         if (!user) return { success: false, message: "User with the specified id does not exist" }
@@ -146,7 +146,7 @@ const verifyUser = async (req, res) => {
             if (userId && token) {
                 const result = await verifyToken(userId, token)
                 if (result.success) {
-                    await userModel.findByIdAndUpdate(userId, { isVerified: true, verificationCode: null, verificationCodeExpires: null });
+                    await UserModel.findByIdAndUpdate(userId, { isVerified: true, verificationCode: null, verificationCodeExpires: null });
                     res.redirect(`${clientUrl}/message=${result.message}`)
                 } else {
                     res.redirect(`${clientUrl}/auth/verify?message=${result.message}`)
@@ -164,7 +164,7 @@ const verifyUser = async (req, res) => {
             const isValidId = isValidObjectId(userId)
     
             if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
-            const user = await userModel.findById(userId)
+            const user = await UserModel.findById(userId)
 
             if (!user) return res.status(404).json({ success: false, message: "User With Specified Id was not found" })
 
@@ -174,7 +174,7 @@ const verifyUser = async (req, res) => {
 
 
             if (user.verificationCode === verificationCode) {
-                await userModel.findByIdAndUpdate(userId, { isVerified: true, verificationCode: null, verificationCodeExpires: null });
+                await UserModel.findByIdAndUpdate(userId, { isVerified: true, verificationCode: null, verificationCodeExpires: null });
                 return (
                     res.status(200).json({ success: true, message: "User Verified successfully" })
                 )
@@ -203,7 +203,7 @@ const regenerateVerificationCode = async (req, res) => {
         if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
 
         if (!userId) return res.status(400).json({ success: false, message: "UserId is required" })
-        const user = await userModel.findById(userId)
+        const user = await UserModel.findById(userId)
         if (!user) return res.status(404).json({ success: false, message: "No user with specified id was found" })
         if (user.isVerified) return res.status(400).json({ success: false, message: "User account has already been verified" })
 
@@ -211,7 +211,7 @@ const regenerateVerificationCode = async (req, res) => {
 
         const newToken = generateToken(newVerificationCode)
 
-        await userModel.findByIdAndUpdate(userId, { isVerified: false, verificationCode: newVerificationCode, verificationCodeExpires: Date.now() + 3 * 24 * 60 * 60 * 1000 });
+        await UserModel.findByIdAndUpdate(userId, { isVerified: false, verificationCode: newVerificationCode, verificationCodeExpires: Date.now() + 3 * 24 * 60 * 60 * 1000 });
         await sendVerificationEmail(user.email, user._id, newVerificationCode, newToken, "verify");
         res.status(200).json({ success: true, message: "Verification Code has been sent to your email" })
     } catch (error) {
@@ -230,13 +230,13 @@ const requestPasswordReset = async (req, res) => {
     if (!email) return res.status(400).json({ success: false, message: "User email is required" })
     try {
 
-        const user = await userModel.findOne({ email })
+        const user = await UserModel.findOne({ email })
         if (!user) return res.status(404).json({ success: false, message: "No user with specified email was found" })
         if (user.googleId) return res.status(400).json({ success: false, message: "Password login in not allowed for this user" })
 
         const resetCode = generateCode()
         const resetToken = generateToken(resetCode)
-        await userModel.findByIdAndUpdate(user._id, { passwordResetCode: resetCode, passwordResetCodeExpires: Date.now() + 3 * 24 * 60 * 60 * 1000 });
+        await UserModel.findByIdAndUpdate(user._id, { passwordResetCode: resetCode, passwordResetCodeExpires: Date.now() + 3 * 24 * 60 * 60 * 1000 });
         await sendVerificationEmail(user.email, user._id, null, resetToken, "reset");
         res.status(200).json({ success: true, message: "Your password reset code has been sent to your email" })
     } catch (error) {
@@ -259,7 +259,7 @@ const resetPassword = async (req, res) => {
         if (newPassword !== confirmPassword) return res.status(400).json({ success: false, message: 'Passwords do not match.' });
 
 
-        const user = await userModel.findById(userId);
+        const user = await UserModel.findById(userId);
 
         if (!user) return res.status(404).json({ success: false, message: 'User not found.' });
 
@@ -310,7 +310,7 @@ const changePassword = async (req, res) => {
 
     try {
 
-        const user = await userModel.findById(userId);
+        const user = await UserModel.findById(userId);
         if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
 

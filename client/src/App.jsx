@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFetchUserDataQuery } from "../app/features/user/userAPI";
 import Loading from "./components/common/Loading/Loading";
 import { clearUser, setUser } from "../app/features/auth/authSlice";
+import { useGetProductsQuery } from "../app/features/product/productAPI";
+import { setProducts } from "../app/features/product/productSlice";
 
 function App() {
   const [isAuthRoute, setIsAuthRoute] = useState(false);
@@ -24,17 +26,28 @@ function App() {
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
-  const { data, error, isLoading } = useFetchUserDataQuery(userId, {
+  const { userData, error, isLoading } = useFetchUserDataQuery(userId, {
     skip: !token || !userId,
   });
+  const { productData, productError, productLoading } = useGetProductsQuery();
 
   useEffect(() => {
-    if (data?.data) {
-      dispatch(setUser(data.data));
+    if (userData?.data) {
+      dispatch(setUser(userData.data));
     } else if (error) {
       dispatch(clearUser());
     }
-  }, [data, error, dispatch]);
+  }, [userData, error, dispatch]);
+
+
+  useEffect(() => {
+    if (productData?.data) {
+      dispatch(setProducts(productData.data));
+      console.log(productData)
+    }else{
+      console.log(productData)
+    }
+  }, [productData, dispatch,productError]);
 
   return (
     <>

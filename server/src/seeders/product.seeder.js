@@ -1,25 +1,27 @@
 const mongoose = require('mongoose');
-const productModel = require('../models/product.model');
+const ProductModel = require('../models/product.model');
 const Brand = require('../models/brand.model');
 const Category = require('../models/category.model');
-const Review = require('./models/review.model');
+const Review = require('../models/review.model');
 const connectDB = require('../config/db');
 
 
 const seedProducts = async () => {
 
- await connectDB()
+  await connectDB()
 
 
-  await productModel.deleteMany({});
+  await ProductModel.deleteMany({});
 
   const brand1 = await Brand.findOne({ name: 'BrandName1' });
   const brand2 = await Brand.findOne({ name: 'BrandName2' });
   const category1 = await Category.findOne({ name: 'CategoryName1' });
   const category2 = await Category.findOne({ name: 'CategoryName2' });
-  const review1 = await Review.findOne({ title: 'Great Product!' });
-  const review2 = await Review.findOne({ title: 'Not Bad' });
+  const review1 = await Review.findOne({ comment: "Great product!" });
+  const review2 = await Review.findOne({ comment: "Very good, but could be better." });
 
+  
+  console.log(review2, review1)
 
   const products = [
     {
@@ -70,12 +72,12 @@ const seedProducts = async () => {
       stock: 50,
       brand: [brand2._id],
       category: [category2._id],
-      ratings: [review2._id]
+      ratings: [review1._id, review2._id]
     }
   ];
 
 
-  await productModel.insertMany(products);
+  await ProductModel.insertMany(products);
   console.log('Database seeded successfully');
 
 
