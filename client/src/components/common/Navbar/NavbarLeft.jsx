@@ -17,7 +17,7 @@ const NavbarLeft = ({
 }) => {
   const user = useSelector((state) => state.auth.user);
   const profileLink = user
-    ? user.isVerified
+    ? user?.isVerified
       ? "/profile/me"
       : "/auth/verify"
     : "/auth/login";

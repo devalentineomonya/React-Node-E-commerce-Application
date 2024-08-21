@@ -7,6 +7,7 @@ const { sendVerificationEmail } = require("./mail.controller");
 const { clientUrl } = require("../utils/url.util");
 const { generateToken } = require("../utils/mailToken.util");
 const { generateCode } = require("../utils/mailCode.util");
+const { isValidObjectId } = require("mongoose");
 
 
 /*=============================
@@ -39,8 +40,8 @@ const loginWithPassword = async (req, res) => {
         const payload = {
             id: user._id,
             email: user.email,
-            isVerified: user.isVerified,
-            isActive: user.isActive
+            isVerified: user?.isVerified,
+            isActive: user?.isActive
         };
 
 
@@ -106,11 +107,13 @@ VERIFY TOKEN FUNCTION
 =================================*/
 const verifyToken = async (userId, token) => {
     try {
-
+        const isValidId = isValidObjectId(userId)
+    
+        if(!isValidId) return {success:false, message:"User with the specified id does not exist"}
         const user = await userModel.findOne({ _id: userId })
 
 
-        if (!user) return { success: false, message: "User not found" }
+        if (!user) return { success: false, message: "User with the specified id does not exist" }
         if (user.isVerified) return { success: true, message: "Account is already verified" }
 
         const hashedCode = generateToken(user.verificationCode)
@@ -137,7 +140,9 @@ const verifyUser = async (req, res) => {
     if (req?.method === "GET") {
         const { userId, token } = req.query
         try {
-
+            const isValidId = isValidObjectId(userId)
+    
+            if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
             if (userId && token) {
                 const result = await verifyToken(userId, token)
                 if (result.success) {
@@ -156,7 +161,9 @@ const verifyUser = async (req, res) => {
         const { verificationCode } = req.body
         const userId = req.user.id
         try {
-
+            const isValidId = isValidObjectId(userId)
+    
+            if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
             const user = await userModel.findById(userId)
 
             if (!user) return res.status(404).json({ success: false, message: "User With Specified Id was not found" })
@@ -189,7 +196,11 @@ REGENERATE VERIFICATION CODE CONTROLLER
 =======================================*/
 const regenerateVerificationCode = async (req, res) => {
     const userId = req.user.id
+
     try {
+        const isValidId = isValidObjectId(userId)
+    
+        if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
 
         if (!userId) return res.status(400).json({ success: false, message: "UserId is required" })
         const user = await userModel.findById(userId)
@@ -238,6 +249,10 @@ const requestPasswordReset = async (req, res) => {
 const resetPassword = async (req, res) => {
     try {
         const { token, userId, email, newPassword, confirmPassword } = req.body;
+
+        const isValidId = isValidObjectId(userId)
+    
+        if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
 
         if (!token || !userId || !email || !newPassword || !confirmPassword) return res.status(400).json({ success: false, message: 'All fields are required.' });
 
@@ -288,6 +303,9 @@ function logout(req, res) {
 
 const changePassword = async (req, res) => {
     const { userId } = req.params;
+    const isValidId = isValidObjectId(userId)
+    
+    if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
     const { currentPassword, newPassword, confirmPassword } = req.body;
 
     try {

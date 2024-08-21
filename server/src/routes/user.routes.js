@@ -4,7 +4,7 @@ const authMiddleware = require('../middlewares/auth.middleware');
 const userRouter = express.Router()
 userRouter
     .post("/add", registerUser)
-    .get("/get/:userId", getUser)
+    .get("/get/:userId",authMiddleware, getUser)
     .put("/update/:userId", authMiddleware, updateUser)
 
 

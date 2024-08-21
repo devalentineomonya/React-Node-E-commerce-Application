@@ -4,6 +4,7 @@ import Loading from "./components/common/Loading/Loading";
 import { useSelector } from "react-redux";
 import UseRedirect from "./hooks/useRedirect"
 import ResetPassword from "./components/Auth/ResetPassword";
+import Search from "./pages/Search/Search";
 
 const Home = lazy(() => import("./pages/home/Home"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
@@ -26,7 +27,7 @@ const Router = () => {
   const requireAuth = (component) => {
     if (!user) {
       return <UseRedirect to="/auth/signin" />;
-    } else if (!user.isVerified) {
+    } else if (!user?.isVerified) {
       return <UseRedirect to="/auth/verify" />;
     }
     return component;
@@ -36,7 +37,7 @@ const Router = () => {
   const isLoggedIn = (component) => {
     if (user) {
     
-      if (!user.isVerified) {
+      if (!user?.isVerified) {
      
         return <Navigate to="/auth/verify" />;
       }
@@ -51,11 +52,11 @@ const Router = () => {
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/shop" element={<ProductsLayout />} />
         <Route path="/deals" element={<ProductsLayout />} />
-        <Route path="/search" element={<ProductsLayout />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/new-products" element={<ProductsLayout />} />
-        <Route path="/cart" element={requireAuth(<Cart />)} />
         <Route path="/profile" element={<Navigate to="me" />} />
         <Route path="/profile/:profilePage" element={requireAuth(<Profile />)} />
         <Route path="/profile/:profilePage/:pageAction" element={requireAuth(<Profile />)} />
@@ -63,7 +64,8 @@ const Router = () => {
         <Route path="/my-account" element={requireAuth(<MyAccount />)} />
         <Route path="/my-account/:action" element={requireAuth(<MyAccount />)} />
 
-        {/* Authentication Routes */}
+   
+   
         <Route path="/auth" element={<Navigate to="/auth/signin" />} />
         <Route path="/auth/signin" element={isLoggedIn(<SignIn />)} />
         <Route path="/auth/login" element={isLoggedIn(<SignIn />)} />

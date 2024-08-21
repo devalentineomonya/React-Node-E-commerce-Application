@@ -35,7 +35,7 @@ const OtpForm = () => {
       toast.error(message);
       navigate("/auth/verify", { replace: true });
     }
-  }, [message, user.isVerified, navigate]);
+  }, [message, user?.isVerified, navigate]);
 
 
   const fetchUserData = useFetchUserDataQuery(user?._id, {
@@ -91,6 +91,7 @@ const OtpForm = () => {
     e.preventDefault();
     try {
       const response = await resendCode().unwrap();
+
       await dispatch(regenerateVerificationCode(response));
       toast.success(response?.message);
     } catch (error) {

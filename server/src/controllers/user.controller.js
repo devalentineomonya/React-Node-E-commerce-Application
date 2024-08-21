@@ -1,11 +1,11 @@
 const userModel = require("../models/user.model");
 const bcrypt = require("bcryptjs");
-const crypto = require("crypto");
 const jwt = require("jsonwebtoken")
 const config = require("../config/config")
 const { sendVerificationEmail } = require("./mail.controller")
 const { generateToken } = require("../utils/mailToken.util");
 const { generateCode } = require("../utils/mailCode.util");
+const { isValidObjectId } = require("mongoose");
 
 
 
@@ -69,6 +69,9 @@ const getUser = async (req, res) => {
     const userId = req.params.userId
     if (!userId) return res.status(400).json({ success: false, message: "UserId is required" })
     try {
+        const isValidId = isValidObjectId(userId)
+
+        if (!isValidId) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" })
         const user = await userModel.findById(userId);
         if (!user) return res.status(400).json({ success: false, message: "User with specified id was not found" })
         const userObject = user.toObject()
@@ -92,16 +95,19 @@ UPDATE USER CONTROLLER
 =========================*/
 const updateUser = async (req, res) => {
     const { userId } = req.params
-    const { firstName, lastName, middleName, email, gender, dateOfBirth, phoneNumber:primaryPhoneNumber, secondaryPhoneNumber } = req.body
+    const { firstName, lastName, middleName, email, gender, dateOfBirth, phoneNumber: primaryPhoneNumber, secondaryPhoneNumber } = req.body
 
     if (!userId) return res.status(400).json({ success: false, message: "User id is required" })
     try {
+        const isValidId = isValidObjectId(userId)
+
+        if (!isValidId) return res.status(404).json({ success: false, message: "User with the specified id does not exist" })
         const user = await userModel.findById(userId)
         if (!user) return res.status(404).json({ success: false, message: "User with the specified id was not found" })
-        const isDuplicate = await userModel.findOne({ email, _id: { $ne: userId }  })
+        const isDuplicate = await userModel.findOne({ email, _id: { $ne: userId } })
         if (isDuplicate) return res.status(400).json({ success: false, message: "User with the specified email already exists." })
-        const newUser =  await userModel.findByIdAndUpdate(userId, { firstName, lastName, middleName, gender, dateOfBirth, primaryPhoneNumber, secondaryPhoneNumber },{new:true})
-   
+        const newUser = await userModel.findByIdAndUpdate(userId, { firstName, lastName, middleName, gender, dateOfBirth, primaryPhoneNumber, secondaryPhoneNumber }, { new: true })
+
         const userObject = newUser.toObject()
 
         delete userObject.password
@@ -109,7 +115,7 @@ const updateUser = async (req, res) => {
         delete userObject.verificationCodeExpires
         delete userObject.passwordResetCode;
 
-        res.status(200).json({ success: true, message: "User updated successfully" ,data:userObject})
+        res.status(200).json({ success: true, message: "User updated successfully", data: userObject })
 
     } catch (error) {
         res.status(500).json({ success: false, message: "An error occurred while querying user data.", error: error.message });

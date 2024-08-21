@@ -1,27 +1,24 @@
 import { configureStore } from '@reduxjs/toolkit';
+import productReducer from "./features/product/productSlice"
 import authReducer from './features/auth/authSlice';
 import userReducer from "./features/user/userSlice"
-// import profileReducer from '../features/profile/profileSlice';
-// import cartReducer from '../features/cart/cartSlice';
-// import couponReducer from '../features/coupon/couponSlice';
-// import reviewsReducer from '../features/reviews/reviewsSlice';
-// import { productsApi } from '../features/products/productsAPI';
+
+
 import { authApi } from './features/auth/authAPI';
 import { userApi } from "./features/user/userAPI"
+import { productApi } from './features/product/productAPI';
+
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
-    // profile: profileReducer,
-    // cart: cartReducer,
-    // coupon: couponReducer,
-    // reviews: reviewsReducer,
+    product:productReducer,
     [authApi.reducerPath]: authApi.reducer,
-    [userApi.reducerPath]: userApi.reducer
-    // [productsApi.reducerPath]: productsApi.reducer,productsApi.middleware,
+    [userApi.reducerPath]: userApi.reducer,
+    [productApi.reducerPath]: productApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware, userApi.middleware),
+    getDefaultMiddleware().concat(authApi.middleware, userApi.middleware,productApi.middleware,),
   devTools: true,
 });

@@ -20,6 +20,7 @@ const productSchema = new Schema({
   price: { type: Number, required: true },
   shortDescription: { type: String },
   longDescription: { type: String },
+  label: { type: String, enum: ["BestSelling", "Popular", "Featured", "Trending"] },
   type: { type: String },
   additionalInfo: { type: Map, of: String },
   sizes: [sizeSchema],
