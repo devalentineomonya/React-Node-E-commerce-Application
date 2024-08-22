@@ -14,50 +14,46 @@ const { isValidObjectId } = require("mongoose");
 LOGIN WITH PASSWORD CONTROLLER
 =================================*/
 
-const loginWithPassword = async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-        const user = await UserModel.findOne({ email });
-
-        if (!user) {
-            return res.status(404).json({ success: false, message: "Wrong username or password" });
+const loginWithPassword = (req, res, next) => {
+    passport.authenticate('local', { session: false }, (err, user, info) => {
+      if (err || !user) {
+        return res.status(400).json({
+          success: false,
+          message: info ? info.message : 'Login failed',
+        });
+      }
+  
+      req.login(user, { session: false }, (err) => {
+        if (err) {
+          return res.status(500).json({ success: false, message: 'Server error' });
         }
-        if (user.googleId) return res.status(400).json({ success: false, message: "Password Authentication is not allowed for this account. Try logging in with google" })
-        const isMatch = await bcrypt.compare(password, user.password);
-
-        if (!isMatch) {
-            return res.status(400).json({ success: false, message: "Wrong username or password" });
-        }
+  
         const userObject = user.toObject();
-
         delete userObject.password;
         delete userObject.verificationCode;
         delete userObject.passwordResetCode;
         delete userObject.verificationCodeExpires;
-        delete userObject.passwordResetCodeExpires
-
+        delete userObject.passwordResetCodeExpires;
+  
         const payload = {
-            id: user._id,
-            email: user.email,
-            isVerified: user?.isVerified,
-            isActive: user?.isActive
+          id: user._id,
+          email: user.email,
+          isVerified: user.isVerified,
+          isActive: user.isActive,
         };
-
-
+  
         const token = jwt.sign(payload, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
-
-        res.status(200).json({
-            success: true,
-            message: "Logged in successfully",
-            token,
-            data: userObject
+  
+        return res.status(200).json({
+          success: true,
+          message: 'Logged in successfully',
+          token,
+          data: userObject,
         });
-    } catch (error) {
-        res.status(500).json({ success: false, message: "Server error." });
-    }
-};
-
+      });
+    })(req, res, next);
+  };
+  
 /*=============================
 GOOGLE CALLBACK CONTROLLER
 =================================*/

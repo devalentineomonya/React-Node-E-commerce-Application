@@ -26,7 +26,7 @@ function App() {
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
-  const { userData, error, isLoading } = useFetchUserDataQuery(userId, {
+  const { userData, userError, userLoading } = useFetchUserDataQuery(userId, {
     skip: !token || !userId,
   });
   const { productData, productError, productLoading } = useGetProductsQuery();
@@ -34,27 +34,26 @@ function App() {
   useEffect(() => {
     if (userData?.data) {
       dispatch(setUser(userData.data));
-    } else if (error) {
+    } else if (userError) {
       dispatch(clearUser());
     }
-  }, [userData, error, dispatch]);
-
+  }, [userData, userError, dispatch]);
 
   useEffect(() => {
     if (productData?.data) {
       dispatch(setProducts(productData.data));
-      console.log(productData)
-    }else{
-      console.log(productData)
+      console.log(productData);
+    } else {
+      console.log(productData);
     }
-  }, [productData, dispatch,productError]);
+  }, [productData, dispatch, productError]);
 
   return (
     <>
       <ToastContainer position="top-center" />
 
       <NavbarMain />
-      {isLoading && !user ? <Loading /> : <Router />}
+      {(userLoading || productLoading) && !user ? <Loading /> : <Router />}
       {!isAuthRoute && <Footer />}
     </>
   );

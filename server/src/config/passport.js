@@ -1,16 +1,17 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
+const bcrypt = require('bcryptjs');
 const userModel = require('../models/user.model');
 const config = require('./config');
 
+// Google OAuth Strategy
 passport.use(new GoogleStrategy({
   clientID: config.google.clientId,
   clientSecret: config.google.secret,
   callbackURL: "http://localhost:8000/api/auth/google/callback",
-  // passReqToCallback:true
 },
   async (_, __, profile, done) => {
-    console.log(profile)
     try {
       let user = await userModel.findOne({
         $or: [
@@ -38,12 +39,50 @@ passport.use(new GoogleStrategy({
   }
 ));
 
+// JWT Strategy
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: config.jwt.secret,
+};
 
+passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
+  try {
+    const user = await userModel.findById(jwtPayload.id);
+    if (!user) {
+      return done(null, false);
+    }
+    return done(null, user);
+  } catch (error) {
+    return done(error, false);
+  }
+}));
 
+// Local Strategy (for login with email and password)
+passport.use(
+  new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
+    try {
+      const user = await userModel.findOne({ email });
+      if (!user) {
+        return done(null, false, { message: 'Wrong username or password' });
+      }
+      if (user.googleId) {
+        return done(null, false, { message: 'Password Authentication is not allowed for this account. Try logging in with Google' });
+      }
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return done(null, false, { message: 'Wrong username or password' });
+      }
+      return done(null, user);
+    } catch (error) {
+      return done(error, false);
+    }
+  })
+);
+
+// Serialize and deserialize user (for session handling)
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
-
 
 passport.deserializeUser(async (id, done) => {
   try {
@@ -53,3 +92,5 @@ passport.deserializeUser(async (id, done) => {
     done(error, null);
   }
 });
+
+module.exports = passport;

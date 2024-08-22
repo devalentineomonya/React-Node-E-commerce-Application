@@ -29,7 +29,6 @@ const productSchema = new Schema({
   stock: { type: Number, required: true },
   brand: [{ type: Schema.Types.ObjectId, ref: "Brand" }],
   category: [{ type: Schema.Types.ObjectId, ref: "Category" }],
-  ratings: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Product', productSchema);

@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
+const { isValidObjectId } = require('mongoose');
 const config = require('../config/config');
+const AdminModel = require('../models/admin.model')
 
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -10,7 +12,6 @@ const authMiddleware = (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
 
-    // Verify the JWT token
     try {
         const decoded = jwt.verify(token, config.jwt.secret);
         req.user = decoded;
@@ -20,4 +21,20 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
-module.exports = authMiddleware;
+const isAdmin = async (req, res, next) => {
+    try {
+        const user = req.user
+        const userId = user.id
+        const isValidId = isValidObjectId(userId);
+        if (!isValidId) return res.status(404).json({ success: false, message: "User is not valid" })
+        const adminUser = await AdminModel.findById(userId)
+        if (!adminUser) return res.status(403).json({ success: false, message: "User is not Allowed to perform this operation" })
+        next()
+
+
+    } catch (error) {
+        return res.status(403).json({ success: false, message: 'User has no permissions to access this operation' });
+    }
+}
+
+module.exports = { authMiddleware, isAdmin };

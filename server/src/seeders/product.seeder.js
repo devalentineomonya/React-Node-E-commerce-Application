@@ -17,8 +17,6 @@ const seedProducts = async () => {
   const brand2 = await Brand.findOne({ name: 'BrandName2' });
   const category1 = await Category.findOne({ name: 'CategoryName1' });
   const category2 = await Category.findOne({ name: 'CategoryName2' });
-  const review1 = await Review.findOne({ comment: "Great product!" });
-  const review2 = await Review.findOne({ comment: "Very good, but could be better." });
 
   
   console.log(review2, review1)
@@ -47,7 +45,7 @@ const seedProducts = async () => {
       stock: 100,
       brand: [brand1._id],
       category: [category1._id],
-      ratings: [review1._id, review2._id]
+
     },
     {
       name: 'Product 2',
@@ -72,7 +70,6 @@ const seedProducts = async () => {
       stock: 50,
       brand: [brand2._id],
       category: [category2._id],
-      ratings: [review1._id, review2._id]
     }
   ];
 
