@@ -25,7 +25,7 @@ const loginWithPassword = (req, res, next) => {
 
         req.login(user, { session: false }, (err) => {
             if (err) {
-                return res.status(500).json({ success: false, message: 'Server error' });
+                return res.status(500).json({ success: false, message: 'An error occurred while logging in user', error:error.message });
             }
 
             const userObject = user.toObject();

@@ -56,7 +56,7 @@ const Router = () => {
         <Route path="/shop" element={<ProductsLayout />} />
         <Route path="/deals" element={<ProductsLayout />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/new-products" element={<ProductsLayout />} />
+        <Route path="/shop/new" element={<ProductsLayout />} />
         <Route path="/profile" element={<Navigate to="me" />} />
         <Route path="/profile/:profilePage" element={requireAuth(<Profile />)} />
         <Route path="/profile/:profilePage/:pageAction" element={requireAuth(<Profile />)} />

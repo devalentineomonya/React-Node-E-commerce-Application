@@ -26,13 +26,13 @@ function App() {
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
-  const { userData, userError, userLoading } = useFetchUserDataQuery(userId, {
+  const { data:userData, error:userError, isLoading:userLoading } = useFetchUserDataQuery(userId, {
     skip: !token || !userId,
   });
-  const { productData, productError, productLoading } = useGetProductsQuery();
-
+  const { data:productData, error:productError, isLoading:productLoading } = useGetProductsQuery();
   useEffect(() => {
     if (userData?.data) {
+   
       dispatch(setUser(userData.data));
     } else if (userError) {
       dispatch(clearUser());

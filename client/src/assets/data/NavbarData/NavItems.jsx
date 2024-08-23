@@ -12,7 +12,7 @@ const navItems = [
     {
       key: "3-new",
       title: "Whats New",
-      to: "/new-products",
+      to: "/shop/new",
     },
     {
       key: "4-deliveries",

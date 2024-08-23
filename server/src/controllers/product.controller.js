@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const { isValidObjectId, Types } = mongoose;
 
 const ProductModel = require('../models/product.model');
-const ReviewModel = require('../models/review.model');
 
 
 // Format the product response
@@ -78,8 +77,7 @@ const getAllProducts = async (_, res) => {
           brands: 1
         }
       }
-    ]).exec();
-console.log(products)
+    ])
 
     const formattedProducts = products.map(formatProductResponse);
     res.status(200).json({ success: true, message: "Products queried successfully", data: formattedProducts });
@@ -88,7 +86,7 @@ console.log(products)
   }
 };
 
-// Get a product by ID with aggregated ratings and review counts
+
 const getProductById = async (req, res) => {
   const { productId } = req.params;
 
@@ -100,7 +98,7 @@ const getProductById = async (req, res) => {
     }
 
     const product = await ProductModel.aggregate([
-      { $match: { _id: new Types.ObjectId(productId) } }, // Convert productId to ObjectId
+      { $match: { _id: new Types.ObjectId(productId) } }, 
       {
         $lookup: {
           from: 'reviews',
@@ -164,7 +162,7 @@ const getProductById = async (req, res) => {
           }
         }
       }
-    ]).exec();
+    ])
 
     if (!product || product.length === 0) {
       return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
@@ -175,7 +173,8 @@ const getProductById = async (req, res) => {
     res.status(500).json({ success: false, message: "An error occurred while fetching product", error: err.message });
   }
 };
-// Create a new product
+
+
 const createProduct = async (req, res) => {
   try {
     const product = new ProductModel(req.body);
@@ -186,7 +185,8 @@ const createProduct = async (req, res) => {
   }
 };
 
-// Update a product by ID
+
+
 const updateProduct = async (req, res) => {
   const { productId } = req.params;
   try {
@@ -194,7 +194,7 @@ const updateProduct = async (req, res) => {
 
     if (!isValidId) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
 
-    const product = await ProductModel.findByIdAndUpdate(productId, req.body, { new: true }).exec();
+    const product = await ProductModel.findByIdAndUpdate(productId, req.body, { new: true })
     if (!product) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
 
     res.status(200).json({ success: true, message: 'Product updated successfully', data: product });
@@ -203,7 +203,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
-// Delete a product by ID
+
 const deleteProduct = async (req, res) => {
   const { productId } = req.params;
   try {
@@ -211,7 +211,7 @@ const deleteProduct = async (req, res) => {
 
     if (!isValidId) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
 
-    const product = await ProductModel.findByIdAndDelete(productId).exec();
+    const product = await ProductModel.findByIdAndDelete(productId)
     if (!product) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
 
     res.status(200).json({ success: true, message: 'Product deleted successfully' });
