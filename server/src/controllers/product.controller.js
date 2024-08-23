@@ -16,6 +16,7 @@ const formatProductResponse = (product) => {
     type: product.type,
     label: product.label,
     brand: product.brands[0].name,
+    category: product.categories[0].name,
     images: product.images.length > 0 ? product.images[0].url : null,
     rating: product.rating || 0,
     reviewCount: product.reviewCount || 0
@@ -43,6 +44,14 @@ const getAllProducts = async (_, res) => {
         }
       },
       {
+        $lookup: {
+          from: 'categories',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'categories'
+        }
+      },
+      {
         $addFields: {
           rating: {
             $cond: {
@@ -60,7 +69,7 @@ const getAllProducts = async (_, res) => {
           shortDescription: 1,
           price: 1,
           images: 1,
-          category: 1,
+          categories:1,
           type: 1,
           stock: 1,
           label: 1,
@@ -70,7 +79,7 @@ const getAllProducts = async (_, res) => {
         }
       }
     ]).exec();
-
+console.log(products)
 
     const formattedProducts = products.map(formatProductResponse);
     res.status(200).json({ success: true, message: "Products queried successfully", data: formattedProducts });
