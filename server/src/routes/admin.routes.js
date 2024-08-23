@@ -1,12 +1,13 @@
 const express = require('express');
 const { createAdmin, getAdminById, updateAdminById, deleteAdminById } = require('../controllers/admin.controller');
+const { authMiddleware, isAdmin } = require('../middlewares/auth.middleware');
 
 const adminRouter = express.Router();
 
 adminRouter
-  .post('/admin', createAdmin)  
-  .get('/admin/:adminId', getAdminById)  
-  .put('/admin/:adminId', updateAdminById)  
-  .delete('/admin/:adminId', deleteAdminById); 
+  .get('/get/:adminId', authMiddleware, isAdmin, getAdminById)
+  .post('/add', authMiddleware, isAdmin, createAdmin)
+  .put('/update/:adminId', authMiddleware, isAdmin, updateAdminById)
+  .delete('/delete/:adminId', authMiddleware, isAdmin, deleteAdminById);
 
 module.exports = adminRouter;

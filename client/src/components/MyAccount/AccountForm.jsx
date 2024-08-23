@@ -50,8 +50,7 @@ const AccountForm = () => {
     if (response?.error) {
       toast.error(response.error.data.message);
     } else {
-      console.log(response.data.data)
-      await dispatch(setUser(response.data.data));
+       await dispatch(setUser(response.data.data));
       toast.success(response.data.message);
     }
   };

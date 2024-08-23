@@ -36,8 +36,8 @@ app
   .use("/api/auth", authRouter)
   .use("/api/products", productRouter)
   .use("/api/brands", brandRouter)
-  .use("/api/category", categoryRouter)
-  .use("/api/admin", adminRouter)
+  .use("/api/categories", categoryRouter)
+  .use("/api/admins", adminRouter)
   .get("/", (_, res) => {
     res.render("pages/index");
   });

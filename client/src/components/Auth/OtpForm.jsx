@@ -52,7 +52,6 @@ const OtpForm = () => {
     dispatch(setAuthLoading(true));
     try {
       const result = await verify({ verificationCode }).unwrap();
-      console.log(result)
       if (result.success) {
         toast.success(result?.message);
 
@@ -64,8 +63,7 @@ const OtpForm = () => {
       }
     } catch (error) {
       dispatch(setAuthError(error));
-      console.log(error);
-      toast.error(error.data.message || error.message);
+           toast.error(error.data.message || error.message);
     } finally {
       dispatch(setAuthLoading(false));
     }

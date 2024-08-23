@@ -12,12 +12,14 @@ const seedBrand = async () => {
       name: 'BrandName1',
       description: 'This is a description for BrandName1',
       logoUrl: 'https://prd.place/400?id=5',
+      productImage: 'https://prd.place/400?id=10',
       website: 'https://brandname1.com',
     },
     {
       name: 'BrandName2',
       description: 'This is a description for BrandName2',
       logoUrl: 'https://prd.place/400?id=6',
+      productImage: 'https://prd.place/400?id=9',
       website: 'https://brandname2.com',
     },
   ];

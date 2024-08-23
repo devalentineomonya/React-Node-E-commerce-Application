@@ -19,7 +19,6 @@ const seedProducts = async () => {
   const category2 = await Category.findOne({ name: 'CategoryName2' });
 
   
-  console.log(review2, review1)
 
   const products = [
     {

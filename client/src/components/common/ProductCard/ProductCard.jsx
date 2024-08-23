@@ -19,7 +19,6 @@ const ProductCard = ({ thumbnail, product }) => {
   return (
     <div
       className="product-card-container"
-      onDrag={() => console.log("Dragged")}
     >
       <div className="product-image">
         <Link to="/product/iyee" title="View More" aria-label="View More">

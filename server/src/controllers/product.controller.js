@@ -1,17 +1,24 @@
+const mongoose = require('mongoose');
+const { isValidObjectId, Types } = mongoose;
+
 const ProductModel = require('../models/product.model');
-const ReviewModel = require('../models/review.model'); // Import the Review model
-const { isValidObjectId } = require("mongoose");
+const ReviewModel = require('../models/review.model');
+
 
 // Format the product response
 const formatProductResponse = (product) => {
   return {
-    _id: product._id,
+    id: product._id,
     name: product.name,
     shortDescription: product.shortDescription,
     price: product.price,
+    stock: product.stock,
+    type: product.type,
+    label: product.label,
+    brand: product.brands[0].name,
     images: product.images.length > 0 ? product.images[0].url : null,
-    rating: product.rating || 0, 
-    reviewCount: product.reviewCount || 0 
+    rating: product.rating || 0,
+    reviewCount: product.reviewCount || 0
   };
 };
 
@@ -28,6 +35,14 @@ const getAllProducts = async (_, res) => {
         }
       },
       {
+        $lookup: {
+          from: 'brands',
+          localField: 'brand',
+          foreignField: '_id',
+          as: 'brands'
+        }
+      },
+      {
         $addFields: {
           rating: {
             $cond: {
@@ -45,11 +60,17 @@ const getAllProducts = async (_, res) => {
           shortDescription: 1,
           price: 1,
           images: 1,
+          category: 1,
+          type: 1,
+          stock: 1,
+          label: 1,
           rating: 1,
-          reviewCount: 1
+          reviewCount: 1,
+          brands: 1
         }
       }
     ]).exec();
+
 
     const formattedProducts = products.map(formatProductResponse);
     res.status(200).json({ success: true, message: "Products queried successfully", data: formattedProducts });
@@ -61,19 +82,38 @@ const getAllProducts = async (_, res) => {
 // Get a product by ID with aggregated ratings and review counts
 const getProductById = async (req, res) => {
   const { productId } = req.params;
+
   try {
     const isValidId = isValidObjectId(productId);
 
-    if (!isValidId) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
+    if (!isValidId) {
+      return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
+    }
 
     const product = await ProductModel.aggregate([
-      { $match: { _id: new mongoose.Types.ObjectId(productId) } },
+      { $match: { _id: new Types.ObjectId(productId) } }, // Convert productId to ObjectId
       {
         $lookup: {
           from: 'reviews',
           localField: '_id',
           foreignField: 'product',
           as: 'reviews'
+        }
+      },
+      {
+        $lookup: {
+          from: 'brands',
+          localField: 'brand',
+          foreignField: '_id',
+          as: 'brandDetails'
+        }
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'categoryDetails'
         }
       },
       {
@@ -85,15 +125,26 @@ const getProductById = async (req, res) => {
               else: 0
             }
           },
-          reviewCount: { $size: '$reviews' }
+          reviewCount: { $size: '$reviews' },
+          brandName: { $arrayElemAt: ['$brandDetails.name', 0] },
+          categoryName: { $arrayElemAt: ['$categoryDetails.name', 0] }
         }
       },
       {
         $project: {
           name: 1,
           shortDescription: 1,
+          longDescription: 1,
+          colorVariants: 1,
+          additionalInfo: 1,
           price: 1,
           images: 1,
+          category: '$categoryName',  
+          brand: '$brandName', 
+          type: 1,
+          stock: 1,
+          label: 1,
+          sizes: 1,
           rating: 1,
           reviewCount: 1,
           reviews: {
@@ -106,15 +157,15 @@ const getProductById = async (req, res) => {
       }
     ]).exec();
 
-    if (!product || product.length === 0) return res.status(404).json({ success: false, message: 'Product not found' });
+    if (!product || product.length === 0) {
+      return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
+    }
 
-    const formattedProduct = formatProductResponse(product[0]);
-    res.status(200).json({ success: true, message: "Product fetched successfully", data: formattedProduct });
+    res.status(200).json({ success: true, message: "Product fetched successfully", data: product[0] });
   } catch (err) {
     res.status(500).json({ success: false, message: "An error occurred while fetching product", error: err.message });
   }
 };
-
 // Create a new product
 const createProduct = async (req, res) => {
   try {
@@ -135,7 +186,7 @@ const updateProduct = async (req, res) => {
     if (!isValidId) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
 
     const product = await ProductModel.findByIdAndUpdate(productId, req.body, { new: true }).exec();
-    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+    if (!product) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
 
     res.status(200).json({ success: true, message: 'Product updated successfully', data: product });
   } catch (err) {
@@ -152,7 +203,7 @@ const deleteProduct = async (req, res) => {
     if (!isValidId) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
 
     const product = await ProductModel.findByIdAndDelete(productId).exec();
-    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+    if (!product) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
 
     res.status(200).json({ success: true, message: 'Product deleted successfully' });
   } catch (err) {

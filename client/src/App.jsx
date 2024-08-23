@@ -42,10 +42,8 @@ function App() {
   useEffect(() => {
     if (productData?.data) {
       dispatch(setProducts(productData.data));
-      console.log(productData);
-    } else {
-      console.log(productData);
-    }
+   
+    } 
   }, [productData, dispatch, productError]);
 
   return (

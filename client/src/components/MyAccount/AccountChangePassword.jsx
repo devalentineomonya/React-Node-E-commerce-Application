@@ -26,8 +26,7 @@ const user = useSelector(state=>state.auth.user)
       id:user._id ??   localStorage.getItem('userId') 
      }
     const response = await changePassword(newUser)
-    console.log(response)
-    if(response?.error){
+       if(response?.error){
       toast.error(response.error.data.message)
     }else{
       toast.success(response.data.message)

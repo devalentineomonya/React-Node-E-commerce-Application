@@ -17,7 +17,7 @@ export const userApi = createApi({
         }),
         fetchUserData: builder.query({
             query: (userId) => {
-                console.log(userId)
+       
                 return ({
                     url: `/get/${userId}`,
                     method: 'GET',

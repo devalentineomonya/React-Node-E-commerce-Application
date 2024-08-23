@@ -16,44 +16,44 @@ LOGIN WITH PASSWORD CONTROLLER
 
 const loginWithPassword = (req, res, next) => {
     passport.authenticate('local', { session: false }, (err, user, info) => {
-      if (err || !user) {
-        return res.status(400).json({
-          success: false,
-          message: info ? info.message : 'Login failed',
-        });
-      }
-  
-      req.login(user, { session: false }, (err) => {
-        if (err) {
-          return res.status(500).json({ success: false, message: 'Server error' });
+        if (err || !user) {
+            return res.status(400).json({
+                success: false,
+                message: info ? info.message : 'Login failed',
+            });
         }
-  
-        const userObject = user.toObject();
-        delete userObject.password;
-        delete userObject.verificationCode;
-        delete userObject.passwordResetCode;
-        delete userObject.verificationCodeExpires;
-        delete userObject.passwordResetCodeExpires;
-  
-        const payload = {
-          id: user._id,
-          email: user.email,
-          isVerified: user.isVerified,
-          isActive: user.isActive,
-        };
-  
-        const token = jwt.sign(payload, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
-  
-        return res.status(200).json({
-          success: true,
-          message: 'Logged in successfully',
-          token,
-          data: userObject,
+
+        req.login(user, { session: false }, (err) => {
+            if (err) {
+                return res.status(500).json({ success: false, message: 'Server error' });
+            }
+
+            const userObject = user.toObject();
+            delete userObject.password;
+            delete userObject.verificationCode;
+            delete userObject.passwordResetCode;
+            delete userObject.verificationCodeExpires;
+            delete userObject.passwordResetCodeExpires;
+
+            const payload = {
+                id: user._id,
+                email: user.email,
+                isVerified: user.isVerified,
+                isActive: user.isActive,
+            };
+
+            const token = jwt.sign(payload, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
+
+            return res.status(200).json({
+                success: true,
+                message: 'Logged in successfully',
+                token,
+                data: userObject,
+            });
         });
-      });
     })(req, res, next);
-  };
-  
+};
+
 /*=============================
 GOOGLE CALLBACK CONTROLLER
 =================================*/
@@ -104,8 +104,8 @@ VERIFY TOKEN FUNCTION
 const verifyToken = async (userId, token) => {
     try {
         const isValidId = isValidObjectId(userId)
-    
-        if(!isValidId) return {success:false, message:"User with the specified id does not exist"}
+
+        if (!isValidId) return { success: false, message: "User with the specified id does not exist" }
         const user = await UserModel.findOne({ _id: userId })
 
 
@@ -137,8 +137,8 @@ const verifyUser = async (req, res) => {
         const { userId, token } = req.query
         try {
             const isValidId = isValidObjectId(userId)
-    
-            if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
+
+            if (!isValidId) return res.status(404).json({ success: false, message: "User with the specified id does not exist" })
             if (userId && token) {
                 const result = await verifyToken(userId, token)
                 if (result.success) {
@@ -158,8 +158,8 @@ const verifyUser = async (req, res) => {
         const userId = req.user.id
         try {
             const isValidId = isValidObjectId(userId)
-    
-            if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
+
+            if (!isValidId) return res.status(404).json({ success: false, message: "User with the specified id does not exist" })
             const user = await UserModel.findById(userId)
 
             if (!user) return res.status(404).json({ success: false, message: "User With Specified Id was not found" })
@@ -195,8 +195,8 @@ const regenerateVerificationCode = async (req, res) => {
 
     try {
         const isValidId = isValidObjectId(userId)
-    
-        if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
+
+        if (!isValidId) return res.status(404).json({ success: false, message: "User with the specified id does not exist" })
 
         if (!userId) return res.status(400).json({ success: false, message: "UserId is required" })
         const user = await UserModel.findById(userId)
@@ -247,8 +247,8 @@ const resetPassword = async (req, res) => {
         const { token, userId, email, newPassword, confirmPassword } = req.body;
 
         const isValidId = isValidObjectId(userId)
-    
-        if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
+
+        if (!isValidId) return res.status(404).json({ success: false, message: "User with the specified id does not exist" })
 
         if (!token || !userId || !email || !newPassword || !confirmPassword) return res.status(400).json({ success: false, message: 'All fields are required.' });
 
@@ -300,8 +300,8 @@ function logout(req, res) {
 const changePassword = async (req, res) => {
     const { userId } = req.params;
     const isValidId = isValidObjectId(userId)
-    
-    if(!isValidId) return res.status(404).json({success:false, message:"User with the specified id does not exist"})
+
+    if (!isValidId) return res.status(404).json({ success: false, message: "User with the specified id does not exist" })
     const { currentPassword, newPassword, confirmPassword } = req.body;
 
     try {
