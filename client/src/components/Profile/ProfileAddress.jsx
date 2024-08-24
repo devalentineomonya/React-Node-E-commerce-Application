@@ -43,15 +43,14 @@ const ProfileAddress = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      setLoading(true); // Set loading to true
+      setLoading(true); 
       try {
-        // Simulate form submission with a timeout
         await new Promise((resolve) => setTimeout(resolve, 2000));
         console.log("Form Data", values);
       } catch (error) {
         console.error("Submission Error", error);
       } finally {
-        setLoading(false); // Set loading to false
+        setLoading(false); 
       }
     },
   });

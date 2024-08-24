@@ -1,4 +1,3 @@
-// src/features/profile/profileAPI.js
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const profileApi = createApi({
@@ -8,7 +7,7 @@ export const profileApi = createApi({
     getAddresses: builder.query({
       query: () => '/addresses',
     }),
-    // Add more endpoints here
+   
   }),
 });
 

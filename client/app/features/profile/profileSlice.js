@@ -15,7 +15,6 @@ const profileSlice = createSlice({
     setRecentItems(state, action) {
       state.recentItems = action.payload;
     },
-    // Add more reducers here
   },
 });
 

@@ -2,7 +2,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import deliveryInfoInputs from "../../assets/data/DeliveryInfo/DeliveryInfo";
 
-// Validation schema using Yup
 const validationSchema = Yup.object({
   firstName: Yup.string()
     .min(3, "First Name must be at least 3 characters")
@@ -39,7 +38,6 @@ const CartDeliveryInfoForm = () => {
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
-      // Handle form submission here
     },
   });
 

@@ -71,14 +71,11 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
     const pasteData = e.clipboardData.getData("text").slice(0, length);
 
     if (/^\d+$/.test(pasteData) && pasteData.length === length) {
-      // Update OTP values
       const newOtpValues = pasteData.split("").slice(0, length);
       setOtpValue(newOtpValues);
 
-      // Call onOtpSubmit with the pasted OTP
       onOtpSubmit(pasteData);
     } else if (/^\d+$/.test(pasteData)) {
-      // If the pasted data is numeric but not of the correct length, update fields
       const newOtpValues = pasteData.split("").slice(0, length);
       const updatedOtpValues = [...otpValue];
       newOtpValues.forEach((value, index) => {
@@ -89,7 +86,6 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => {} }) => {
       }
       setOtpValue(updatedOtpValues);
 
-      // Focus on the next input field if there are more digits
       const nextInputIndex = Math.min(newOtpValues.length, length - 1);
       inputRefs.current[nextInputIndex]?.focus();
     }

@@ -7,7 +7,6 @@ const userModel = require('../models/user.model');
 
 const config = require('./config');
 
-// Google OAuth Strategy
 passport.use(new GoogleStrategy({
   clientID: config.google.clientId,
   clientSecret: config.google.secret,
@@ -42,7 +41,6 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-// JWT Strategy
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: config.jwt.secret,
@@ -60,7 +58,6 @@ passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
   }
 }));
 
-// Local Strategy (for login with email and password)
 passport.use(
   new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
     try {
@@ -82,7 +79,6 @@ passport.use(
   })
 );
 
-// Serialize and deserialize user (for session handling)
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });

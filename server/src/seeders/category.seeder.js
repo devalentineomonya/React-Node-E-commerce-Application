@@ -5,10 +5,8 @@ const connectDB = require('../config/db');
 const seedCategory = async () => {
   await connectDB();
 
-  // Clear existing categories
   await CategoryModel.deleteMany({});
 
-  // Define new categories with dummy images
   const categories = [
     {
       name: 'Headphones',
@@ -52,7 +50,6 @@ const seedCategory = async () => {
     }
   ];
 
-  // Insert the new categories
   await CategoryModel.insertMany(categories);
   console.log('Categories seeded successfully');
   mongoose.connection.close();

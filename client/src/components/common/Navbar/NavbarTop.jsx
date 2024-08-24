@@ -1,6 +1,7 @@
-import { useRef } from "react";
 import MainLayout from "../MainLayout/MainLayout";
 import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import TextTransition, { presets } from "react-text-transition";
 import currencies from "../../../assets/data/NavbarData/Currencies";
 import languages from "../../../assets/data/NavbarData/Languages";
 import { AiOutlinePhone } from "react-icons/ai";
@@ -14,21 +15,48 @@ const NavbarTop = () => {
   const handleCurrencyChange = () => {
     console.log(currencyRef.current.value);
   };
+  const offers = [
+    "Get 50% off on selected items",
+    "Free delivery on orders over $50",
+    "Exclusive vouchers for new customers",
+    "Buy 1 get 1 free on all accessories",
+    "Limited time: 30% off storewide",
+    "Sign up and get a $10 discount",
+  ];
+
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % offers.length);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [offers.length]);
   return (
     <MainLayout bg="bg-customGreen">
       <div className="navbar-top-content ">
         <div className="navbar-top-left">
-          <Link to="tel:+254768133220" title="Telephone" aria-label='Telephone'>
-            <AiOutlinePhone className="icon" /> <span className="hidden sm:inline-block">+254768133220</span>
+          <Link to="tel:+254768133220" title="Telephone" aria-label="Telephone">
+            <AiOutlinePhone className="icon" />{" "}
+            <span className="hidden sm:inline-block">+254768133220</span>
           </Link>
         </div>
-        <p>
-          <span className="hidden md:inline-block">Get 50% off on selected items  |</span>  <Link to="/shop" title="Shop" aria-label='Shop'> Shop Now</Link>
+        <p className="flex items-center gap-x-2">
+          <span className="hidden md:flex items-center gap-x-2 ">
+            <TextTransition springConfig={presets.wobbly} direction="down" className=" min-w-64" >
+              {offers[index]}
+            </TextTransition>
+            {" | "}
+          </span>
+          <Link to="/shop" title="Shop" aria-label="Shop">
+            Shop Now
+          </Link>
         </p>
         <div className="navbar-top-select-items">
           <select
-           title="Currency"
-           aria-label="Currency"
+            title="Currency"
+            aria-label="Currency"
             name="currency"
             onChange={handleCurrencyChange}
             ref={currencyRef}
@@ -40,8 +68,8 @@ const NavbarTop = () => {
             ))}
           </select>
           <select
-           title="Language"
-           aria-label="Language"
+            title="Language"
+            aria-label="Language"
             name="language"
             onChange={handleLanguageChange}
             ref={languageRef}

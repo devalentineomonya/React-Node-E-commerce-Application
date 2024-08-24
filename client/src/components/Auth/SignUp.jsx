@@ -8,7 +8,6 @@ import logo from "../../assets/images/logo_big.png";
 import { Link, useNavigate } from "react-router-dom";
 import googleIcon from "../../assets/images/google.png";
 import {
-  // registerUser,
   setRegisterError,
   setRegisterLoading,
 } from "../../../app/features/user/userSlice";

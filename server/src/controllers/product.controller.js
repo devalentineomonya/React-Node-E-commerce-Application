@@ -4,7 +4,6 @@ const { isValidObjectId, Types } = mongoose;
 const ProductModel = require('../models/product.model');
 
 
-// Format the product response
 const formatProductResponse = (product) => {
   return {
     id: product._id,
@@ -22,7 +21,6 @@ const formatProductResponse = (product) => {
   };
 };
 
-// Get all products with aggregated ratings and review counts
 const getAllProducts = async (_, res) => {
   try {
     const products = await ProductModel.aggregate([
