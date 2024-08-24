@@ -19,13 +19,13 @@
 }
 
 .more-info-card .info-item {
-    @apply rounded-md w-full h-8 flex justify-between px-3 items-center text-sm
+    @apply rounded-md w-full h-8 flex justify-between px-3 items-center text-sm 
 }
 
 .more-info-card .info-item .info-label {
-    @apply text-slate-900 font-semibold flex-1 text-start
+    @apply text-slate-900 font-semibold flex-1 text-start truncate
 }
 
 .more-info-card .info-item .info-value {
-    @apply text-gray-600 font-medium text-start w-full flex-1
+    @apply text-gray-600 font-medium text-start w-full flex-1 truncate
 }

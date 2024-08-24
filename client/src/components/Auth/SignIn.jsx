@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import {
   setAuthLoading,
   setAuthError,
-  loginWithPassword,
+  setLoggedIn,
 } from "../../../app/features/auth/authSlice";
 import { useLoginWithPasswordMutation } from "../../../app/features/auth/authAPI";
 import { toast } from "react-toastify";
@@ -36,7 +36,7 @@ const SignIn = () => {
     dispatch(setAuthLoading(true));
     try {
       const response = await login(values).unwrap();
-      await dispatch(loginWithPassword(response));
+      await dispatch(setLoggedIn(response));
       toast.success(response.message);
 
 

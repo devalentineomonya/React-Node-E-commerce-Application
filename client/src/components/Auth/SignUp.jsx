@@ -15,7 +15,7 @@ import {
 import { useRegisterUserMutation } from "../../../app/features/user/userAPI";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { loginWithPassword } from "../../../app/features/auth/authSlice";
+import { setLoggedIn } from "../../../app/features/auth/authSlice";
 import MainLayout from "../common/MainLayout/MainLayout";
 import { useLoginWithGoogleQuery } from "../../../app/features/auth/authAPI";
 
@@ -43,7 +43,7 @@ const SignUp = () => {
     dispatch(setRegisterLoading(true));
     try {
       const response = await register(values).unwrap();
-      await dispatch(loginWithPassword(response));
+      await dispatch(setLoggedIn(response));
       toast.success(response.message);        
 
       const pathTo = localStorage.getItem("redirectTo") ?? "/";
@@ -56,8 +56,7 @@ const SignUp = () => {
       }
 
     } catch (err) {
-      // Show error toast
-      toast.error(err.data.message || "An error occurred. Please try again.");
+       toast.error(err.data.message || "An error occurred. Please try again.");
       await dispatch(setRegisterError(err.data));
     } finally {
       setSubmitting(false);

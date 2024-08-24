@@ -1,26 +1,39 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BiCreditCard } from "react-icons/bi";
 import { BsStar, BsStarFill, BsTruck } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
+
+const hexToRgba = (hex, alpha) => {
+  hex = hex.replace(/^#/, '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
 
 const ProductDescription = () => {
+  const productInfo = useSelector((state) => state.product.currentProduct);
+
   return (
     <div className="product-description-container">
       <div className="description-item">
-        <h1 className="title">Airpods - Max</h1>
-        <p className="description">
-          Esse incididunt Lorem nisi velit aute anim ipsum. Ut enim
-          reprehenderit duis exercitation.
-        </p>
+        <h1 className="title">{productInfo?.name}</h1>
+        <p className="description">{productInfo?.longDescription}</p>
         <div className="product-rating text-[12px]">
           <BsStarFill size={12} />
           <BsStarFill size={12} />
           <BsStarFill size={12} />
           <BsStarFill size={12} />
-          <BsStar size={12} /> <span>(223)</span>{" "}
+          <BsStar size={12} /> <span>(223)</span>
         </div>
       </div>
       <div className="description-item">
-        <h3 className="pricing">Kes12000.00 or 120.00 per Month</h3>
+        <h3 className="pricing">
+          Kes{productInfo?.price} or {(productInfo?.price / 6).toFixed(2)} per
+          Month
+        </h3>
         <p className="description">
           Suggested payments with 6 months special financing
         </p>
@@ -28,22 +41,27 @@ const ProductDescription = () => {
       <div className="description-item">
         <p className="color">Choose a color</p>
         <div className="color-palate-container">
-          <div className="color-palate">
-            <div className="item bg-red-700"></div>
-            <div className="item bg-red-400"></div>
-          </div>
-          <div className="color-palate">
-            <div className="item bg-green-400"></div>
-            <div className="item bg-green-700"></div>
-          </div>
-          <div className="color-palate">
-            <div className="item bg-gray-700"></div>
-            <div className="item bg-gray-400"></div>
-          </div>
-          <div className="color-palate">
-            <div className="item bg-orange-400"></div>
-            <div className="item bg-orange-700"></div>
-          </div>
+          {productInfo?.colorVariants?.map((color, index) => {
+            const baseColor = color.hexCode;
+            const opacity = 0.70; 
+            const transparentColor = hexToRgba(baseColor, opacity);
+
+            const firstColor = index % 2 === 0 ? baseColor : transparentColor;
+            const secondColor = index % 2 === 0 ? transparentColor : baseColor;
+
+            return (
+              <div key={index} className="color-palate">
+                <div
+                  className="item"
+                  style={{ backgroundColor: firstColor }}
+                ></div>
+                <div
+                  className="item"
+                  style={{ backgroundColor: secondColor }}
+                ></div>
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="description-item">
@@ -62,7 +80,7 @@ const ProductDescription = () => {
             </button>
           </div>
           <p className="text-[10px] font-semibold mt-3">
-            Only <span className="text-orange-500">12 Items</span> left <br />
+            Only <span className="text-orange-500">{productInfo?.stock} Items</span> left <br />
             Don&apos;t Miss Out
           </p>
         </div>
@@ -71,15 +89,19 @@ const ProductDescription = () => {
             className="add-to-cart min-w-32 bg-customGreen hover:bg-black text-white"
             title="Buy Now"
             aria-label="Buy Now"
+         
           >
+            <Link to="checkout">
+            
             Buy Now
+            </Link>
           </button>
           <button
             className="add-to-cart min-w-32"
             title="Add to cart"
             aria-label="Add to cart"
           >
-            Add To Card
+            Add To Cart
           </button>
         </div>
       </div>

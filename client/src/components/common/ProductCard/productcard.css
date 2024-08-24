@@ -3,7 +3,7 @@
 }
 
 .product-image {
-    @apply bg-[#f5f6f6] rounded-lg h-[350px] flex justify-center items-center relative
+    @apply bg-[#f5f6f6] rounded-lg h-[350px] flex justify-center items-center relative overflow-hidden
 }
 
 .product-image img:hover {

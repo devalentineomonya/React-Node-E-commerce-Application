@@ -61,6 +61,7 @@ const Router = () => {
         <Route path="/profile/:profilePage" element={requireAuth(<Profile />)} />
         <Route path="/profile/:profilePage/:pageAction" element={requireAuth(<Profile />)} />
         <Route path="/product/:productId" element={<ProductDetails />} />
+        <Route path="/product/:productId/checkout" element={<Cart />} />
         <Route path="/my-account" element={requireAuth(<MyAccount />)} />
         <Route path="/my-account/:action" element={requireAuth(<MyAccount />)} />
 

@@ -2,7 +2,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import profileNav from "../../assets/data/ProfileNav/ProfileNav";
 import PropTypes from "prop-types"
 import { useDispatch } from "react-redux";
-import { logout } from "../../../app/features/auth/authSlice";
+import { clearUser } from "../../../app/features/auth/authSlice";
 import { toast } from "react-toastify";
 const ProfileNav = ({showProfileNav}) => {
   const { profilePage } = useParams();
@@ -10,7 +10,7 @@ const dispatch = useDispatch();
 const navigate = useNavigate()
 
 const logoutUser = async ()=>{
-  await dispatch(logout());
+  await dispatch(clearUser());
   toast.success("User Logged out successfully")
   navigate("/")
 }
