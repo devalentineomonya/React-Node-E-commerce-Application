@@ -8,16 +8,13 @@ import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../common/MainLayout/MainLayout";
-import { useDispatch } from "react-redux";
 import { useResetPasswordMutation } from "../../../app/features/auth/authAPI";
-import { resetPassword } from "../../../app/features/auth/authSlice";
 import { toast } from "react-toastify";
 import { FormCancelButton } from "./PasswordReset";
 import { BiLock } from "react-icons/bi";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const [reset, { isLoading }] = useResetPasswordMutation();
 
@@ -54,7 +51,6 @@ const ResetPassword = () => {
         userId,
       };
       const response = await reset(userDataPayload);
-      await dispatch(resetPassword(response));
 
       if (response?.error) {
         toast.error(response.error.data.message);

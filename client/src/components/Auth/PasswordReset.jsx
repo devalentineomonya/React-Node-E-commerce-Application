@@ -7,14 +7,11 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import MainLayout from "../common/MainLayout/MainLayout";
-import { useDispatch } from "react-redux";
 import { useRequestPasswordResetMutation } from "../../../app/features/auth/authAPI";
-import { requestPasswordReset } from "../../../app/features/auth/authSlice";
 import { toast } from "react-toastify";
 
 const PasswordReset = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [requestReset, { isLoading }] = useRequestPasswordResetMutation();
 
   const passwordResetSchema = Yup.object().shape({
@@ -27,8 +24,6 @@ const PasswordReset = () => {
     setSubmitting(true);
     try {
       const response = await requestReset(values);
-      await dispatch(requestPasswordReset(response));
-
       if (response?.error) {
         toast.error(response?.error?.data?.message);
       } else {
