@@ -12,7 +12,7 @@ import {
 } from "../../../app/features/auth/authAPI";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import {
-  regenerateVerificationCode,
+  
   setAuthError,
   setAuthLoading,
   setUser,
@@ -90,7 +90,6 @@ const OtpForm = () => {
     try {
       const response = await resendCode().unwrap();
 
-      await dispatch(regenerateVerificationCode(response));
       toast.success(response?.message);
     } catch (error) {
       toast.error(error?.data?.message);
