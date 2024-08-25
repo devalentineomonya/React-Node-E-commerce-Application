@@ -3,10 +3,10 @@
     background-attachment: scroll;
 }
 .product-offers-card{
- @apply w-full sm:max-w-[300px] h-fit  sm:min-h-[448px] rounded-lg overflow-hidden  grid grid-rows-2
+ @apply w-full sm:max-w-[300px] h-fit  sm:min-h-[400px] rounded-lg overflow-hidden  grid grid-rows-2
 }
 .offer-info{
-    @apply bg-green-400 px-3 py-5 
+    @apply px-3 py-5 
 }
 .offer-info .offer-save{
     @apply text-slate-900 font-bold 
@@ -20,7 +20,7 @@
 }
 
 .offer-info .offer-description{
-    @apply text-slate-900 pb-1
+    @apply text-slate-900 pb-1 text-xl sm:text-base
 }
 .offer-image {
     @apply overflow-hidden

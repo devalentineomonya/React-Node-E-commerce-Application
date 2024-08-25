@@ -16,7 +16,6 @@ const ProductDetails = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(productId);
   const {
     data: productData,
     isLoading: productLoading,
@@ -25,7 +24,6 @@ const ProductDetails = () => {
     skip: !productId,
   });
   useEffect(() => {
-    console.log(productData)
     if (productData) {
       dispatch(setCurrentProduct(productData?.data));
     } else if (productError || productData?.error) {

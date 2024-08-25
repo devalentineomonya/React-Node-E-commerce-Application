@@ -4,6 +4,7 @@ import "./bestdeals.css";
 import { useSelector } from "react-redux";
 const BestDeals = () => {
   const products = useSelector((state) => state.product.products);
+  
   return (
     <SectionLayout title="Todays Best Deals for you!">
       <>
@@ -14,7 +15,7 @@ const BestDeals = () => {
         </div>
         <div className="deals-grid-container">
           {products?.slice(0, 10)?.map((product) => (
-            <ProductCard product={product} key={product?.id} />
+            <ProductCard product={product} key={product?.id} animate />
           ))}
         </div>
       </>

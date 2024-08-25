@@ -2,12 +2,14 @@ import { BsHeart, BsStar, BsStarFill } from "react-icons/bs";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import "./productcard.css";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import scrollReveal from "scrollreveal";
+import { revealConfig } from "../../../../config/ScrollConfig";
 
-const ProductCard = ({ thumbnail, product }) => {
+const ProductCard = ({ thumbnail, product, animate }) => {
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   const [cartValue, setCartValue] = useState(0);
   const randomBool = Math.random() > 1 / 2 ? true : false;
@@ -20,7 +22,7 @@ const ProductCard = ({ thumbnail, product }) => {
     setCartValue((cartValue) => cartValue + 1);
   };
   const handleImageClick = async (id) => {
-    localStorage.setItem("currentProductUrl", location.pathname)
+    localStorage.setItem("currentProductUrl", location.pathname);
     return navigate(`/product/${id}`);
   };
   const handleKeyDown = (e, id) => {
@@ -28,6 +30,18 @@ const ProductCard = ({ thumbnail, product }) => {
       handleImageClick(id);
     }
   };
+  useEffect(() => {
+    const sr = scrollReveal();
+    if (animate) {
+      sr.reveal(".product-card-container", {
+        ...revealConfig,
+        duration: 1000,
+        origin: "bottom",
+        distance: "40px",
+        scale: 0.05,
+      });
+    }
+  }, [animate]);
 
   return (
     <div className="product-card-container">
@@ -40,14 +54,14 @@ const ProductCard = ({ thumbnail, product }) => {
           onKeyDown={(e) => handleKeyDown(e, product?.id)}
         />
 
-        <div
+        <button
           className="add-to-favorite"
           title="Favorite"
           aria-label="Favorite"
           onClick={() => alert("Added")}
         >
           <BsHeart size={20} />
-        </div>
+        </button>
       </div>
 
       {!thumbnail && (
@@ -102,6 +116,7 @@ const ProductCard = ({ thumbnail, product }) => {
 };
 ProductCard.propTypes = {
   thumbnail: PropTypes.bool,
+  animate: PropTypes.bool,
   product: PropTypes.object,
 };
 

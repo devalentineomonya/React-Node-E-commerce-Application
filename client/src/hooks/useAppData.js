@@ -6,6 +6,8 @@ import { clearUser, setUser } from "../../app/features/auth/authSlice";
 import { setProducts } from "../../app/features/product/productSlice";
 import { useGetCategoriesQuery } from "../../app/features/category/categoryAPI";
 import { setCategories } from "../../app/features/category/categorySlice";
+import { useGetAllBrandsQuery } from "../../app/features/brand/brandAPI";
+import { setBrands } from "../../app/features/brand/brandSlice";
 
 const useAppData = () => {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ const useAppData = () => {
 
   const { data: productData, error: productError, isLoading: productLoading } = useGetProductsQuery();
   const { data: categoryData, error: categoryError, isLoading: categoryLoading } = useGetCategoriesQuery();
+  const { data: brandData, error: brandError, isLoading: brandLoading } = useGetAllBrandsQuery();
 
   useEffect(() => {
     if (userData?.data) {
@@ -38,8 +41,13 @@ const useAppData = () => {
       dispatch(setCategories(categoryData.data));
     }
   }, [categoryData, dispatch, categoryError]);
+  useEffect(() => {
+    if (brandData?.data) {
+      dispatch(setBrands(brandData.data));
+    }
+  }, [brandData, dispatch, brandError]);
 
-  return { userLoading, productLoading , categoryLoading};
+  return { userLoading, productLoading , categoryLoading,brandLoading};
 };
 
 export default useAppData;

@@ -1,20 +1,24 @@
 import SectionLayout from '../../common/SectionLayout/SectionLayout'
 import { CategoryItem } from '../../common/Navbar/NavCategoryDropDown'
-import testImage from "../../../assets/images/63e8c4e560afc2c49da53521_brand (3)-min.png"
+import { useSelector } from 'react-redux'
 
 const HomeBrands = () => {
+
+  const brands = useSelector(state => state.brand.brands)
+  const products = useSelector(state => state.product.products)
   return (
  <SectionLayout title="Choose By Brand">
      <div className="category-drop-down-content">
-    <CategoryItem count={20} image={testImage} name="Staple" brand/>
-    <CategoryItem count={20} image={testImage} name="Staple" brand/>
-    <CategoryItem count={20} image={testImage} name="Staple" brand/>
-    <CategoryItem count={20} image={testImage} name="Staple" brand/>
-    <CategoryItem count={20} image={testImage} name="Staple" brand/>
-    <CategoryItem count={20} image={testImage} name="Staple" brand/>
-    <CategoryItem count={20} image={testImage} name="Staple" brand/>
-    <CategoryItem count={20} image={testImage} name="Staple" brand/>
-    <CategoryItem count={20} image={testImage} name="Staple" brand/>
+      {
+        brands?.map((brand )=>{
+          const productsWithBrand = products.filter((product)=> product?.brand === brand?.name)
+         return(
+
+           <CategoryItem count={productsWithBrand?.length} image={brand?.imageUrl} name={brand?.name} brand animate key={brand?._id}/>
+         ) 
+        })
+      }
+
      </div>
  </SectionLayout>
   )

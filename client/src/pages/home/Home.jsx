@@ -26,7 +26,6 @@ const Home = () => {
   useEffect(() => {
     if (encryptedMessage) {
       const message = decryptMessage(encryptedMessage);
-      console.log("Message",message)
 
       if (message && user && user?.isVerified) {
         toast.success(message);

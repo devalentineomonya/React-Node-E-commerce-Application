@@ -12,7 +12,7 @@ const SectionLayout = ({ children, title, overflow = false }) => {
     sr.reveal(".section-title", {
       ...revealConfig,
       duration: 1000,
-      distance: "100px",
+      distance: "50px",
       origin: "bottom",
 
     });
@@ -20,7 +20,7 @@ const SectionLayout = ({ children, title, overflow = false }) => {
     sr.reveal(".section-content", {
       ...revealConfig,
       duration: 1000,
-      distance: "100px",
+      distance: "50px",
       origin: "bottom",
       delay: 200,
     });

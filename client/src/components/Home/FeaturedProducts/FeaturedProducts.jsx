@@ -5,11 +5,11 @@ import Swiper from "../../common/Swiper/Swiper";
 import "./featuredproducts.css";
 const FeaturedProducts = () => {
   const products = useSelector((state) => state.product.products);
-  console.log(products);
+  const bestDealProducts = products.filter(product => product.label === "BestSelling")
   return (
-    <SectionLayout title="Todays Best Deals for you!">
+    <SectionLayout title="Best Selling Products for you!">
       <Swiper>
-        {products?.slice(0, 10).map((product) => (
+        {bestDealProducts?.slice(0, 10).map((product) => (
           <ProductCard product={product} key={product.id} />
         ))}
       </Swiper>
