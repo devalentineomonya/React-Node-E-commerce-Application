@@ -4,15 +4,32 @@
 
 .swiper {
     @apply flex overflow-x-auto scroll-smooth pb-3;
+
+     scrollbar-width: thin; 
+    scrollbar-color: transparent transparent; 
+}
+
+.swiper::-webkit-scrollbar {
+    width: 8px; 
+    background-color: transparent;
+}
+
+.swiper::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 10px;
+}
+
+.swiper::-webkit-scrollbar-track {
+    background-color: transparent;
 }
 
 .swiper > * {
-    @apply flex-none; /* Flexbox item does not grow or shrink */
+    @apply flex-none; 
     flex: 0 0 calc(25% - 10px);
     margin: 0 5px;
 }
 
-/* Media queries for responsive design */
+
 @media (max-width: 1200px) {
     .swiper > * {
         flex: 0 0 calc(33.33% - 10px);

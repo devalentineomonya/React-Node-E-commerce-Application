@@ -1,5 +1,5 @@
 export const revealConfig = {
-    distance: "80px",
+    distance: "250px",
     duration: 800,
     scale: 0.9,
     interval: 20,

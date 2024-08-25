@@ -3,8 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
 const config = require("../config/config")
 const { sendVerificationEmail } = require("./mail.controller")
-const { generateToken } = require("../utils/mailToken.util");
-const { generateCode } = require("../utils/mailCode.util");
+const { generateToken } = require("../utils/token.util");
+const { generateCode } = require("../utils/code.util");
 const { isValidObjectId } = require("mongoose");
 
 

@@ -5,8 +5,8 @@ const UserModel = require("../models/user.model");
 const config = require("../config/config");
 const { sendVerificationEmail } = require("./mail.controller");
 const { clientUrl } = require("../utils/url.util");
-const { generateToken } = require("../utils/mailToken.util");
-const { generateCode } = require("../utils/mailCode.util");
+const { generateToken, verifyToken, encryptMessage } = require("../utils/token.util");
+const { generateCode } = require("../utils/code.util");
 const { isValidObjectId } = require("mongoose");
 
 
@@ -98,34 +98,6 @@ const googleCallback = (req, res) => {
     })(req, res);
 };
 
-/*=============================
-VERIFY TOKEN FUNCTION
-=================================*/
-const verifyToken = async (userId, token) => {
-    try {
-        const isValidId = isValidObjectId(userId)
-
-        if (!isValidId) return { success: false, message: "User with the specified id does not exist" }
-        const user = await UserModel.findOne({ _id: userId })
-
-
-        if (!user) return { success: false, message: "User with the specified id does not exist" }
-        if (user.isVerified) return { success: true, message: "Account is already verified" }
-
-        const hashedCode = generateToken(user.verificationCode)
-
-        if (Date.now() > user.verificationCodeExpires) {
-            return { success: false, message: "Verification code has expired.Request a resend for the code" }
-        }
-        if (hashedCode === token) return ({ success: true, message: "Account Verified Successfully" })
-        return { success: false, message: "Invalid Verification Token" }
-
-    } catch (error) {
-        return { success: false, message: error.message }
-
-    }
-
-}
 
 /*=============================
 VERIFY USER CONTROLLER
@@ -143,15 +115,15 @@ const verifyUser = async (req, res) => {
                 const result = await verifyToken(userId, token)
                 if (result.success) {
                     await UserModel.findByIdAndUpdate(userId, { isVerified: true, verificationCode: null, verificationCodeExpires: null });
-                    res.redirect(`${clientUrl}/message=${result.message}`)
+                    res.redirect(`${clientUrl}/msg_id=${result.message}`)
                 } else {
-                    res.redirect(`${clientUrl}/auth/verify?message=${result.message}`)
+                    res.redirect(`${clientUrl}/auth/verify?msg_id=${result.message}`)
                 }
             } else {
-                res.redirect(`${clientUrl}/auth/verify?message=${result.message}`)
+                res.redirect(`${clientUrl}/auth/verify?msg_id=${result.message}`)
             }
         } catch (error) {
-            res.redirect(`${clientUrl}/auth/verify?message=Internal server error occurred while verifying user`)
+            res.redirect(`${clientUrl}/auth/verify?msg_id=${encryptMessage("Internal server error occurred while verifying user",config.messageSecret )}`)
         }
     } else if (req?.method == "POST") {
         const { verificationCode } = req.body

@@ -19,6 +19,7 @@ const config = {
     secret: process.env.JWT_SECRET ?? 'your_jwt_secret_key',
     expiresIn: process.env.JWT_EXPIRES_IN ?? '1h'
   },
+  messageSecret: process.env.MSG_SECRET ?? "your message secret_key",
   session: {
     secret: process.env.SESSION_SECRET ?? 'your_session_secret_key',
     resave: false,

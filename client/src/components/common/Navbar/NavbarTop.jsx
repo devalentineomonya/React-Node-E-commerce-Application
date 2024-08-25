@@ -29,7 +29,7 @@ const NavbarTop = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % offers.length);
-    }, 1000);
+    }, 1500);
 
     return () => clearInterval(intervalId);
   }, [offers.length]);
@@ -42,17 +42,21 @@ const NavbarTop = () => {
             <span className="hidden sm:inline-block">+254768133220</span>
           </Link>
         </div>
-        <p className="flex items-center gap-x-2">
-          <span className="hidden md:flex items-center gap-x-2 ">
-            <TextTransition springConfig={presets.wobbly} direction="down" className=" min-w-64" >
+        <div className="flex items-center gap-x-2">
+          <div className="hidden md:flex items-center gap-x-2 ">
+            <TextTransition
+              springConfig={presets.wobbly}
+              direction="down"
+              className=" min-w-64"
+            >
               {offers[index]}
             </TextTransition>
             {" | "}
-          </span>
+          </div>
           <Link to="/shop" title="Shop" aria-label="Shop">
             Shop Now
           </Link>
-        </p>
+        </div>
         <div className="navbar-top-select-items">
           <select
             title="Currency"

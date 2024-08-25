@@ -12,12 +12,13 @@ import {
 } from "../../../app/features/auth/authAPI";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import {
-  
   setAuthError,
   setAuthLoading,
   setUser,
 } from "../../../app/features/auth/authSlice";
 import { useEffect } from "react";
+import { decryptMessage } from "../../../utils/decryptionUtil";
+
 
 const OtpForm = () => {
   const navigate = useNavigate();
@@ -27,16 +28,17 @@ const OtpForm = () => {
   const user = useSelector((state) => state.auth.user);
 
   const [searchParams] = useSearchParams();
-
-  const message = searchParams.get("message");  
+  const encryptedMessage = searchParams.get("msg_id"); 
 
   useEffect(() => {
-    if (message && !user?.isVerified) {
-      toast.error(message);
+    if (encryptedMessage && !user?.isVerified) {
+      const message = decryptMessage(encryptedMessage); 
+      if (message) {
+        toast.error(message);
+      }
       navigate("/auth/verify", { replace: true });
     }
-  }, [message, user?.isVerified, navigate]);
-
+  }, [encryptedMessage, user?.isVerified, navigate]);
 
   const fetchUserData = useFetchUserDataQuery(user?._id, {
     skip: !user?._id,
@@ -48,7 +50,6 @@ const OtpForm = () => {
   }
 
   const onOtpSubmit = async (verificationCode) => {
-    
     dispatch(setAuthLoading(true));
     try {
       const result = await verify({ verificationCode }).unwrap();
@@ -63,7 +64,7 @@ const OtpForm = () => {
       }
     } catch (error) {
       dispatch(setAuthError(error));
-           toast.error(error.data.message || error.message);
+      toast.error(error.data.message || error.message);
     } finally {
       dispatch(setAuthLoading(false));
     }
@@ -85,6 +86,7 @@ const OtpForm = () => {
       toast.error("Fill all OTP fields");
     }
   };
+
   const resendVerificationCode = async (e) => {
     e.preventDefault();
     try {
@@ -95,7 +97,6 @@ const OtpForm = () => {
       toast.error(error?.data?.message);
     }
   };
-
 
   return (
     <MainLayout overflow>

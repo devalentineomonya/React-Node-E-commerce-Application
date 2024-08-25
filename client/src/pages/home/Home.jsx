@@ -15,20 +15,28 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { decryptMessage } from "../../../utils/decryptionUtil";
 
 const Home = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const message = searchParams.get("message");
+  const encryptedMessage = searchParams.get("msg_id"); 
   const user = useSelector((state) => state.auth.user);
+  
   useEffect(() => {
-    if (message && user && user?.isVerified) {
-      toast.success(message);
-      navigate("/", { replace: true });
-    } else if (message && !user && !user?.isVerified) {
-      navigate("/");
+    if (encryptedMessage) {
+      const message = decryptMessage(encryptedMessage);
+      console.log("Message",message)
+
+      if (message && user && user?.isVerified) {
+        toast.success(message);
+        navigate("/", { replace: true });
+      } else if (message && !user && !user?.isVerified) {
+        navigate("/");
+      }
     }
-  }, [message, user?.isVerified, user, navigate]);
+  }, [encryptedMessage, user?.isVerified, user, navigate]);
+
   return (
     <>
       <HomeHero />

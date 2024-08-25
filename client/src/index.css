@@ -3,22 +3,42 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   @apply transition-all ease-in-out duration-300 font-Inter;
   box-sizing: border-box;
-}   
+  scrollbar-width: thin;
+  scrollbar-color:#aaa; 
+}
 
 ::-webkit-scrollbar {
   width: 5px;
   height: 2px;
   background-color: #aaa;
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: #231F1E;
   border-radius: 10px;
 }
-.validation-error{
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #aaa; 
+}
+
+.validation-error {
   @apply text-red-600 font-semibold text-sm mt-2
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 
@@ -27,8 +47,7 @@
 =========================*/
 
 .cart-item-card {
-  @apply w-full h-fit flex gap-x-4 max-w-[500px] min-h-28 items-center px-4 
-  border-b-2 border-gray-100 hover:bg-gray-50 cursor-pointer rounded-sm mt-2 pb-1
+  @apply w-full h-fit flex gap-x-4 max-w-[500px] min-h-28 items-center px-4 border-b-2 border-gray-100 hover:bg-gray-50 cursor-pointer rounded-sm mt-2 pb-1
 }
 
 .cart-item-card:hover .item-image img {
@@ -36,11 +55,13 @@
 }
 
 .cart-item-card .item-image {
-  @apply w-24 aspect-square flex  justify-center  items-center gap-x-1 sm:gap-x-2
+  @apply w-24 aspect-square flex justify-center items-center gap-x-1 sm:gap-x-2
 }
-.cart-item-card .item-image p{
+
+.cart-item-card .item-image p {
   @apply font-bold text-slate-900 text-2xl
 }
+
 .cart-item-card .item-image img {
   @apply rounded-md bg-[#f5f6f6]
 }
@@ -54,11 +75,11 @@
 }
 
 .cart-item-card .item-info p {
-  @apply text-slate-600 text-sm mt-1 
+  @apply text-slate-600 text-sm mt-1
 }
 
 .cart-item-card .item-info .price {
-  @apply text-slate-800 text-sm font-semibold 
+  @apply text-slate-800 text-sm font-semibold
 }
 
 .cart-item-card .item-description,
@@ -71,7 +92,7 @@
   @apply grid sm:justify-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-3 gap-y-12
 }
 
-.cart-items{
+.cart-items {
   @apply grid grid-cols-1 lg:grid-cols-2 gap-x-6;
-  
+
 }
