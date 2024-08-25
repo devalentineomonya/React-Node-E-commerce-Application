@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import UseRedirect from "./hooks/useRedirect"
 import ResetPassword from "./components/Auth/ResetPassword";
 import Search from "./pages/Search/Search";
+import GoogleAuthCallback from "./components/Auth/AuthCallBack";
 
 const Home = lazy(() => import("./pages/home/Home"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
@@ -68,6 +69,7 @@ const Router = () => {
    
    
         <Route path="/auth" element={<Navigate to="/auth/signin" />} />
+        <Route path="/auth/callback" element={<GoogleAuthCallback/>} />
         <Route path="/auth/signin" element={isLoggedIn(<SignIn />)} />
         <Route path="/auth/login" element={isLoggedIn(<SignIn />)} />
         <Route path="/auth/signup" element={isLoggedIn(<SignUp />)} />

@@ -1,5 +1,8 @@
-import { useDispatch } from "react-redux";
-import { useGetProductByIdQuery } from "../../../app/features/product/productAPI";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  useAddViewProductMutation,
+  useGetProductByIdQuery,
+} from "../../../app/features/product/productAPI";
 import MainLayout from "../../components/common/MainLayout/MainLayout";
 import BreadCrumb from "../../components/ProductDetails/BreadCrumb/BreadCrumb";
 import MoreAboutProduct from "../../components/ProductDetails/MoreAboutProduct/MoreAboutProduct";
@@ -11,11 +14,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/common/Loading/Loading";
 import { useEffect } from "react";
 import { setCurrentProduct } from "../../../app/features/product/productSlice";
+import { setUser } from "../../../app/features/auth/authSlice";
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const {
     data: productData,
     isLoading: productLoading,
@@ -23,13 +28,55 @@ const ProductDetails = () => {
   } = useGetProductByIdQuery(productId, {
     skip: !productId,
   });
+
+  const [addViewed] = useAddViewProductMutation();
+
   useEffect(() => {
-    if (productData) {
-      dispatch(setCurrentProduct(productData?.data));
-    } else if (productError || productData?.error) {
-      return navigate(localStorage.getItem("currentProductUrl") ?? "/");
-    }
-  }, [productData, productLoading, productError, dispatch, navigate]);
+    const handleViewedProduct = async () => {
+      if (productData) {
+        dispatch(setCurrentProduct(productData?.data));
+
+        if (user) {
+          const alreadyViewed = user.recentItems?.includes(productId);
+
+          if (!alreadyViewed) {
+            try {
+              const response = await addViewed(productId);
+              console.log(response?.data?.data)
+              if (response?.data?.data) {
+                await dispatch(setUser(response?.data?.data));
+              }
+            } catch (error) {
+              console.error("Error adding viewed product:", error);
+            }
+          }
+        } else {
+          const storedViewedItems =
+            JSON.parse(localStorage.getItem("viewedItems")) || [];
+          if (!storedViewedItems.includes(productId)) {
+            storedViewedItems.push(productId);
+            localStorage.setItem(
+              "viewedItems",
+              JSON.stringify(storedViewedItems)
+            );
+          }
+        }
+      } else if (productError) {
+        navigate(localStorage.getItem("currentProductUrl") ?? "/");
+      }
+    };
+
+    handleViewedProduct();
+  }, [
+    productData,
+    productError,
+    dispatch,
+    navigate,
+    user,
+    productId,
+    addViewed,
+  ]);
+
   return (
     <>
       <MainLayout>

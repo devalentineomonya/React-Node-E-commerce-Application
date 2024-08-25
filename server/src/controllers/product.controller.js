@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { isValidObjectId, Types } = mongoose;
 
 const ProductModel = require('../models/product.model');
-
+const UserModel = require("../models/user.model");
 
 const formatProductResponse = (product) => {
   return {
@@ -13,8 +13,8 @@ const formatProductResponse = (product) => {
     stock: product.stock,
     type: product.type,
     label: product.label,
-    brand: product.brands[0].name,
-    category: product.categories[0].name,
+    brand: product.brands[0]?.name || 'Unknown',
+    category: product.categories[0]?.name || 'Unknown',
     images: product.images.length > 0 ? product.images[0].url : null,
     rating: product.rating || 0,
     reviewCount: product.reviewCount || 0
@@ -66,7 +66,7 @@ const getAllProducts = async (_, res) => {
           shortDescription: 1,
           price: 1,
           images: 1,
-          categories:1,
+          categories: 1,
           type: 1,
           stock: 1,
           label: 1,
@@ -75,7 +75,7 @@ const getAllProducts = async (_, res) => {
           brands: 1
         }
       }
-    ])
+    ]);
 
     const formattedProducts = products.map(formatProductResponse);
     res.status(200).json({ success: true, message: "Products queried successfully", data: formattedProducts });
@@ -84,19 +84,16 @@ const getAllProducts = async (_, res) => {
   }
 };
 
-
 const getProductById = async (req, res) => {
   const { productId } = req.params;
 
   try {
-    const isValidId = isValidObjectId(productId);
-
-    if (!isValidId) {
-      return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
+    if (!isValidObjectId(productId)) {
+      return res.status(400).json({ success: false, message: "Invalid product ID" });
     }
 
     const product = await ProductModel.aggregate([
-      { $match: { _id: new Types.ObjectId(productId) } }, 
+      { $match: { _id: new Types.ObjectId(productId) } },
       {
         $lookup: {
           from: 'reviews',
@@ -144,8 +141,8 @@ const getProductById = async (req, res) => {
           additionalInfo: 1,
           price: 1,
           images: 1,
-          category: '$categoryName',  
-          brand: '$brandName', 
+          category: '$categoryName',
+          brand: '$brandName',
           type: 1,
           stock: 1,
           label: 1,
@@ -160,7 +157,7 @@ const getProductById = async (req, res) => {
           }
         }
       }
-    ])
+    ]);
 
     if (!product || product.length === 0) {
       return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
@@ -172,7 +169,6 @@ const getProductById = async (req, res) => {
   }
 };
 
-
 const createProduct = async (req, res) => {
   try {
     const product = new ProductModel(req.body);
@@ -183,17 +179,18 @@ const createProduct = async (req, res) => {
   }
 };
 
-
-
 const updateProduct = async (req, res) => {
   const { productId } = req.params;
+
   try {
-    const isValidId = isValidObjectId(productId);
+    if (!isValidObjectId(productId)) {
+      return res.status(400).json({ success: false, message: "Invalid product ID" });
+    }
 
-    if (!isValidId) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
-
-    const product = await ProductModel.findByIdAndUpdate(productId, req.body, { new: true })
-    if (!product) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
+    const product = await ProductModel.findByIdAndUpdate(productId, req.body, { new: true, runValidators: true });
+    if (!product) {
+      return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
+    }
 
     res.status(200).json({ success: true, message: 'Product updated successfully', data: product });
   } catch (err) {
@@ -201,16 +198,18 @@ const updateProduct = async (req, res) => {
   }
 };
 
-
 const deleteProduct = async (req, res) => {
   const { productId } = req.params;
+
   try {
-    const isValidId = isValidObjectId(productId);
+    if (!isValidObjectId(productId)) {
+      return res.status(400).json({ success: false, message: "Invalid product ID" });
+    }
 
-    if (!isValidId) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
-
-    const product = await ProductModel.findByIdAndDelete(productId)
-    if (!product) return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
+    const product = await ProductModel.findByIdAndDelete(productId);
+    if (!product) {
+      return res.status(404).json({ success: false, message: "Product with the specified id does not exist" });
+    }
 
     res.status(200).json({ success: true, message: 'Product deleted successfully' });
   } catch (err) {
@@ -218,10 +217,65 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const addViewedProduct = async (req, res) => {
+  const { user } = req;
+  const { productId } = req.body;
+
+  const userId = user.id;
+  if (!isValidObjectId(userId)) {
+    return res.status(401).json({ success: false, message: "User is not authenticated" });
+  }
+
+  if (!isValidObjectId(productId)) {
+    return res.status(400).json({ success: false, message: "Invalid product ID" });
+  }
+
+  try {
+    const userData = await UserModel.findById(userId);
+    if (!userData) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    let viewedItems = userData.recentItems || [];
+
+    if (viewedItems.includes(productId)) {
+      viewedItems = viewedItems.filter(item => item !== productId);
+      viewedItems.push(productId);
+    } else {
+      if (viewedItems.length >= 10) {
+        viewedItems.shift(); 
+      }
+      viewedItems.push(productId);
+    }
+
+    userData.recentItems = viewedItems;
+
+    try {
+      await userData.save();
+      const userObject = userData.toObject();
+      delete userObject.password;
+      delete userObject.verificationCode;
+      delete userObject.verificationCodeExpires;
+      delete userObject.passwordResetCode;
+      delete userObject.passwordResetCodeExpires;
+
+      return res.status(200).json({ success: true, message: "Product added to viewed items", data: userObject });
+    } catch (error) {
+      console.error('Error saving user after adding viewed product:', error);
+      return res.status(500).json({ success: false, message: "Server error while updating user", error: error.message });
+    }
+  } catch (error) {
+    console.error('Error finding user:', error);
+    return res.status(500).json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
+
 module.exports = {
+  addViewedProduct,
   getAllProducts,
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 };

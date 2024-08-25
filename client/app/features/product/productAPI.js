@@ -10,8 +10,18 @@ export const productApi = createApi({
     }),
     getProductById: builder.query({
       query: (productId) => `/get/${productId}`,
+    }),
+    addViewProduct: builder.mutation({
+      query:(productId) =>({
+        url: '/addViewed',
+        method:"PUT",
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`
+        },
+        body:{productId}
+      })
     })
   }),
 });
 
-export const { useGetProductsQuery, useGetProductByIdQuery } = productApi;
+export const { useGetProductsQuery, useGetProductByIdQuery,useAddViewProductMutation } = productApi;

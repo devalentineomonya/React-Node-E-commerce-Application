@@ -25,7 +25,7 @@ const loginWithPassword = (req, res, next) => {
 
         req.login(user, { session: false }, (err) => {
             if (err) {
-                return res.status(500).json({ success: false, message: 'An error occurred while logging in user', error:error.message });
+                return res.status(500).json({ success: false, message: 'An error occurred while logging in user', error: error.message });
             }
 
             const userObject = user.toObject();
@@ -58,45 +58,60 @@ const loginWithPassword = (req, res, next) => {
 GOOGLE CALLBACK CONTROLLER
 =================================*/
 const googleCallback = (req, res) => {
-    passport.authenticate('google', { session: false }, async (err, user, info) => {
-        if (err) {
-            console.error("Error in Google Callback:", err);
-            return res.status(500).json({ success: false, message: "Authentication failed.", error: err.message });
+    passport.authenticate('google', { session: true }, async (err, user, info) => {
+      let redirectUrl;
+  
+      if (err) {
+        console.error("Error in Google Callback:", err);
+        const message = "An error occurred while logging in. Kindly try again.";
+        const encryptedMessage = encryptMessage(message, config.messageSecret);
+        redirectUrl = `${clientUrl}/auth/callback?msg_id=${encryptedMessage}`;
+        return res.redirect(redirectUrl);
+      }
+  
+      if (!user) {
+        let message;
+        if (info && info.hasPassword) {
+          message = info.message || "Account already exists. Please use your password to login.";
+        } else {
+          message = "No user found.";
         }
-
-        if (!user) {
-            console.error("No user found:", info);
-            return res.status(400).json({ success: false, message: "No user found.", error: info.message });
-        }
-
-        try {
-            const userObject = user.toObject();
-            delete userObject.password;
-            delete userObject.verificationCode;
-            delete userObject.verificationCodeExpires;
-            delete userObject.passwordResetCode;
-            delete userObject.passwordResetCodeExpires
-
-            const payload = {
-                id: user._id,
-                email: user.email,
-                isVerified: user.isVerified,
-                isActive: user.isActive
-            };
-
-            const token = jwt.sign(payload, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
-
-            res.status(200).json({
-                success: true,
-                token,
-                user: userObject
-            });
-        } catch (error) {
-            console.error("Error processing user data:", error);
-            res.status(500).json({ success: false, message: "Error processing user data.", error: error.message });
-        }
+        const encryptedMessage = encryptMessage(message, config.messageSecret);
+        redirectUrl = `${clientUrl}/auth/callback?msg_id=${encryptedMessage}`;
+        return res.redirect(redirectUrl);
+      }
+  
+      try {
+        const userObject = user.toObject();
+        delete userObject.password;
+        delete userObject.verificationCode;
+        delete userObject.verificationCodeExpires;
+        delete userObject.passwordResetCode;
+        delete userObject.passwordResetCodeExpires;
+  
+        const payload = {
+          id: user._id,
+          email: user.email,
+          isVerified: user.isVerified,
+          isActive: user.isActive,
+        };
+  
+        const token = jwt.sign(payload, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
+  
+        redirectUrl = `${clientUrl}/auth/callback?token=${token}&id=${user._id}`;
+  
+        res.redirect(redirectUrl);
+      } catch (error) {
+        console.error("Error processing user data:", error);
+        const message = "Error processing user data. Please try again.";
+        const encryptedMessage = encryptMessage(message, config.messageSecret);
+        redirectUrl = `${clientUrl}/auth/callback?msg_id=${encryptedMessage}`;
+        res.redirect(redirectUrl);
+      }
     })(req, res);
-};
+  };
+  
+
 
 
 /*=============================
@@ -123,7 +138,7 @@ const verifyUser = async (req, res) => {
                 res.redirect(`${clientUrl}/auth/verify?msg_id=${result.message}`)
             }
         } catch (error) {
-            res.redirect(`${clientUrl}/auth/verify?msg_id=${encryptMessage("Internal server error occurred while verifying user",config.messageSecret )}`)
+            res.redirect(`${clientUrl}/auth/verify?msg_id=${encryptMessage("Internal server error occurred while verifying user", config.messageSecret)}`)
         }
     } else if (req?.method == "POST") {
         const { verificationCode } = req.body

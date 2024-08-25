@@ -7,7 +7,7 @@ const authRouter = express.Router();
 
 authRouter
     .get('/loginWithGoogle', passport.authenticate('google', { scope: ['profile', 'email'] }))
-    .get('/google/callback', passport.authenticate('google', { session: false, failureRedirect: '/' }), googleCallback)
+    .get('/google/callback', googleCallback)
     .get("/verify", verifyUser)
     .post("/verify", authMiddleware, verifyUser)
     .post("/resendcode", authMiddleware, regenerateVerificationCode)

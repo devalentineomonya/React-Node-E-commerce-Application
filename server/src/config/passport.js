@@ -20,18 +20,24 @@ passport.use(new GoogleStrategy({
           { email: profile.emails[0].value }
         ]
       });
-      if (!user) {
-        user = new userModel({
-          googleId: profile.id,
-          email: profile.emails[0].value,
-          firstName: profile.displayName.split(" ")[0],
-          lastName: profile.displayName.split(" ")[1] ?? " ",
-          middleName: profile.displayName.split(" ")[2] ?? " ",
-          primaryPhoneNumber: profile._json.phone_number ?? null,
-          isVerified: true,
-        });
-        await user.save();
+
+      if (user) {
+        if (!user.googleId) {
+          return done(null, false, { hasPassword:true,message: "Account already exists. Please use your password to login." });
+        }
+        return done(null, user);
       }
+
+      user = new userModel({
+        googleId: profile.id,
+        email: profile.emails[0].value,
+        firstName: profile.displayName.split(" ")[0],
+        lastName: profile.displayName.split(" ")[1] ?? "",
+        middleName: profile.displayName.split(" ")[2] ?? "",
+        primaryPhoneNumber: profile._json.phone_number ?? null,
+        isVerified: true,
+      });
+      await user.save();
 
       done(null, user);
     } catch (error) {
@@ -40,6 +46,7 @@ passport.use(new GoogleStrategy({
     }
   }
 ));
+
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

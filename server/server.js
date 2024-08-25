@@ -12,6 +12,7 @@ const productRouter = require("./src/routes/product.routes");
 const brandRouter = require("./src/routes/brand.routes");
 const categoryRouter = require("./src/routes/category.routes");
 const adminRouter = require("./src/routes/admin.routes");
+const { clientUrl, serverUrl } = require("./src/utils/url.util");
 require('./src/config/passport'); 
 
 const app = express();
@@ -22,11 +23,18 @@ const app = express();
 app
   .set("view engine", "ejs")
   .set("views", path.join(__dirname, "src/views"))
-  .use(passport.initialize())
   .use(express.json())
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
-  .use(cors());
+  .use(cors())
+  .use(session({
+    secret: config.session.secret,  
+    resave: config.session.resave,
+    saveUninitialized: config.session.saveUninitialized,
+    cookie: { secure: false }  
+  }))
+  .use(passport.initialize())
+  .use(passport.session());
 
 /*========================
         ROUTES
@@ -42,7 +50,6 @@ app
     res.render("pages/index");
   });
 
-  
 (async () => {
   try {
     await connectDB(); 

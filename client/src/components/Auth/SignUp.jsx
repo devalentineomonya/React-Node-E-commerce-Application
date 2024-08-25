@@ -16,9 +16,10 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { setLoggedIn } from "../../../app/features/auth/authSlice";
 import MainLayout from "../common/MainLayout/MainLayout";
-import { useLoginWithGoogleQuery } from "../../../app/features/auth/authAPI";
+import { apiBaseUrl } from "../../../utils/apiUtils";
 
 const SignUp = () => {
+ 
   const signUpSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(3, "First Name must be at least 3 characters long")
@@ -187,9 +188,11 @@ const SignUp = () => {
 };
 
 export const SignInWithGoogle = () => {
-
+const handleLoginWithGoogle = () =>{
+  location.assign(`${apiBaseUrl}/auth/loginWithGoogle`)
+}
   return (
-    <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50" onClick={useLoginWithGoogleQuery}>
+    <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50" onClick={handleLoginWithGoogle}>
       <img src={googleIcon} alt="" />
       Sign in with Google
     </button>

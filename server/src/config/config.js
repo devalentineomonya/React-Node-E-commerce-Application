@@ -29,10 +29,9 @@ const config = {
     dev: process.env.NODE_ENV === 'development',
     prod: process.env.NODE_ENV === 'production'
   },
-  appUris:{
-    clientUri:process.env.CLIENT_URL ?? "",
-    serverUri:process.env.SERVER_URL ?? ""
-
+  appUris: {
+    clientUri: process.env.CLIENT_URL ?? "http://localhost:5173",  
+    serverUri: process.env.SERVER_URL ?? "http://localhost:8000"   
   }
 };
 
