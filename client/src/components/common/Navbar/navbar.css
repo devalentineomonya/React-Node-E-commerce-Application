@@ -177,7 +177,7 @@ header{
 }
 
 .category-card-image {
-    @apply bg-white rounded-md
+    @apply bg-white rounded-md max-h-20 max-w-20 overflow-hidden
 }
 
 .category-card-text h6 {

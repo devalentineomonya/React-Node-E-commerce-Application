@@ -1,4 +1,4 @@
-import { BsHeart, BsStar, BsStarFill } from "react-icons/bs";
+import {  BsStar, BsStarFill } from "react-icons/bs";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import "./productcard.css";
 import PropTypes from "prop-types";
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import scrollReveal from "scrollreveal";
 import { revealConfig } from "../../../../config/ScrollConfig";
+import ProductLike from "./ProductLike";
 
 const ProductCard = ({ thumbnail, product, animate }) => {
   const navigate = useNavigate();
@@ -54,14 +55,7 @@ const ProductCard = ({ thumbnail, product, animate }) => {
           onKeyDown={(e) => handleKeyDown(e, product?.id)}
         />
 
-        <button
-          className="add-to-favorite"
-          title="Favorite"
-          aria-label="Favorite"
-          onClick={() => alert("Added")}
-        >
-          <BsHeart size={20} />
-        </button>
+        <ProductLike productId={product?.id}/>
       </div>
 
       {!thumbnail && (
@@ -96,7 +90,7 @@ const ProductCard = ({ thumbnail, product, animate }) => {
                   className="increase-items"
                   onClick={handleCartIncrease}
                 >
-                  <AiOutlinePlus />
+                  <AiOutlinePlus  />
                 </button>
               </div>
             ) : (

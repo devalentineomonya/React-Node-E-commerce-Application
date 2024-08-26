@@ -7,7 +7,7 @@ const FeaturedProducts = () => {
   const products = useSelector((state) => state.product.products);
   const bestDealProducts = products.filter(product => product.label === "BestSelling")
   return (
-    <SectionLayout title="Best Selling Products for you!">
+    <SectionLayout title="Best Selling Products for you!" overflow>
       <Swiper>
         {bestDealProducts?.slice(0, 10).map((product) => (
           <ProductCard product={product} key={product.id} />

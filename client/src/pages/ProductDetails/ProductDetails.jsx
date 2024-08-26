@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  useAddViewProductMutation,
+  useAddViewedProductMutation,
   useGetProductByIdQuery,
 } from "../../../app/features/product/productAPI";
 import MainLayout from "../../components/common/MainLayout/MainLayout";
@@ -29,7 +29,7 @@ const ProductDetails = () => {
     skip: !productId,
   });
 
-  const [addViewed] = useAddViewProductMutation();
+  const [addView] = useAddViewedProductMutation();
 
   useEffect(() => {
     const handleViewedProduct = async () => {
@@ -41,7 +41,7 @@ const ProductDetails = () => {
 
           if (!alreadyViewed) {
             try {
-              const response = await addViewed(productId);
+              const response = await addView(productId);
               console.log(response?.data?.data)
               if (response?.data?.data) {
                 await dispatch(setUser(response?.data?.data));
@@ -74,7 +74,7 @@ const ProductDetails = () => {
     navigate,
     user,
     productId,
-    addViewed,
+    addView,
   ]);
 
   return (

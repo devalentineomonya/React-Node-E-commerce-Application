@@ -191,8 +191,13 @@ export const SignInWithGoogle = () => {
 const handleLoginWithGoogle = () =>{
   location.assign(`${apiBaseUrl}/auth/loginWithGoogle`)
 }
+const handleEnterKeyDown = (e)=>{
+  if(e.key === "Enter"){
+    handleLoginWithGoogle()
+  }
+}
   return (
-    <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50" onClick={handleLoginWithGoogle}>
+    <button className="border w-full h-11 max-w-96 rounded-md text-gray-600 hover:bg-gray-50" onClick={handleLoginWithGoogle} onKeyDown={handleEnterKeyDown}>
       <img src={googleIcon} alt="" />
       Sign in with Google
     </button>

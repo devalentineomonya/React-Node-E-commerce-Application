@@ -93,7 +93,7 @@ const getProductById = async (req, res) => {
     }
 
     const product = await ProductModel.aggregate([
-      { $match: { _id: new Types.ObjectId(productId) } },
+      { $match: { _id: new Types.createFromHexString(productId) } },
       {
         $lookup: {
           from: 'reviews',
@@ -236,7 +236,7 @@ const addViewedProduct = async (req, res) => {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    let viewedItems = userData.recentItems || [];
+    let viewedItems = userData.likedItems || [];
 
     if (viewedItems.includes(productId)) {
       viewedItems = viewedItems.filter(item => item !== productId);
@@ -261,19 +261,71 @@ const addViewedProduct = async (req, res) => {
 
       return res.status(200).json({ success: true, message: "Product added to viewed items", data: userObject });
     } catch (error) {
-      console.error('Error saving user after adding viewed product:', error);
       return res.status(500).json({ success: false, message: "Server error while updating user", error: error.message });
     }
   } catch (error) {
-    console.error('Error finding user:', error);
     return res.status(500).json({ success: false, message: "Server error", error: error.message });
   }
 };
 
 
+const setProductLike = async (req, res) => {
+  const { user } = req;
+  const { productId } = req.body;
+
+  const userId = user.id;
+
+  if (!isValidObjectId(userId)) {
+    return res.status(401).json({ success: false, message: "User is not authenticated" });
+  }
+
+  if (!isValidObjectId(productId)) {
+    return res.status(400).json({ success: false, message: "Invalid product ID" });
+  }
+
+  try {
+    const userData = await UserModel.findById(userId);
+    if (!userData) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    let likedItems = userData.likedItems || [];
+    const productObjectId = new Types.createFromHexString(productId);
+
+    if (likedItems.some(item => item.equals(productObjectId))) {
+      likedItems = likedItems.filter(item => !item.equals(productObjectId));
+    } else {
+      likedItems.push(productObjectId);
+    }
+
+    userData.likedItems = likedItems;
+
+    try {
+      const newUser = await userData.save();
+      const userObject = newUser.toObject();
+
+      delete userObject.password;
+      delete userObject.verificationCode;
+      delete userObject.verificationCodeExpires;
+      delete userObject.passwordResetCode;
+      delete userObject.passwordResetCodeExpires;
+
+      return res.status(200).json({ success: true, message: "Product like status updated", data: userObject });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: "Server error while updating user", error: error.message });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
+
+
 module.exports = {
   addViewedProduct,
   getAllProducts,
+  setProductLike,
+  setProductLike,
   getProductById,
   createProduct,
   updateProduct,

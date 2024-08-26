@@ -6,6 +6,7 @@ import UseRedirect from "./hooks/useRedirect"
 import ResetPassword from "./components/Auth/ResetPassword";
 import Search from "./pages/Search/Search";
 import GoogleAuthCallback from "./components/Auth/AuthCallBack";
+import ScrollToTop from "../utils/scrollToTopUtil";
 
 const Home = lazy(() => import("./pages/home/Home"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
@@ -51,7 +52,8 @@ const Router = () => {
 
   return (
     <Suspense fallback={<Loading />}>
-      <Routes>
+       <ScrollToTop />
+      <Routes >
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/shop" element={<ProductsLayout />} />

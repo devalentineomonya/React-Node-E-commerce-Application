@@ -11,17 +11,27 @@ export const productApi = createApi({
     getProductById: builder.query({
       query: (productId) => `/get/${productId}`,
     }),
-    addViewProduct: builder.mutation({
+    addViewedProduct: builder.mutation({
       query:(productId) =>({
-        url: '/addViewed',
+        url: '/addView',
         method:"PUT",
         headers:{
           Authorization:`Bearer ${localStorage.getItem("token")}`
         },
         body:{productId}
       })
+    }),
+    setProductLike: builder.mutation({
+      query: (productId)  =>({
+        url: '/setLike',
+        method:"PUT",
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`
+        },
+        body: { productId },
+      })
     })
   }),
 });
 
-export const { useGetProductsQuery, useGetProductByIdQuery,useAddViewProductMutation } = productApi;
+export const { useGetProductsQuery, useGetProductByIdQuery,useSetProductLikeMutation,useAddViewedProductMutation } = productApi;
