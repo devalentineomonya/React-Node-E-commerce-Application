@@ -13,6 +13,7 @@ const brandRouter = require("./src/routes/brand.routes");
 const categoryRouter = require("./src/routes/category.routes");
 const adminRouter = require("./src/routes/admin.routes");
 const { clientUrl, serverUrl } = require("./src/utils/url.util");
+const cartRouter = require("./src/routes/cart.routes");
 require('./src/config/passport'); 
 
 const app = express();
@@ -46,6 +47,7 @@ app
   .use("/api/brands", brandRouter)
   .use("/api/categories", categoryRouter)
   .use("/api/admins", adminRouter)
+  .use("/api/cart", cartRouter)
   .get("/", (_, res) => {
     res.render("pages/index");
   });

@@ -1,5 +1,4 @@
-import {  BsStar, BsStarFill } from "react-icons/bs";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { BsStar, BsStarFill } from "react-icons/bs";
 import "./productcard.css";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
@@ -7,30 +6,59 @@ import { useLocation, useNavigate } from "react-router-dom";
 import scrollReveal from "scrollreveal";
 import { revealConfig } from "../../../../config/ScrollConfig";
 import ProductLike from "./ProductLike";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../../../../app/features/cart/cartSlice";
+import { useAddToCartMutation } from "../../../../app/features/cart/cartAPI";
+import CartActionButtons from "./CartActionButtons"; 
+import { toast } from "react-toastify";
 
 const ProductCard = ({ thumbnail, product, animate }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const allProducts = useSelector((state) => state.product.products);
 
   const [cartValue, setCartValue] = useState(0);
-  const randomBool = Math.random() > 1 / 2 ? true : false;
-  const handleCartDecrease = () => {
-    if (cartValue) {
-      setCartValue((cartValue) => cartValue - 1);
+  const [addToCart] = useAddToCartMutation();
+
+  useEffect(() => {
+    const item = cartItems.find((item) => item.product === product.id);
+    setCartValue(item ? item.quantity : 0);
+  }, [cartItems, product.id]);
+
+  const currentStock =
+    allProducts.find((p) => p.id === product.id)?.stock || 0;
+
+  const handleAddToCart = async () => {
+    try {
+      if (currentStock > 0) {
+        if (cartValue === 0) {
+          dispatch(addItem(product.id));
+          const response = await addToCart(product.id );
+          if (response.data) {
+            toast.success(response.data.message);
+          }
+        }
+        setCartValue((prevValue) => prevValue + 1);
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message || "An error occurred while adding item to cart");
     }
   };
-  const handleCartIncrease = () => {
-    setCartValue((cartValue) => cartValue + 1);
-  };
-  const handleImageClick = async (id) => {
+
+  const handleImageClick = (id) => {
     localStorage.setItem("currentProductUrl", location.pathname);
-    return navigate(`/product/${id}`);
+    navigate(`/product/${id}`);
   };
+
   const handleKeyDown = (e, id) => {
     if (e.key === "Enter") {
       handleImageClick(id);
     }
   };
+
   useEffect(() => {
     const sr = scrollReveal();
     if (animate) {
@@ -51,11 +79,10 @@ const ProductCard = ({ thumbnail, product, animate }) => {
           src={product?.images}
           alt={product?.name}
           loading="lazy"
-          onClick={() => handleImageClick(product?.id)}
-          onKeyDown={(e) => handleKeyDown(e, product?.id)}
+          onClick={() => handleImageClick(product.id)}
+          onKeyDown={(e) => handleKeyDown(e, product.id)}
         />
-
-        <ProductLike productId={product?.id}/>
+        <ProductLike productId={product.id} />
       </div>
 
       {!thumbnail && (
@@ -72,34 +99,20 @@ const ProductCard = ({ thumbnail, product, animate }) => {
             <BsStar className="text-gray-600" />
           </div>
           <div className="cart-buttons">
-            {randomBool ? (
-              <div className="cart-action-buttons">
-                <button
-                  title="Remove"
-                  aria-label="Remove"
-                  className="decrease-items"
-                  onClick={handleCartDecrease}
-                  disabled={!cartValue}
-                >
-                  <AiOutlineMinus />
-                </button>
-                <div className="cart-val">{cartValue}</div>
-                <button
-                  title="Add"
-                  aria-label="Add"
-                  className="increase-items"
-                  onClick={handleCartIncrease}
-                >
-                  <AiOutlinePlus  />
-                </button>
-              </div>
+            {cartValue > 0 ? (
+              <CartActionButtons
+                cartValue={cartValue}
+                currentStock={currentStock}
+                productId={product.id}
+              />
             ) : (
               <button
                 title="Add to cart"
                 aria-label="Add to cart"
                 className="add-to-cart"
+                onClick={handleAddToCart}
               >
-                Add To Card
+                Add To Cart
               </button>
             )}
           </div>
@@ -108,10 +121,11 @@ const ProductCard = ({ thumbnail, product, animate }) => {
     </div>
   );
 };
+
 ProductCard.propTypes = {
   thumbnail: PropTypes.bool,
   animate: PropTypes.bool,
-  product: PropTypes.object,
+  product: PropTypes.object.isRequired,
 };
 
 export default ProductCard;

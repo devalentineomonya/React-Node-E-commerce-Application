@@ -1,33 +1,61 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { apiBaseUrl } from '../../../utils/apiUtils';
 
-export const cartAPI = createApi({
+const getToken = () => localStorage.getItem('token');
+
+export const cartApi = createApi({
   reducerPath: 'cartAPI',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }), 
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${apiBaseUrl}/cart`,
+    prepareHeaders: (headers) => {
+      const token = getToken();
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   endpoints: (builder) => ({
     getCart: builder.query({
-      query: () => 'cart', 
+      query: () => ({
+        url: '/get',
+        method: 'GET',
+      }),
+      
     }),
     addToCart: builder.mutation({
-      query: (item) => ({
-        url: 'cart',
+      query: (productId) => ({
+        url: '/add', 
         method: 'POST',
-        body: item,
+        body: {productId},
+      }),
+    }),
+    incrementQuantity: builder.mutation({
+      query: (productId) => ({
+        url: `/increment/${productId}`, 
+        method: 'PUT',
+        
+      }),
+    }),
+    decrementQuantity: builder.mutation({
+      query: (productId) => ({
+        url: `/decrement/${productId}`, 
+        method: 'PUT',
       }),
     }),
     removeFromCart: builder.mutation({
-      query: (id) => ({
-        url: `cart/${id}`,
+      query: (productId) => ({
+        url: `/delete/${productId}`, 
         method: 'DELETE',
-      }),
-    }),
-    updateQuantity: builder.mutation({
-      query: ({ id, quantity }) => ({
-        url: `cart/${id}`,
-        method: 'PATCH',
-        body: { quantity },
       }),
     }),
   }),
 });
 
-export const { useGetCartQuery, useAddToCartMutation, useRemoveFromCartMutation, useUpdateQuantityMutation } = cartAPI;
+export const {
+  useGetCartQuery,
+  useAddToCartMutation,
+  useIncrementQuantityMutation,
+  useDecrementQuantityMutation,
+  useRemoveFromCartMutation,
+} = cartApi;
