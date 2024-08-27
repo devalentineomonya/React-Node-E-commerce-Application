@@ -16,28 +16,28 @@ const ProductCard = ({ thumbnail, product, animate }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
-  const allProducts = useSelector((state) => state.product.products);
+  const cartItems = useSelector((state) => state?.cart?.items);
+  const allProducts = useSelector((state) => state?.product?.products);
 
   const [cartValue, setCartValue] = useState(0);
   const [addToCart] = useAddToCartMutation();
 
   useEffect(() => {
-    const item = cartItems.find((item) => item.product === product.id);
-    setCartValue(item ? item.quantity : 0);
-  }, [cartItems, product.id]);
+    const item = cartItems?.find((item) => item?.product === product?.id);
+    setCartValue(item ? item?.quantity : 0);
+  }, [cartItems, product?.id]);
 
   const currentStock =
-    allProducts.find((p) => p.id === product.id)?.stock || 0;
+    allProducts.find((p) => p?.id === product?.id)?.stock || 0;
 
   const handleAddToCart = async () => {
     try {
       if (currentStock > 0) {
         if (cartValue === 0) {
-          dispatch(addItem(product.id));
-          const response = await addToCart(product.id );
-          if (response.data) {
-            toast.success(response.data.message);
+          dispatch(addItem(product?.id));
+          const response = await addToCart(product?.id );
+          if (response?.data) {
+            toast.success(response?.data?.message);
           }
         }
         setCartValue((prevValue) => prevValue + 1);
@@ -79,10 +79,10 @@ const ProductCard = ({ thumbnail, product, animate }) => {
           src={product?.images}
           alt={product?.name}
           loading="lazy"
-          onClick={() => handleImageClick(product.id)}
-          onKeyDown={(e) => handleKeyDown(e, product.id)}
+          onClick={() => handleImageClick(product?.id)}
+          onKeyDown={(e) => handleKeyDown(e, product?.id)}
         />
-        <ProductLike productId={product.id} />
+        <ProductLike productId={product?.id} />
       </div>
 
       {!thumbnail && (
@@ -103,7 +103,7 @@ const ProductCard = ({ thumbnail, product, animate }) => {
               <CartActionButtons
                 cartValue={cartValue}
                 currentStock={currentStock}
-                productId={product.id}
+                productId={product?.id}
               />
             ) : (
               <button
