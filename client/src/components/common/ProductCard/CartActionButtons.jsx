@@ -15,13 +15,13 @@ const CartActionButtons = ({ cartValue, currentStock, productId }) => {
   const handleCartDecrease = async () => {
     try {
       if (cartValue > 1) {
-        dispatch(updateQuantity(productId));
+        dispatch(updateQuantity({quantity:cartValue - 1, id:productId}));
         const response = await decrementQuantity(productId );
         if (response.data) {
           toast.success(response.data.message);
         }
       } else if (cartValue === 1) {
-        dispatch(removeItem(productId));
+        dispatch(removeItem({quantity:0, id:productId}));
         const response = await removeFromCart(productId );
         if (response.data) {
           toast.success(response.data.message);
@@ -36,7 +36,7 @@ const CartActionButtons = ({ cartValue, currentStock, productId }) => {
   const handleCartIncrease = async () => {
     try {
       if (currentStock > 0) {
-        dispatch(updateQuantity(productId));
+        dispatch(updateQuantity({id:productId, quantity:cartValue + 1 }));
         const response = await incrementQuantity(productId);
         if (response.data) {
           toast.success(response.data.message);

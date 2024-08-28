@@ -34,6 +34,7 @@ export const cartApi = createApi({
       query: (productId) => ({
         url: `/increment/${productId}`, 
         method: 'PUT',
+       
         
       }),
     }),

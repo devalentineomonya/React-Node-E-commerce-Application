@@ -31,7 +31,7 @@ const addToCart = async (req, res) => {
 
   const isValidId = mongoose.isValidObjectId(productId);
   if (!isValidId) {
-    return res.status(400).json({ success: false, message: "Invalid product ID" });
+    return res.status(400).json({ success: false, message:  "Product with the specified ID was not found"});
   }
 
   try {
@@ -71,10 +71,13 @@ const addToCart = async (req, res) => {
   }
 };
 
+
+
 const incrementQuantity = async (req, res) => {
-  const { productId } = req.body;
+  const { productId } = req.params;
   const { user } = req;
   const userId = user.id;
+  console.log(productId)
 
   const isValidId = mongoose.isValidObjectId(productId);
   if (!isValidId) {
@@ -115,7 +118,7 @@ const incrementQuantity = async (req, res) => {
 };
 
 const decrementQuantity = async (req, res) => {
-  const { productId } = req.body;
+  const { productId } = req.params;
   const { user } = req;
   const userId = user.id;
 
@@ -159,7 +162,7 @@ const decrementQuantity = async (req, res) => {
 };
 
 const removeFromCart = async (req, res) => {
-  const { productId } = req.body;
+  const { productId } = req.params;
   const { user } = req;
   const userId = user.id;
 

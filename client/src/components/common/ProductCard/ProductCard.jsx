@@ -34,7 +34,7 @@ const ProductCard = ({ thumbnail, product, animate }) => {
     try {
       if (currentStock > 0) {
         if (cartValue === 0) {
-          dispatch(addItem(product?.id));
+          dispatch(addItem({id:product?.id, quantity:1}));
           const response = await addToCart(product?.id );
           if (response?.data) {
             toast.success(response?.data?.message);

@@ -93,7 +93,7 @@ const getProductById = async (req, res) => {
     }
 
     const product = await ProductModel.aggregate([
-      { $match: { _id: new Types.createFromHexString(productId) } },
+      { $match: { _id: new Types.ObjectId(productId) } },
       {
         $lookup: {
           from: 'reviews',
@@ -290,7 +290,7 @@ const setProductLike = async (req, res) => {
     }
 
     let likedItems = userData.likedItems || [];
-    const productObjectId = new Types.createFromHexString(productId);
+    const productObjectId = new Types.ObjectId(productId);
 
     if (likedItems.some(item => item.equals(productObjectId))) {
       likedItems = likedItems.filter(item => !item.equals(productObjectId));
