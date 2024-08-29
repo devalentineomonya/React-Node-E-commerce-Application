@@ -1,7 +1,7 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { updateQuantity, removeItem } from "../../../../app/features/cart/cartSlice";
+import { updateQuantity, removeItem, addItem } from "../../../../app/features/cart/cartSlice";
 import { useIncrementQuantityMutation, useDecrementQuantityMutation, useRemoveFromCartMutation } from "../../../../app/features/cart/cartAPI";
 import { toast } from "react-toastify";
 // import _ from "lodash";
@@ -15,38 +15,47 @@ const CartActionButtons = ({ cartValue, currentStock, productId }) => {
   const handleCartDecrease = async () => {
     try {
       if (cartValue > 1) {
-        dispatch(updateQuantity({quantity:cartValue - 1, id:productId}));
-        const response = await decrementQuantity(productId );
-        if (response.data) {
-          toast.success(response.data.message);
+        dispatch(updateQuantity({ productId, quantity: cartValue - 1 }));
+        const response = await decrementQuantity(productId);
+  
+        if (!response?.data) {
+          dispatch(updateQuantity({ productId, quantity: cartValue }));
+          throw new Error(response?.error?.data?.message || "An error occurred while decreasing quantity");
         }
       } else if (cartValue === 1) {
-        dispatch(removeItem({quantity:0, id:productId}));
-        const response = await removeFromCart(productId );
-        if (response.data) {
-          toast.success(response.data.message);
+        dispatch(removeItem(productId));
+        const response = await removeFromCart(productId);
+  
+        if (!response?.data) {
+          dispatch(addItem({ product: { _id: productId }, quantity: 1 }));
+          console.log(response)
+          throw new Error(response?.error?.data?.message || "An error occurred while removing item from cart");
         }
       }
     } catch (error) {
-      console.log(error)
+      console.error(error);
       toast.error(error.message || "An error occurred while decreasing quantity");
     }
   };
-
+  
   const handleCartIncrease = async () => {
     try {
-      if (currentStock > 0) {
-        dispatch(updateQuantity({id:productId, quantity:cartValue + 1 }));
+      if (currentStock > cartValue) {
+        await dispatch(updateQuantity({ productId, quantity: cartValue + 1 }));
         const response = await incrementQuantity(productId);
-        if (response.data) {
-          toast.success(response.data.message);
+  
+        if (!response?.data) {
+          console.log(response)
+          await dispatch(updateQuantity({ productId, quantity: cartValue }));
+          throw new Error(response?.error?.data?.message || "An error occurred while increasing quantity");
         }
       }
     } catch (error) {
-      console.log(error)
+      console.error(error);
       toast.error(error.message || "An error occurred while increasing quantity");
     }
   };
+  
 
   return (
     <div className="cart-action-buttons">

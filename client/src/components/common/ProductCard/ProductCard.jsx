@@ -7,9 +7,9 @@ import scrollReveal from "scrollreveal";
 import { revealConfig } from "../../../../config/ScrollConfig";
 import ProductLike from "./ProductLike";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../../../app/features/cart/cartSlice";
+import { addItem, removeItem } from "../../../../app/features/cart/cartSlice";
 import { useAddToCartMutation } from "../../../../app/features/cart/cartAPI";
-import CartActionButtons from "./CartActionButtons"; 
+import CartActionButtons from "./CartActionButtons";
 import { toast } from "react-toastify";
 
 const ProductCard = ({ thumbnail, product, animate }) => {
@@ -19,31 +19,47 @@ const ProductCard = ({ thumbnail, product, animate }) => {
   const cartItems = useSelector((state) => state?.cart?.items);
   const allProducts = useSelector((state) => state?.product?.products);
 
-  const [cartValue, setCartValue] = useState(0);
-  const [addToCart] = useAddToCartMutation();
+  const [cartValue, setCartValue] = useState(() => {
+    const item = cartItems.find((item) => item.product?.id === product);
+    return item ? item.quantity : 0;
+  });
+
+  
+  const [addToCart, { isLoading }] = useAddToCartMutation();
 
   useEffect(() => {
-    const item = cartItems?.find((item) => item?.product === product?.id);
-    setCartValue(item ? item?.quantity : 0);
+    const item = cartItems.find((item) => item.product._id === product?.id);
+    setCartValue(item ? item.quantity : 0);
   }, [cartItems, product?.id]);
 
-  const currentStock =
-    allProducts.find((p) => p?.id === product?.id)?.stock || 0;
+  const currentStock = allProducts.find((p) => p._id === product?.id)?.stock || 0;
 
   const handleAddToCart = async () => {
     try {
-      if (currentStock > 0) {
-        if (cartValue === 0) {
-          dispatch(addItem({id:product?.id, quantity:1}));
-          const response = await addToCart(product?.id );
-          if (response?.data) {
-            toast.success(response?.data?.message);
+      if (currentStock > 0 && cartValue === 0) {
+        dispatch(addItem({ product: product, quantity: 1 }));
+        setCartValue(1);
+
+       
+        try {
+          const response = await addToCart(product?.id).unwrap(); 
+          console.log("Response from addToCart:", response);
+
+          if (!response) {
+            dispatch(removeItem(product?.id));
+            setCartValue(0);
+            throw new Error("An error occurred while adding item to cart");
           }
+        } catch (err) {
+            
+          console.error("Error adding to cart:", err);
+          dispatch(removeItem(product?.id));
+          setCartValue(0);
+          toast.error(err.message || "An error occurred while adding item to cart");
         }
-        setCartValue((prevValue) => prevValue + 1);
       }
     } catch (error) {
-      console.log(error)
+      console.error("Outer catch error:", error);
       toast.error(error.message || "An error occurred while adding item to cart");
     }
   };
@@ -74,7 +90,7 @@ const ProductCard = ({ thumbnail, product, animate }) => {
 
   return (
     <div className="product-card-container">
-      <div className="product-image">
+      <div className="product-image" >
         <img
           src={product?.images}
           alt={product?.name}
@@ -112,7 +128,7 @@ const ProductCard = ({ thumbnail, product, animate }) => {
                 className="add-to-cart"
                 onClick={handleAddToCart}
               >
-                Add To Cart
+                {isLoading ? "Adding..." : "Add To Cart"}
               </button>
             )}
           </div>

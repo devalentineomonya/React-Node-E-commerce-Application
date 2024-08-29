@@ -7,6 +7,6 @@ cartRouter
     .post("/add", authMiddleware, addToCart)
     .put("/increment/:productId", authMiddleware, incrementQuantity)
     .put("/decrement/:productId", authMiddleware, decrementQuantity)
-    .delete("delete/:productId", authMiddleware, removeFromCart)
+    .delete("/delete/:productId", authMiddleware, removeFromCart)
 
 module.exports = cartRouter

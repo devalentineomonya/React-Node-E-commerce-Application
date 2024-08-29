@@ -14,7 +14,7 @@ function App() {
   const [isAuthRoute, setIsAuthRoute] = useState(false);
   const location = useLocation();
 
-  const { userLoading, productLoading, categoryLoading,brandLoading } = useAppData();
+  const { userLoading, productLoading, categoryLoading,brandLoading,cartLoading } = useAppData();
 
   useEffect(() => {
     setIsAuthRoute(location.pathname.includes("/auth"));
@@ -25,7 +25,7 @@ function App() {
       <ToastContainer position="top-center" />
 
       <NavbarMain />
-      {(userLoading || productLoading || categoryLoading || brandLoading) ? <Loading /> : <Router />}
+      {(userLoading || productLoading || categoryLoading || brandLoading || cartLoading) ? <Loading /> : <Router />}
       {!isAuthRoute && <Footer />}
     </>
   );
