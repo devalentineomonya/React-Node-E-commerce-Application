@@ -7,7 +7,7 @@ import scrollReveal from "scrollreveal";
 import { revealConfig } from "../../../../config/ScrollConfig";
 import ProductLike from "./ProductLike";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, removeItem } from "../../../../app/features/cart/cartSlice";
+import { addItem, removeItem, setCartContent } from "../../../../app/features/cart/cartSlice";
 import { useAddToCartMutation } from "../../../../app/features/cart/cartAPI";
 import CartActionButtons from "./CartActionButtons";
 import { toast } from "react-toastify";
@@ -20,7 +20,7 @@ const ProductCard = ({ thumbnail, product, animate }) => {
   const allProducts = useSelector((state) => state?.product?.products);
 
   const [cartValue, setCartValue] = useState(() => {
-    const item = cartItems.find((item) => item.product?.id === product);
+    const item = cartItems.find((item) => ( item.product.id  || item.product._id ) === product.id);
     return item ? item.quantity : 0;
   });
 
@@ -28,11 +28,12 @@ const ProductCard = ({ thumbnail, product, animate }) => {
   const [addToCart, { isLoading }] = useAddToCartMutation();
 
   useEffect(() => {
-    const item = cartItems.find((item) => item.product._id === product?.id);
+
+    const item = cartItems.find((item) =>( item.product.id  || item.product._id ) === product?.id);
     setCartValue(item ? item.quantity : 0);
   }, [cartItems, product?.id]);
 
-  const currentStock = allProducts.find((p) => p._id === product?.id)?.stock || 0;
+  const currentStock = allProducts.find((p) => p.id === product?.id)?.stock || 0;
 
   const handleAddToCart = async () => {
     try {
@@ -43,6 +44,7 @@ const ProductCard = ({ thumbnail, product, animate }) => {
        
         try {
           const response = await addToCart(product?.id).unwrap(); 
+          await dispatch(setCartContent(response.data.items))
           console.log("Response from addToCart:", response);
 
           if (!response) {
@@ -52,10 +54,10 @@ const ProductCard = ({ thumbnail, product, animate }) => {
           }
         } catch (err) {
             
-          console.error("Error adding to cart:", err);
+          console.error("Error adding to cart:", err.data);
           dispatch(removeItem(product?.id));
           setCartValue(0);
-          toast.error(err.message || "An error occurred while adding item to cart");
+          toast.error(err.message || err.data.message ||  "An error occurred while adding item to cart");
         }
       }
     } catch (error) {
@@ -87,7 +89,7 @@ const ProductCard = ({ thumbnail, product, animate }) => {
       });
     }
   }, [animate]);
-
+console.log(cartItems)
   return (
     <div className="product-card-container">
       <div className="product-image" >
