@@ -17,10 +17,10 @@ const ProductCard = ({ thumbnail, product, animate }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state?.cart?.items);
-  const allProducts = useSelector((state) => state?.product?.products);
+  // const allProducts = useSelector((state) => state?.product?.products);
 
   const [cartValue, setCartValue] = useState(() => {
-    const item = cartItems.find((item) => ( item.product.id  || item.product._id ) === product.id);
+    const item = cartItems.find((item) => item.product === product.id);
     return item ? item.quantity : 0;
   });
 
@@ -29,23 +29,23 @@ const ProductCard = ({ thumbnail, product, animate }) => {
 
   useEffect(() => {
 
-    const item = cartItems.find((item) =>( item.product.id  || item.product._id ) === product?.id);
+    const item = cartItems.find((item) =>item.product === product?.id);
     setCartValue(item ? item.quantity : 0);
   }, [cartItems, product?.id]);
 
-  const currentStock = allProducts.find((p) => p.id === product?.id)?.stock || 0;
+  const currentStock = product.stock;
 
   const handleAddToCart = async () => {
     try {
       if (currentStock > 0 && cartValue === 0) {
-        dispatch(addItem({ product: product, quantity: 1 }));
+        await dispatch(addItem({ product: product.id, quantity: 1 }));
         setCartValue(1);
 
        
         try {
           const response = await addToCart(product?.id).unwrap(); 
-          await dispatch(setCartContent(response.data.items))
-          console.log("Response from addToCart:", response);
+          // await dispatch(setCartContent(response.data.items))
+          console.log("Response from addToCart:", response.data.items);
 
           if (!response) {
             dispatch(removeItem(product?.id));
