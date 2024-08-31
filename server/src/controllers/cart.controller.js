@@ -78,7 +78,7 @@ const incrementQuantity = async (req, res) => {
   const { productId } = req.params;
   const { user } = req;
   const userId = user.id;
-  console.log(productId)
+  
 
   const isValidId = mongoose.isValidObjectId(productId);
   if (!isValidId) {
@@ -97,7 +97,8 @@ const incrementQuantity = async (req, res) => {
       return res.status(404).json({ success: false, message: "Cart not found" });
     }
 
-    const productInCart = userCart.items.find(item => item.product.toString() === productId);
+    const productInCart = userCart.items.find(item => item.product.toString() === productId.toString());
+
     if (!productInCart) {
       return res.status(404).json({ success: false, message: "Product not found in cart" });
     }

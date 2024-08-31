@@ -1,10 +1,17 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { updateQuantity, removeItem, addItem } from "../../../../app/features/cart/cartSlice";
-import { useIncrementQuantityMutation, useDecrementQuantityMutation, useRemoveFromCartMutation } from "../../../../app/features/cart/cartAPI";
+import {
+  updateQuantity,
+  removeItem,
+  addItem,
+} from "../../../../app/features/cart/cartSlice";
+import {
+  useIncrementQuantityMutation,
+  useDecrementQuantityMutation,
+  useRemoveFromCartMutation,
+} from "../../../../app/features/cart/cartAPI";
 import { toast } from "react-toastify";
-// import _ from "lodash";
 
 const CartActionButtons = ({ cartValue, currentStock, productId }) => {
   const dispatch = useDispatch();
@@ -15,47 +22,60 @@ const CartActionButtons = ({ cartValue, currentStock, productId }) => {
   const handleCartDecrease = async () => {
     try {
       if (cartValue > 1) {
-        dispatch(updateQuantity({ productId, quantity: cartValue - 1 }));
+        // Update quantity in Redux state
+        dispatch(updateQuantity({ product: productId, quantity: cartValue - 1 }));
+
+        // Call API to update quantity
         const response = await decrementQuantity(productId);
-  
-        if (!response?.data) {
-          dispatch(updateQuantity({ productId, quantity: cartValue }));
-          throw new Error(response?.error?.data?.message || "An error occurred while decreasing quantity");
+
+        if (!response.data) {
+          // Rollback in case of failure
+          dispatch(updateQuantity({ product: productId, quantity: cartValue }));
+          throw new Error(
+            response.error?.data?.message || response.error?.message || "Failed to decrease quantity"
+          );
         }
       } else if (cartValue === 1) {
+        // Remove item from Redux state and API
         dispatch(removeItem(productId));
         const response = await removeFromCart(productId);
-  
-        if (!response?.data) {
-          dispatch(addItem({ product: { _id: productId }, quantity: 1 }));
-          console.log(response)
-          throw new Error(response?.error?.data?.message || "An error occurred while removing item from cart");
+
+        if (!response.data) {
+          // Rollback in case of failure
+          dispatch(addItem({ product: productId, quantity: 1 }));
+          throw new Error(
+            response.error?.data?.message || response.error?.message || "Failed to remove item from cart"
+          );
         }
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error handling cart decrease:", error);
       toast.error(error.message || "An error occurred while decreasing quantity");
     }
   };
-  
+
   const handleCartIncrease = async () => {
     try {
       if (currentStock > cartValue) {
-        await dispatch(updateQuantity({ productId, quantity: cartValue + 1 }));
+        // Update quantity in Redux state
+        dispatch(updateQuantity({ product: productId, quantity: cartValue + 1 }));
+
+        // Call API to update quantity
         const response = await incrementQuantity(productId);
-  
-        if (!response?.data) {
-          console.log(response)
-          await dispatch(updateQuantity({ productId, quantity: cartValue }));
-          throw new Error(response?.error?.data?.message || "An error occurred while increasing quantity");
+
+        if (!response.data) {
+          // Rollback in case of failure
+          dispatch(updateQuantity({ product: productId, quantity: cartValue }));
+          throw new Error(
+            response.error?.data?.message || response.error?.message || "Failed to increase quantity"
+          );
         }
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error handling cart increase:", error);
       toast.error(error.message || "An error occurred while increasing quantity");
     }
   };
-  
 
   return (
     <div className="cart-action-buttons">
