@@ -68,6 +68,7 @@ const useAppData = () => {
   useEffect(() => {
     console.log("Log from data fetching", cartData?.data)
     if (cartData?.data) {
+      console.log(cartData)
       dispatch(setCartContent(cartData?.data?.items));
     }
   }, [cartData, dispatch, cartError]);

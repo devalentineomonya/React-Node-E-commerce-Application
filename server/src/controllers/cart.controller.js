@@ -12,7 +12,8 @@ const getCart = async (req, res) => {
   }
 
   try {
-    const userCart = await CartModel.findOne({ user: userId }).populate('items.product');
+    const userCart = await CartModel.findOne({ user: userId }).select({ '_id': 0 })
+  
 
     if (!userCart) {
       return res.status(404).json({ success: false, message: "Cart is empty or not found" });

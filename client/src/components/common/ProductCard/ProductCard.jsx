@@ -17,21 +17,18 @@ const ProductCard = ({ thumbnail, product, animate }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state?.cart?.items);
-  // const allProducts = useSelector((state) => state?.product?.products);
 
   const [cartValue, setCartValue] = useState(() => {
     const item = cartItems.find((item) => item.product === product.id);
     return item ? item.quantity : 0;
   });
 
-  
   const [addToCart, { isLoading }] = useAddToCartMutation();
 
   useEffect(() => {
-
-    const item = cartItems.find((item) =>item.product === product?.id);
+    const item = cartItems.find((item) => item.product === product.id);
     setCartValue(item ? item.quantity : 0);
-  }, [cartItems, product?.id]);
+  }, [cartItems, product.id]);
 
   const currentStock = product.stock;
 
@@ -41,23 +38,22 @@ const ProductCard = ({ thumbnail, product, animate }) => {
         await dispatch(addItem({ product: product.id, quantity: 1 }));
         setCartValue(1);
 
-       
         try {
-          const response = await addToCart(product?.id).unwrap(); 
-          // await dispatch(setCartContent(response.data.items))
+          const response = await addToCart(product.id).unwrap(); 
+          await dispatch(setCartContent(response?.data?.items))
+          toast.success(response.message)
           console.log("Response from addToCart:", response.data.items);
 
           if (!response) {
-            dispatch(removeItem(product?.id));
+            dispatch(removeItem(product.id));
             setCartValue(0);
             throw new Error("An error occurred while adding item to cart");
           }
         } catch (err) {
-            
           console.error("Error adding to cart:", err.data);
-          dispatch(removeItem(product?.id));
+          dispatch(removeItem(product.id));
           setCartValue(0);
-          toast.error(err.message || err.data.message ||  "An error occurred while adding item to cart");
+          toast.error(err.message || err.data.message || "An error occurred while adding item to cart");
         }
       }
     } catch (error) {
@@ -89,10 +85,10 @@ const ProductCard = ({ thumbnail, product, animate }) => {
       });
     }
   }, [animate]);
-console.log(cartItems)
+
   return (
     <div className="product-card-container">
-      <div className="product-image" >
+      <div className="product-image">
         <img
           src={product?.images}
           alt={product?.name}
