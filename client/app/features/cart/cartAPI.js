@@ -21,33 +21,37 @@ export const cartApi = createApi({
         url: '/get',
         method: 'GET',
       }),
-      
     }),
     addToCart: builder.mutation({
       query: (productId) => ({
-        url: '/add', 
+        url: '/add',
         method: 'POST',
-        body: {productId},
+        body: { productId },
       }),
     }),
     incrementQuantity: builder.mutation({
       query: (productId) => ({
-        url: `/increment/${productId}`, 
+        url: `/increment/${productId}`,
         method: 'PUT',
-       
-        
       }),
     }),
     decrementQuantity: builder.mutation({
       query: (productId) => ({
-        url: `/decrement/${productId}`, 
+        url: `/decrement/${productId}`,
         method: 'PUT',
       }),
     }),
     removeFromCart: builder.mutation({
       query: (productId) => ({
-        url: `/delete/${productId}`, 
+        url: `/delete/${productId}`,
         method: 'DELETE',
+      }),
+    }),
+    syncCart: builder.mutation({
+      query: (cartItems) => ({
+        url: '/sync', 
+        method: 'POST',
+        body: { cartItems },
       }),
     }),
   }),
@@ -59,4 +63,5 @@ export const {
   useIncrementQuantityMutation,
   useDecrementQuantityMutation,
   useRemoveFromCartMutation,
+  useSyncCartMutation, 
 } = cartApi;

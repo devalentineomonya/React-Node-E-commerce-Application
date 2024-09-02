@@ -18,6 +18,8 @@ import { setLoggedIn } from "../../../app/features/auth/authSlice";
 import MainLayout from "../common/MainLayout/MainLayout";
 import { apiBaseUrl } from "../../../utils/apiUtils";
 
+import { useSyncCartMutation } from "../../../app/features/cart/cartAPI";
+
 const SignUp = () => {
  
   const signUpSchema = Yup.object().shape({
@@ -36,6 +38,7 @@ const SignUp = () => {
   });
 
   const [register, { isLoading }] = useRegisterUserMutation();
+  const [syncCart] = useSyncCartMutation(); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -44,7 +47,13 @@ const SignUp = () => {
     try {
       const response = await register(values).unwrap();
       await dispatch(setLoggedIn(response));
-      toast.success(response.message);        
+      toast.success(response.message);  
+      
+      const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]'); 
+      if (cartItems.length > 0) {
+        await syncCart(cartItems).unwrap();
+        localStorage.removeItem('cartItems'); 
+      }
 
       const pathTo = localStorage.getItem("redirectTo") ?? "/";
       localStorage.removeItem("redirectTo");

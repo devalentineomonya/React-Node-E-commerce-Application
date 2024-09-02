@@ -2,6 +2,57 @@ const mongoose = require('mongoose');
 const CartModel = require('../models/cart.model');
 const ProductModel = require('../models/product.model');
 
+const syncCart = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const localStorageCartItems = req.body.cartItems;
+
+    if (!localStorageCartItems || typeof localStorageCartItems !== 'object') {
+      return res.status(400).json({ message: 'Invalid cart items data' });
+    }
+
+    const cartUpdates = Object.keys(localStorageCartItems).map(async (productId) => {
+      const quantity = localStorageCartItems[productId];
+      
+      if (!mongoose.isValidObjectId(productId)) {
+        throw new Error(`Invalid product ID: ${productId}`);
+      }
+      
+      
+      const product = await ProductModel.findById(productId);
+      if (!product) {
+        throw new Error(`Product not found: ${productId}`);
+      }
+
+      let cartItem = await CartModel.findOne({ user: userId, product: productId });
+
+      if (cartItem) {
+        
+        cartItem.quantity = cartItem.quantity + quantity; 
+        if (cartItem.quantity <= 0) {
+         
+          await CartModel.deleteOne({ _id: cartItem._id });
+        } else {
+          await cartItem.save();
+        }
+      } else {
+       
+        if (quantity > 0) {
+          await CartModel.create({ user: userId, product: productId, quantity });
+        }
+      }
+    });
+
+    await Promise.all(cartUpdates);
+
+    res.status(200).json({ success: true, message: 'Cart successfully synced' });
+  } catch (error) {
+    console.error('Error syncing cart:', error);
+    res.status(500).json({ success: false, message: 'An error occurred while syncing cart', error: error.message });
+  }
+};
+
+
 const getCart = async (req, res) => {
   const { user } = req;
   const userId = user.id;
@@ -12,8 +63,7 @@ const getCart = async (req, res) => {
   }
 
   try {
-    const userCart = await CartModel.findOne({ user: userId }).select({ '_id': 0 })
-  
+    const userCart = await CartModel.findOne({ user: userId }).populate('items.product');
 
     if (!userCart) {
       return res.status(404).json({ success: false, message: "Cart is empty or not found" });
@@ -30,15 +80,14 @@ const addToCart = async (req, res) => {
   const { user } = req;
   const userId = user.id;
 
-  const isValidId = mongoose.isValidObjectId(productId);
-  if (!isValidId) {
-    return res.status(400).json({ success: false, message:  "Product with the specified ID was not found"});
+  if (!mongoose.isValidObjectId(productId)) {
+    return res.status(400).json({ success: false, message: "Invalid product ID" });
   }
 
   try {
     const product = await ProductModel.findById(productId);
     if (!product) {
-      return res.status(404).json({ success: false, message: "Product with the specified ID was not found" });
+      return res.status(404).json({ success: false, message: "Product not found" });
     }
 
     if (product.stock < 1) {
@@ -72,23 +121,19 @@ const addToCart = async (req, res) => {
   }
 };
 
-
-
 const incrementQuantity = async (req, res) => {
   const { productId } = req.params;
   const { user } = req;
   const userId = user.id;
-  
 
-  const isValidId = mongoose.isValidObjectId(productId);
-  if (!isValidId) {
+  if (!mongoose.isValidObjectId(productId)) {
     return res.status(400).json({ success: false, message: "Invalid product ID" });
   }
 
   try {
     const product = await ProductModel.findById(productId);
     if (!product) {
-      return res.status(404).json({ success: false, message: "Product with the specified ID was not found" });
+      return res.status(404).json({ success: false, message: "Product not found" });
     }
 
     const userCart = await CartModel.findOne({ user: userId });
@@ -124,15 +169,14 @@ const decrementQuantity = async (req, res) => {
   const { user } = req;
   const userId = user.id;
 
-  const isValidId = mongoose.isValidObjectId(productId);
-  if (!isValidId) {
+  if (!mongoose.isValidObjectId(productId)) {
     return res.status(400).json({ success: false, message: "Invalid product ID" });
   }
 
   try {
     const product = await ProductModel.findById(productId);
     if (!product) {
-      return res.status(404).json({ success: false, message: "Product with the specified ID was not found" });
+      return res.status(404).json({ success: false, message: "Product not found" });
     }
 
     const userCart = await CartModel.findOne({ user: userId });
@@ -168,15 +212,14 @@ const removeFromCart = async (req, res) => {
   const { user } = req;
   const userId = user.id;
 
-  const isValidId = mongoose.isValidObjectId(productId);
-  if (!isValidId) {
+  if (!mongoose.isValidObjectId(productId)) {
     return res.status(400).json({ success: false, message: "Invalid product ID" });
   }
 
   try {
     const product = await ProductModel.findById(productId);
     if (!product) {
-      return res.status(404).json({ success: false, message: "Product with the specified ID was not found" });
+      return res.status(404).json({ success: false, message: "Product not found" });
     }
 
     const userCart = await CartModel.findOne({ user: userId });
@@ -204,6 +247,7 @@ const removeFromCart = async (req, res) => {
 
 module.exports = {
   getCart,
+  syncCart,
   addToCart,
   incrementQuantity,
   decrementQuantity,

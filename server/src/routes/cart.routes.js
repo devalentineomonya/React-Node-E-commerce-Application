@@ -5,6 +5,7 @@ const { authMiddleware } = require("../middlewares/auth.middleware")
 cartRouter
     .get("/get", authMiddleware, getCart)
     .post("/add", authMiddleware, addToCart)
+    .post("/sync", authMiddleware, decrementQuantity)
     .put("/increment/:productId", authMiddleware, incrementQuantity)
     .put("/decrement/:productId", authMiddleware, decrementQuantity)
     .delete("/delete/:productId", authMiddleware, removeFromCart)
