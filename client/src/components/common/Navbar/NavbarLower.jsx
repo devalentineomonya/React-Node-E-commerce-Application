@@ -3,14 +3,13 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import MainLayout from "../MainLayout/MainLayout";
 import navItems from "../../../assets/data/NavbarData/NavItems";
-import CustomAlert from "../CustomAlert/CustomAlert";
-import useModal from "../../../hooks/useModal";
 import NavbarLogo from "./NavbarLogo";
 import NavItems from "./NavItems";
 import NavbarSearch from "./NavbarSearch";
 import NavbarLeft from "./NavbarLeft";
 import NavbarMobile from "./NavbarMobile";
 import NavCategoryDropDown from "./NavCategoryDropDown";
+import { toast } from "react-toastify";
 
 const NavbarLower = () => {
   const [searching, setSearching] = useState(false);
@@ -19,7 +18,6 @@ const NavbarLower = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchValue, setSearchValue] = useState();
   const navigate = useNavigate();
-  const { isShowing, toggle } = useModal();
   const pagePath = useRef("");
 
   const mobileScreen = useMemo(() => window.innerWidth < 992, []);
@@ -61,12 +59,12 @@ const NavbarLower = () => {
   const handleSearchRedirect = useCallback(() => {
     if (!searchValue.trim()) {
       setSearching(true);
-      toggle();
-      setTimeout(() => toggle(), 2000);
+      toast.warning("Please Type something to search...! ")
+    
     } else {
       navigate(`/search?query=${searchValue}`);
     }
-  }, [searchValue, toggle, navigate, setSearching]);
+  }, [searchValue, navigate, setSearching]);
   return (
     <MainLayout overflow>
       <div className="navbar-lower-content">
@@ -97,7 +95,6 @@ const NavbarLower = () => {
           searching={searching}
           setSearching={setSearching}
           mobileScreen={mobileScreen}
-          toggle={toggle}
           handleSearchValueChange={handleSearchValueChange}
           searchValue={searchValue}
           handleSearchRedirect={handleSearchRedirect}
@@ -112,13 +109,7 @@ const NavbarLower = () => {
           handleSearchValueChange={handleSearchValueChange}
         />
       </div>
-      <CustomAlert
-        isShowing={isShowing}
-        type="warning"
-        message="Please Type something to search...! "
-        hide={toggle}
-        setSearching={setSearching}
-      />
+ 
     </MainLayout>
   );
 };
