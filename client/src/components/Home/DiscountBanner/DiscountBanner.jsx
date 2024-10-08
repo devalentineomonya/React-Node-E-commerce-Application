@@ -2,7 +2,7 @@ import "./discountbanner.css";
 import cardOne from "../../../assets/images/63e8c4e768e3260571e48a0c_visa card-min.png";
 import cardTwo from "../../../assets/images/63e8c4e71eb4ad08ebe75690_visa card 02-min.png";
 import cardThree from "../../../assets/images/63ea1a963f08a8c3dcd7c945_visa card 03.svg";
-import MainLayout from "../../common/MainLayout/MainLayout";
+import MainLayout from "../../layouts/MainLayout/MainLayout";
 import { Link } from "react-router-dom";
 const DiscountBanner = () => {
   return (

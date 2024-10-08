@@ -1,4 +1,4 @@
-import SectionLayout from "../../common/SectionLayout/SectionLayout";
+import SectionLayout from "../../layouts/SectionLayout/SectionLayout";
 import "./productoffers.css";
 import furnitureImage from "../../../assets/images/63e8c4e6cd367817e964f756_sofa-min.png";
 import booksImage from "../../../assets/images/63e8c4e4e006822af104db61_book-min.png";

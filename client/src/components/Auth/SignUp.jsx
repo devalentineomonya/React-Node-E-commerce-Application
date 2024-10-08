@@ -15,7 +15,7 @@ import { useRegisterUserMutation } from "../../../app/features/user/userAPI";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { setLoggedIn } from "../../../app/features/auth/authSlice";
-import MainLayout from "../common/MainLayout/MainLayout";
+import MainLayout from "../layouts/MainLayout/MainLayout";
 import { apiBaseUrl } from "../../../utils/apiUtils";
 
 import { useSyncCartMutation } from "../../../app/features/cart/cartAPI";

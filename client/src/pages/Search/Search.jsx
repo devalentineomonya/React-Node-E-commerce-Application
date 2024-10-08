@@ -1,4 +1,4 @@
-import ProductsLayout from '../../components/common/ProductsLayout/ProductsLayout'
+import ProductsLayout from '../../components/layouts/ProductsLayout/ProductsLayout'
 
 const Search = () => {
   return (

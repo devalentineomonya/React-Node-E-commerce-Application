@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import ProductCard from "../../common/ProductCard/ProductCard";
-import SectionLayout from "../../common/SectionLayout/SectionLayout";
+import SectionLayout from "../../layouts/SectionLayout/SectionLayout";
 import Swiper from "../../common/Swiper/Swiper";
 import "./featuredproducts.css";
 const FeaturedProducts = () => {

@@ -1,4 +1,4 @@
-import MainLayout from "../../components/common/MainLayout/MainLayout";
+import MainLayout from "../../components/layouts/MainLayout/MainLayout";
 import AccountMain from "../../components/MyAccount/AccountMain";
 
 const MyAccount = () => {

@@ -16,7 +16,7 @@ import {
 import { useLoginWithPasswordMutation } from "../../../app/features/auth/authAPI";
 import { useSyncCartMutation } from "../../../app/features/cart/cartAPI";
 import { toast } from "react-toastify";
-import MainLayout from "../common/MainLayout/MainLayout";
+import MainLayout from "../layouts/MainLayout/MainLayout";
 
 const SignIn = () => {
   const dispatch = useDispatch();

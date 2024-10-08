@@ -5,14 +5,17 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "../app/store.js";
+import { BrowserWidthProvider } from "../context/BrowserWidthContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <BrowserWidthProvider>
     <BrowserRouter >
       <Provider store={store}>
         
         <App />
       </Provider>
     </BrowserRouter>
+    </BrowserWidthProvider>
   </React.StrictMode>
 );

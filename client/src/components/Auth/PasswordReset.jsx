@@ -6,7 +6,7 @@ import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import MainLayout from "../common/MainLayout/MainLayout";
+import MainLayout from "../layouts/MainLayout/MainLayout";
 import { useRequestPasswordResetMutation } from "../../../app/features/auth/authAPI";
 import { toast } from "react-toastify";
 

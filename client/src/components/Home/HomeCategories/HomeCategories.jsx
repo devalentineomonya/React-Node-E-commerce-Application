@@ -1,4 +1,4 @@
-import SectionLayout from "../../common/SectionLayout/SectionLayout";
+import SectionLayout from "../../layouts/SectionLayout/SectionLayout";
 import CategoryCard from "./CategoryCard";
 import "./homecategories.css";
 import { useSelector } from "react-redux";

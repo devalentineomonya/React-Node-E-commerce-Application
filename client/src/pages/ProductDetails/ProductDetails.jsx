@@ -3,7 +3,7 @@ import {
   useAddViewedProductMutation,
   useGetProductByIdQuery,
 } from "../../../app/features/product/productAPI";
-import MainLayout from "../../components/common/MainLayout/MainLayout";
+import MainLayout from "../../components/layouts/MainLayout/MainLayout";
 import BreadCrumb from "../../components/ProductDetails/BreadCrumb/BreadCrumb";
 import MoreAboutProduct from "../../components/ProductDetails/MoreAboutProduct/MoreAboutProduct";
 import ProductInfo from "../../components/ProductDetails/ProductInfo/ProductInfo";

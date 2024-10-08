@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import MainLayout from "../MainLayout/MainLayout";
+import MainLayout from "../../layouts/MainLayout/MainLayout";
 import navItems from "../../../assets/data/NavbarData/NavItems";
 import NavbarLogo from "./NavbarLogo";
 import NavItems from "./NavItems";
@@ -10,6 +10,7 @@ import NavbarLeft from "./NavbarLeft";
 import NavbarMobile from "./NavbarMobile";
 import NavCategoryDropDown from "./NavCategoryDropDown";
 import { toast } from "react-toastify";
+import { useBrowserWidth } from "../../../../context/BrowserWidthContext";
 
 const NavbarLower = () => {
   const [searching, setSearching] = useState(false);
@@ -19,6 +20,7 @@ const NavbarLower = () => {
   const [searchValue, setSearchValue] = useState();
   const navigate = useNavigate();
   const pagePath = useRef("");
+  const {width} = useBrowserWidth()
 
   const mobileScreen = useMemo(() => window.innerWidth < 992, []);
 
@@ -69,7 +71,7 @@ const NavbarLower = () => {
     <MainLayout overflow>
       <div className="navbar-lower-content">
         <NavbarLogo />
-        {window.innerWidth >= 1150 && (
+        {width >= 1150 && (
           <NavCategoryDropDown
             showDropDown={showDropDown}
             setShowDropDown={setShowDropDown}

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import SectionLayout from "../../common/SectionLayout/SectionLayout";
+import SectionLayout from "../../layouts/SectionLayout/SectionLayout";
 import TrendingProductCard from "./TrendingProductCard";
 import "./trendingproducts.css";
 

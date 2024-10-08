@@ -1,4 +1,4 @@
-import SectionLayout from "../../common/SectionLayout/SectionLayout"
+import SectionLayout from "../../layouts/SectionLayout/SectionLayout"
 import BestStoreCard from "./BestStoreCard"
 import "./beststore.css"
 

@@ -1,5 +1,5 @@
 import { FaSpinner } from "react-icons/fa";
-import MainLayout from "../MainLayout/MainLayout";
+import MainLayout from "../../layouts/MainLayout/MainLayout";
 
 const Loading = () => {
   return (

@@ -1,4 +1,4 @@
-import SectionLayout from "../../common/SectionLayout/SectionLayout";
+import SectionLayout from "../../layouts/SectionLayout/SectionLayout";
 import ProductCard from "../../common/ProductCard/ProductCard";
 import Swiper from "../../common/Swiper/Swiper";
 import { useSelector } from "react-redux";

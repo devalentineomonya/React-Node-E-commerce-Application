@@ -7,7 +7,7 @@ import { HiAtSymbol } from "react-icons/hi";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import MainLayout from "../common/MainLayout/MainLayout";
+import MainLayout from "../layouts/MainLayout/MainLayout";
 import { useResetPasswordMutation } from "../../../app/features/auth/authAPI";
 import { toast } from "react-toastify";
 import { FormCancelButton } from "./PasswordReset";

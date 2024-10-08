@@ -1,5 +1,5 @@
 import footerLinks from "../../../assets/data/FooterData/FooterLinks";
-import MainLayout from "../../common/MainLayout/MainLayout";
+import MainLayout from "../../layouts/MainLayout/MainLayout";
 import "./footer.css";
 import FooterEnding from "./FooterEnding";
 import FooterLinksList from "./FooterLinksList";

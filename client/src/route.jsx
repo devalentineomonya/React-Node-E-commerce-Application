@@ -14,7 +14,7 @@ import OtpForm from "./components/Auth/OtpForm";
 import MyAccount from "./pages/MyAccount/MyAccount";
 import PasswordReset from "./components/Auth/PasswordReset";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
-import ProductsLayout from "./components/common/ProductsLayout/ProductsLayout";
+import ProductsLayout from "./components/layouts/ProductsLayout/ProductsLayout";
 
 const Router = () => {
   const user = useSelector((state) => state.auth.user);

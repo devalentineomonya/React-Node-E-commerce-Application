@@ -1,6 +1,6 @@
 import OurServices from "../../Home/OurServices/OurServices";
 import PopularProducts from "../../Home/PopularProducts/PopularProducts";
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCard from "../../common/ProductCard/ProductCard";
 import SectionLayout from "../SectionLayout/SectionLayout";
 import ProductsLayoutFilter from "./ProductsLayoutFilter";
 import ProductsLayoutPagination from "./ProductsLayoutPagination";

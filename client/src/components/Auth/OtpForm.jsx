@@ -5,7 +5,7 @@ import { FormCancelButton } from "./PasswordReset";
 import { useDispatch, useSelector } from "react-redux";
 import { useFetchUserDataQuery } from "../../../app/features/user/userAPI";
 import { toast } from "react-toastify";
-import MainLayout from "../common/MainLayout/MainLayout";
+import MainLayout from "../layouts/MainLayout/MainLayout";
 import {
   useResendVerificationCodeMutation,
   useVerifyWithCodeMutation,

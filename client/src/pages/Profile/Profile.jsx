@@ -1,4 +1,4 @@
-import MainLayout from "../../components/common/MainLayout/MainLayout"
+import MainLayout from "../../components/layouts/MainLayout/MainLayout"
 import ProfileMain from "../../components/Profile/ProfileMain"
 const Profile = () => {
   return (

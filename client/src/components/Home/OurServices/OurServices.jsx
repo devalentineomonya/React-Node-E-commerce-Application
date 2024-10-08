@@ -1,4 +1,4 @@
-import SectionLayout from "../../common/SectionLayout/SectionLayout";
+import SectionLayout from "../../layouts/SectionLayout/SectionLayout";
 import OurServiceCard from "./OurServiceCard";
 import testImage from  "../../../assets/images/63e8c4e6cd367817e964f756_sofa-min.png"
 import "./ourservices.css";

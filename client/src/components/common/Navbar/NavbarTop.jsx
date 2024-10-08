@@ -1,4 +1,4 @@
-import MainLayout from "../MainLayout/MainLayout";
+import MainLayout from "../../layouts/MainLayout/MainLayout";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import TextTransition, { presets } from "react-text-transition";
