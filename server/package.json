@@ -5,8 +5,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
-    "start": "node server.js",
-    "build": "npm i"
+    "serve": "node server.js",
+    "build": "npm i",
+    "seed":"node ./src/seeders/category.seeder.js && node ./src/seeders/brand.seeder.js && node ./src/seeders/product.seeder.js && node ./src/seeders/review.seeder.js",
+    "start":"npm run seed && npm run serve"
   },
   "author": "Valentine Omonya",
   "license": "ISC",
