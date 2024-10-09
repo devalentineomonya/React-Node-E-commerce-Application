@@ -52,7 +52,7 @@ const seedProducts = async () => {
 
   
     await ProductModel.insertMany(products);
-    console.log('Database seeded successfully');
+    console.log('Products seeded successfully');
 
   } catch (err) {
     console.error(err);
