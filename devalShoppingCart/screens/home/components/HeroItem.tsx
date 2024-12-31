@@ -8,10 +8,10 @@ interface HeroItemProps {
     offer: string;
     description: string;
 }
-const HeroItem = ({image name, category, offer, description}) => {
+const HeroItem = ({image, name, category, offer, description}:HeroItemProps) => {
   return (
     <div className="w-full h-full relative">
-<Image src={image} alt={name} fill priority quality={100} loading="lazy" className='object-cover absolute'  />
+<Image src={image} alt={name} fill priority quality={100}  className='object-cover absolute'  />
 <div className='h-full w-full px-11 flex justify-center items-center bg-green-400'>
 
 </div>
