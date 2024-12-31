@@ -111,7 +111,7 @@ const NavCategoryDropDown: React.FC<NavCategoryDropDownProps> = ({
         <BsChevronDown className={`transition-all ease-in-out duration-300 ${showDropDown ? "rotate-180" : ""}`} />
       </div>
       <motion.div
-        className={`absolute bg-white min-w-[800px] w-full mt-12 p-4 rounded-md left-0 shadow-[3px_3px_16.5px_-7.5px_#ccc6c6]`}
+        className={`absolute bg-white min-w-[800px] w-full mt-12 p-4 rounded-md left-0 shadow-[3px_3px_16.5px_-7.5px_#ccc6c6] ${showDropDown && "z-30"}`}
         initial="closed"
         animate={showDropDown ? "open" : "closed"}
         variants={dropdownVariants}

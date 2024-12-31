@@ -1,26 +1,21 @@
+import { cn } from "@/lib/utils";
+
 interface MainLayoutProps {
-    children: React.ReactNode;
-    bg?:string;
-    mt?:string;
-    overflow?:boolean;
+  children: React.ReactNode;
+  className?: string;
 }
-const MainLayout = ({
-  children,
-  bg = "bg-white",
-  mt = "",
-  overflow = false,
-}: MainLayoutProps) => {
+
+const MainLayout = ({ children, className }: MainLayoutProps) => {
   return (
     <main
-      className={`flex justify-center items-center w-full ${bg} ${mt} ${
-        !overflow ? "overflow-hidden" : ""
-      }`}
+      className={cn(
+        "flex justify-center items-center w-full overflow-hidden",
+        className
+      )}
     >
       <div className="container max-w-[1400px] px-3">{children}</div>
     </main>
   );
 };
-
-
 
 export default MainLayout;

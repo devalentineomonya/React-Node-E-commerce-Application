@@ -25,7 +25,7 @@ const NavbarTop = () => {
 
 
   return (
-    <MainLayout bg="bg-primary">
+    <MainLayout className="bg-primary">
       <div className="flex justify-between items-center text-white h-10 text-sm ">
         <div className="navbar-top-left">
           <Link className="flex justify-center items-center gap-x-2" href="tel:+254768133220" title="Telephone" aria-label="Telephone">

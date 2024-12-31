@@ -73,7 +73,7 @@ const NavbarLower: React.FC = () => {
   }, [searchValue, router, setSearching]);
 
   return (
-    <MainLayout overflow>
+    <MainLayout className="overflow-visible">
       <div className="flex items-center justify-between md:gap-x-2 xl:gap-x-8 gap-x-0 mt-3 py-1">
         <NavbarLogo />
         {width >= 1150 && (
