@@ -10,7 +10,7 @@ header{
 }
 
 .navbar-top-left a {
-    @apply flex justify-center items-center gap-x-2 
+    @apply flex justify-center items-center gap-x-2
 }
 
 .navbar-top-left .icon {
@@ -44,7 +44,7 @@ header{
     @apply sm:w-full sm:min-w-[200px] w-40
 }
 /*=============================
-        NAVBAR MAIN 
+        NAVBAR MAIN
 ==============================*/
 
 .navbar {
@@ -73,7 +73,7 @@ header{
 
 
 /*=============================
-        NAVBAR MOBILE 
+        NAVBAR MOBILE
 ==============================*/
 .navbar-mobile {
     @apply fixed -top-52 w-[calc(100%-20px)] h-0 left-1/2 bg-white -translate-x-1/2 -translate-y-1/2 py-5 rounded-md shadow-md z-10
@@ -96,7 +96,7 @@ header{
 }
 
 /*=============================
-        NAVBAR SEARCH 
+        NAVBAR SEARCH
 ==============================*/
 .nav-search {
     @apply rounded-full border-2 border-gray-200 text-gray-400 flex justify-between items-center gap-x-3 sm:px-3 sm:py-1 w-80
@@ -108,7 +108,7 @@ header{
 }
 
 .nav-search .icon, .nav-left-item .mobile-search .icon {
-    @apply rounded-full hover:bg-gray-200 min-h-7 min-w-7 max-h-7 max-w-7 flex justify-center items-center cursor-pointer 
+    @apply rounded-full hover:bg-gray-200 min-h-7 min-w-7 max-h-7 max-w-7 flex justify-center items-center cursor-pointer
 }
 
 .nav-search .search-placeholder {
@@ -120,7 +120,7 @@ header{
 }
 
 /*=============================
-        NAVBAR LEFT LINKS 
+        NAVBAR LEFT LINKS
 ==============================*/
 .nav-left {
     @apply flex justify-center items-center sm:gap-x-5 gap-x-2
@@ -134,7 +134,7 @@ header{
     @apply fixed md:absolute bg-white rounded-lg mt-32 right-0 px-5 py-5 w-[98%] mr-[1%] md:mr-[0%] md:w-[calc(100vw-200px)] flex justify-center items-center z-30;
     -webkit-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
     -moz-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
-    box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
+    box-shadow: 3px 3px 16.5px -7.5px #ccc6c6 3px 3px 16.5px -7.5px #ccc6c6;
 
 }
 .nav-left-item .mobile-search input {
@@ -146,19 +146,28 @@ header{
 }
 
 /*=================================
-        NAVBAR CATEGORY DROP DOWN 
+        NAVBAR CATEGORY DROP DOWN
 ===================================*/
 
 .category-drop-down-content-container {
-    @apply absolute -z-10 bg-white min-w-[800px] w-full mt-24 invisible   p-4 rounded-md left-0;
-    transition:margin-top 0.3s ease-in-out;
+    @apply absolute -z-10 bg-white min-w-[800px] w-full mt-24 hidden p-4 rounded-md left-0;
+    transition: margin-top 0.3s ease-in-out, opacity 0.3s ease-in-out;
     -webkit-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
     -moz-box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
     box-shadow: 3px 3px 16.5px -7.5px #ccc6c6;
+    opacity: 0;
+    transform: translateY(10px);
 }
-.category-drop-down-content-container.show{
-    @apply mt-14 visible z-10;
- 
+
+.category-drop-down-content-container.show {
+    @apply mt-14 block z-10;
+    opacity: 1; /* Fade in */
+    transform: translateY(0);
+}
+
+.category-drop-down-content-container.hide {
+    opacity: 0; /* Fade out */
+    transform: translateY(10px);
 }
 .category-drop-down-content-title{
     @apply text-gray-800 font-bold text-xl pb-3 mb-2 border-b-2 border-gray-300
@@ -167,7 +176,7 @@ header{
 
 .category-drop-down-content {
     @apply grid grid-cols-2 md:grid-cols-3 gap-3;
-    
+
 
 }
 

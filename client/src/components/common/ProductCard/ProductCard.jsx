@@ -17,54 +17,54 @@ const ProductCard = ({ thumbnail, product, animate }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state?.cart?.items);
-  const user = useSelector((state) => state?.auth?.user); // Get user from state
+  const user = useSelector((state) => state?.auth?.user);
 
   const [cartValue, setCartValue] = useState(() => {
-    const item = cartItems.find((item) => item.product === product.id);
+    const item = cartItems.find((item) => item.product === product?.id);
     return item ? item.quantity : 0;
   });
 
   const [addToCart, { isLoading }] = useAddToCartMutation();
 
   useEffect(() => {
-    const item = cartItems.find((item) => item.product === product.id);
+    const item = cartItems.find((item) => item.product === product?.id);
     setCartValue(item ? item.quantity : 0);
-  }, [cartItems, product.id]);
+  }, [cartItems, product?.id]);
 
-  const currentStock = product.stock;
+  const currentStock = product?.stock;
 
   const handleAddToCart = async () => {
     try {
       if (currentStock > 0 && cartValue === 0) {
         if (user) {
           // User is logged in, handle cart with Redux and API
-          await dispatch(addItem({ product: product.id, quantity: 1 }));
+          await dispatch(addItem({ product: product?.id, quantity: 1 }));
           setCartValue(1);
 
           try {
-            const response = await addToCart(product.id).unwrap(); 
+            const response = await addToCart(product?.id).unwrap();
             await dispatch(setCartContent(response?.data?.items));
             toast.success(response.message);
             console.log("Response from addToCart:", response.data.items);
 
             if (!response) {
-              dispatch(removeItem(product.id));
+              dispatch(removeItem(product?.id));
               setCartValue(0);
               throw new Error("An error occurred while adding item to cart");
             }
           } catch (err) {
             console.error("Error adding to cart:", err.data);
-            dispatch(removeItem(product.id));
+            dispatch(removeItem(product?.id));
             setCartValue(0);
             toast.error(err.message || err.data.message || "An error occurred while adding item to cart");
           }
         } else {
           // User is not logged in, handle cart with localStorage
           const cartItems = JSON.parse(localStorage.getItem("cartItems")) || {};
-          if (cartItems[product.id]) {
-            cartItems[product.id] += 1;
+          if (cartItems[product?.id]) {
+            cartItems[product?.id] += 1;
           } else {
-            cartItems[product.id] = 1;
+            cartItems[product?.id] = 1;
           }
           localStorage.setItem("cartItems", JSON.stringify(cartItems));
           setCartValue(1);

@@ -27,7 +27,7 @@ const NavCategoryDropDown = ({ showDropDown, setShowDropDown }) => {
       </div>
       <div
         className={`category-drop-down-content-container ${
-          showDropDown ? "show" : ""
+          showDropDown ? "show" : "hide"
         }`}
       >
         <div className="category-drop-down-content-title">
