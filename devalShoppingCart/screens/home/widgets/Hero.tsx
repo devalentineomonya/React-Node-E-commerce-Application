@@ -20,7 +20,7 @@ import { BsHeartPulse } from "react-icons/bs";
 import { IoDiamondOutline } from "react-icons/io5";
 import { CiDeliveryTruck, CiMoneyCheck1 } from "react-icons/ci";
 import { TbMessageCircleQuestion } from "react-icons/tb";
-
+import { Swiper, SwiperSlide } from "swiper/react";
 const Hero = () => {
   // Sidebar Categories
   const categories = [
@@ -118,23 +118,47 @@ const Hero = () => {
 
       {/* Features Section */}
       <div className="border border-gray-200 py-5 px-14 mt-6 flex items-center justify-between">
-        {features.map((feature, index) => (
-          <motion.div
-            key={index}
-            className="flex items-center gap-x-3"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.5 }}
-          >
-            <feature.icon size={48} />
-            <div>
-              <h4 className="font-semibold text-gray-800 text-sm">
-                {feature.title}
-              </h4>
-              <p className="text-gray-600 text-xs">{feature.description}</p>
-            </div>
-          </motion.div>
-        ))}
+        <Swiper
+          spaceBetween={20}
+          slidesPerView={4}
+          breakpoints={{
+            0: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            576: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            992: {
+              slidesPerView: 3,
+              spaceBetween: 15,
+            },
+            1150: {
+              slidesPerView: 4,
+              spaceBetween: 20,
+            }
+          }}
+        >
+          {features.map((feature, index) => (
+            <SwiperSlide key={index}>
+              <motion.div
+                className="flex items-center gap-x-3"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+              >
+                <feature.icon size={48} />
+                <div>
+                  <h4 className="font-semibold text-gray-800 text-sm">
+                    {feature.title}
+                  </h4>
+                  <p className="text-gray-600 text-xs">{feature.description}</p>
+                </div>
+              </motion.div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </MainLayout>
   );

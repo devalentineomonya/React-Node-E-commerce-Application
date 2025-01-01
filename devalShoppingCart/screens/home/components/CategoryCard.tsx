@@ -8,7 +8,7 @@ const CategoryCard = () => {
   return (
     <div
       className="relative overflow-hidden rounded-md w-full aspect-[1/1.3] bg-white flex flex-col justify-end
-    items-center pb-4 group/category cursor-pointer shadow-[3px_3px_16.5px_-7.5px_#ccc6c6]"
+    items-center pb-4 group/category cursor-pointer border border-gray-200 hover:shadow-[0_5p_20px_rgba(0,_0,_0,_0.08)]"
     >
       <Image
         src={product}
