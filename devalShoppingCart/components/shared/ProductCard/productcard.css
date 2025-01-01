@@ -1,0 +1,123 @@
+.product-card-container {
+    @apply w-full max-w-full sm:max-w-[410px] sm:mr-6 hover:-translate-y-3 cursor-pointer
+}
+
+.product-image {
+    @apply bg-[#f5f6f6] rounded-lg h-[350px] flex justify-center items-center relative overflow-hidden
+}
+
+.product-image img:hover {
+    transform: scale(1.15);
+}
+
+
+.add-to-cart {
+    @apply py-1 px-4 mt-3 rounded-full border-customGreen border hover:bg-customGreen hover:text-white
+}
+
+.product-info .product-name {
+    @apply flex justify-between items-center text-gray-700 text-lg font-semibold mt-3
+}
+
+.product-info p {
+    @apply text-sm text-gray-500 font-bold mt-1
+}
+
+.product-rating {
+    @apply flex justify-start items-center gap-x-2 mt-2
+}
+
+.increase-items, .decrease-items {
+    @apply rounded-full 
+}
+
+.cart-action-buttons {
+    @apply flex justify-start items-center gap-x-3 mt-3 rounded-full border  border-customGreen py-1 px-3 w-fit
+}
+
+.cart-action-buttons button:hover svg path {
+    @apply text-gray-900
+}
+
+.decrease-items {
+    @apply  disabled:text-gray-500
+}
+
+
+
+
+.heart-container {
+    @apply absolute w-10 h-10 duration-300   z-10 top-2 right-4 rounded-full bg-white  flex justify-center items-center 
+
+  }
+  
+  .heart-container .checkbox {
+    @apply absolute w-10 h-10 opacity-0 z-20 cursor-pointer ;
+
+  }
+  
+  .heart-container .svg-container {
+    @apply h-10 w-10 flex justify-center items-center 
+
+  }
+  
+  .heart-container .svg-outline,
+  .heart-container .svg-filled {
+    
+    @apply absolute fill-red-400 h-7 w-7
+    
+  }
+  
+  .heart-container .svg-filled {
+    animation: keyframes-svg-filled 1s;
+
+    display: none;
+  }
+  
+  .heart-container .svg-celebrate {
+    @apply absolute hidden stroke-red-400 fill-red-400 stroke-2;
+    animation: keyframes-svg-celebrate .5s;
+    animation-fill-mode: forwards;
+   
+  }
+  
+  .heart-container .checkbox:checked ~ .svg-container .svg-filled {
+    display: block;
+  }
+  
+  .heart-container .checkbox:checked ~ .svg-container .svg-celebrate {
+    display: block;
+  }
+  
+  @keyframes keyframes-svg-filled {
+    0% {
+      transform: scale(0);
+    }
+  
+    25% {
+      transform: scale(1.2);
+    }
+  
+    50% {
+      transform: scale(1);
+      filter: brightness(1.5);
+    }
+  }
+  
+  @keyframes keyframes-svg-celebrate {
+    0% {
+      transform: scale(0);
+    }
+  
+    50% {
+      opacity: 1;
+      filter: brightness(1.5);
+    }
+  
+    100% {
+      transform: scale(1.4);
+      opacity: 0;
+      display: none;
+    }
+  }
+  

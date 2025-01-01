@@ -1,12 +1,25 @@
 import React from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { IoCartOutline } from "react-icons/io5";
+import Image from "next/image";
+import product from "@/public/images/63e8c4e4aed3c6720e446aa1_airpod max-min.png";
+
 const CategoryCard = () => {
   return (
-    <div className="w-full aspect-[1/1.3] bg-white flex flex-col justify-end items-center pb-4 group/category cursor-pointer shadow-[3px_3px_16.5px_-7.5px_#ccc6c6]">
+    <div
+      className="relative overflow-hidden rounded-md w-full aspect-[1/1.3] bg-white flex flex-col justify-end
+    items-center pb-4 group/category cursor-pointer shadow-[3px_3px_16.5px_-7.5px_#ccc6c6]"
+    >
+      <Image
+        src={product}
+        alt="product"
+        fill
+        priority
+        className="w-full h-full object-cover"
+      />
       <button
         className="relative overflow-hidden cursor-pointer rounded-[50px]
-      border-[solid] border-[hsl(50deg_100%_50%)] outline-none "
+      border-[solid] border-[hsl(50deg_100%_50%)] outline-none z-10"
       >
         <div
           className="flex items-center gap-3 text-sm font-semibold
