@@ -4,7 +4,6 @@ import NavbarMain from "@/components/common/navbar/NavbarMain";
 import { Inter } from 'next/font/google'
 import Footer from "@/components/common/footer/Footer";
 
-
 const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
     title: "DevalShoppingCart | Excellent Shopping Experience",
@@ -22,7 +21,7 @@ export default function RootLayout({
         className={`${inter.className} antialiased`}
       >
         <NavbarMain/>
-        {children}
+                {children}
         <Footer/>
       </body>
     </html>

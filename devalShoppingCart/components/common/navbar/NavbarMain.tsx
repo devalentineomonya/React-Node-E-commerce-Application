@@ -4,10 +4,10 @@ import NavbarLower from './NavbarLower'
 const NavbarMain = () => {
 
   return (
-    <header>
+    <>
     <NavbarTop/>
     <NavbarLower/>
-    </header>
+    </>
   )
 }
 
