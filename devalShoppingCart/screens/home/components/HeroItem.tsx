@@ -100,6 +100,7 @@ const HeroItem = ({
           <span>Shop Now</span>
           <GoArrowRight />
         </motion.button>
+
       </div>
     </div>
   );
