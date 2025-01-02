@@ -24,7 +24,7 @@ const NewsLetter = () => {
           fill
           quality={100}
           priority
-          className="object-cover absolute"
+          className="object-cover absolute -z-10"
         />
         <div className="h-full w-full  sm:max-w-[60%]  absolute z-10 flex flex-col items-start justify-center px-10">
           <p className="uppercase font-medium text-lg">

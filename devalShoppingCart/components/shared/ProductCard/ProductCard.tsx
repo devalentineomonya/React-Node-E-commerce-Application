@@ -1,112 +1,77 @@
+"use client"
 import { BsStar, BsStarFill } from "react-icons/bs";
-import "./productcard.css";
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import scrollReveal from "scrollreveal";
-import { revealConfig } from "../../../../config/ScrollConfig";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import ProductLike from "./ProductLike";
-import { useDispatch, useSelector } from "react-redux";
-import { addItem, removeItem, setCartContent } from "../../../../app/features/cart/cartSlice";
-import { useAddToCartMutation } from "../../../../app/features/cart/cartAPI";
-import CartActionButtons from "./CartActionButtons";
 import { toast } from "react-toastify";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import CartActionButtons from "./CartActionButtons";
+import dummyProduct from "@/public/images/63ec6053e5b15cfafd550cbb_Rectangle 1436-3.png"
+interface ProductCardProps {
+  thumbnail?: boolean;
+  animate?: boolean;
+  product: any;
+}
 
-const ProductCard = ({ thumbnail, product, animate }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state?.cart?.items);
-  const user = useSelector((state) => state?.auth?.user);
+const ProductCard = ({ thumbnail, product, animate }: ProductCardProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
 
   const [cartValue, setCartValue] = useState(() => {
-    const item = cartItems.find((item) => item.product === product?.id);
-    return item ? item.quantity : 0;
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "{}");
+    return cartItems[product?.id] || 0;
   });
-
-  const [addToCart, { isLoading }] = useAddToCartMutation();
-
-  useEffect(() => {
-    const item = cartItems.find((item) => item.product === product?.id);
-    setCartValue(item ? item.quantity : 0);
-  }, [cartItems, product?.id]);
 
   const currentStock = product?.stock;
 
-  const handleAddToCart = async () => {
-    try {
-      if (currentStock > 0 && cartValue === 0) {
-        if (user) {
-          // User is logged in, handle cart with Redux and API
-          await dispatch(addItem({ product: product?.id, quantity: 1 }));
-          setCartValue(1);
+  useEffect(() => {
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "{}");
+    setCartValue(cartItems[product?.id] || 0);
+  }, [product?.id]);
 
-          try {
-            const response = await addToCart(product?.id).unwrap();
-            await dispatch(setCartContent(response?.data?.items));
-            toast.success(response.message);
-            console.log("Response from addToCart:", response.data.items);
+  const handleAddToCart = () => {
+    if (currentStock > 0 && cartValue === 0) {
+      // Update localStorage cart
+      const cartItems = JSON.parse(localStorage.getItem("cartItems") || "{}");
+      cartItems[product?.id] = 1;
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
-            if (!response) {
-              dispatch(removeItem(product?.id));
-              setCartValue(0);
-              throw new Error("An error occurred while adding item to cart");
-            }
-          } catch (err) {
-            console.error("Error adding to cart:", err.data);
-            dispatch(removeItem(product?.id));
-            setCartValue(0);
-            toast.error(err.message || err.data.message || "An error occurred while adding item to cart");
-          }
-        } else {
-          // User is not logged in, handle cart with localStorage
-          const cartItems = JSON.parse(localStorage.getItem("cartItems")) || {};
-          if (cartItems[product?.id]) {
-            cartItems[product?.id] += 1;
-          } else {
-            cartItems[product?.id] = 1;
-          }
-          localStorage.setItem("cartItems", JSON.stringify(cartItems));
-          setCartValue(1);
-        }
-      }
-    } catch (error) {
-      console.error("Outer catch error:", error);
-      toast.error(error.message || "An error occurred while adding item to cart");
+      setCartValue(1);
+      toast.success("Item added to cart");
     }
   };
 
-  const handleImageClick = (id) => {
-    localStorage.setItem("currentProductUrl", location.pathname);
-    navigate(`/product/${id}`);
+  const handleImageClick = (id: string) => {
+    localStorage.setItem("currentProductUrl", pathname);
+    router.push(`/product/${id}`);
   };
 
-  const handleKeyDown = (e, id) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLImageElement>,
+    id: string
+  ) => {
     if (e.key === "Enter") {
       handleImageClick(id);
     }
   };
 
-  useEffect(() => {
-    const sr = scrollReveal();
-    if (animate) {
-      sr.reveal(".product-card-container", {
-        ...revealConfig,
-        duration: 1000,
-        origin: "bottom",
-        distance: "40px",
-        scale: 0.05,
-      });
-    }
-  }, [animate]);
-
   return (
-    <div className="product-card-container">
-      <div className="product-image">
-        <img
-          src={product?.images}
-          alt={product?.name}
+    <motion.div
+      className="w-full max-w-full sm:max-w-[410px] sm:mr-6 hover:-translate-y-3 cursor-pointe"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: animate ? 1 : 0.8, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1 }}
+    >
+      <div className="rounded-lg h-[320px] flex justify-center items-center relative overflow-hidden bg-gray-50">
+        <Image
+        //   src={product?.images}
+        src={dummyProduct}
+          alt={product?.name || "Product Image"}
           loading="lazy"
+quality={100}
+          className="hover:scale-[1.15]"
           onClick={() => handleImageClick(product?.id)}
           onKeyDown={(e) => handleKeyDown(e, product?.id)}
         />
@@ -114,46 +79,36 @@ const ProductCard = ({ thumbnail, product, animate }) => {
       </div>
 
       {!thumbnail && (
-        <div className="product-info">
-          <div className="product-name">
+        <div className="px-2">
+          <div className="flex justify-between items-center text-gray-700 text-lg font-semibold mt-3">
             <span className="truncate">{product?.name}</span>
             <span className="whitespace-nowrap">
               ${product?.price} <sup>.00</sup>
             </span>
           </div>
-          <p className="truncate">{product?.shortDescription}</p>
-          <div className="product-rating">
-            <BsStarFill className="text-green-500" />
-            <BsStar className="text-gray-600" />
+          <p className="truncate text-sm text-gray-500 font-bold mt-1">{product?.shortDescription}</p>
+          <div className="flex justify-start items-center gap-x-2 mt-2">
+            <BsStarFill className="size-4 text-green-500" />
+            <BsStar className="size-4 text-gray-600" />
           </div>
           <div className="cart-buttons">
-            {cartValue > 0 ? (
-              <CartActionButtons
-                cartValue={cartValue}
-                currentStock={currentStock}
-                productId={product?.id}
-              />
+            { true ? (
+              <CartActionButtons/>
             ) : (
               <button
                 title="Add to cart"
                 aria-label="Add to cart"
-                className="add-to-cart"
+                className="py-1 px-4 mt-3 rounded-full border-primary border hover:bg-primary hover:text-white"
                 onClick={handleAddToCart}
               >
-                {isLoading ? "Adding..." : "Add To Cart"}
+                Add To Cart
               </button>
             )}
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
-};
-
-ProductCard.propTypes = {
-  thumbnail: PropTypes.bool,
-  animate: PropTypes.bool,
-  product: PropTypes.object.isRequired,
 };
 
 export default ProductCard;

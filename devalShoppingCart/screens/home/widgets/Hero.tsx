@@ -4,6 +4,8 @@ import MainLayout from "@/components/common/layouts/MainLayout";
 import HeroItem from "../components/HeroItem";
 import image from "@/public/images/banner-2.jpg";
 import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 import {
   PiTShirtThin,
   PiHouse,
@@ -20,7 +22,7 @@ import { BsHeartPulse } from "react-icons/bs";
 import { IoDiamondOutline } from "react-icons/io5";
 import { CiDeliveryTruck, CiMoneyCheck1 } from "react-icons/ci";
 import { TbMessageCircleQuestion } from "react-icons/tb";
-import { Swiper, SwiperSlide } from "swiper/react";
+
 const Hero = () => {
   // Sidebar Categories
   const categories = [
@@ -68,20 +70,29 @@ const Hero = () => {
     visible: (index: number) => ({
       opacity: 1,
       x: 0,
-      transition: { delay: index * 0.025 },
+      transition: { delay: index * 0.025, duration: 0.5 },
     }),
+  };
+
+  const featureSectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
   };
 
   return (
     <MainLayout className="mt-4">
       {/* Sidebar & Main Hero Section */}
-      <div className="grid grid-cols-12 aspect-video w-full max-h-[540px] gap-x-6">
+      <div className="grid grid-cols-12 aspect-video w-full min-h-[250px] max-h-[540px] gap-x-6">
         {/* Sidebar */}
         <div className="max-lg:hidden lg:col-span-3 px-3 py-2 bg-gray-50 rounded-sm">
           <ul>
             {categories.map((item, index) => (
               <motion.li
-                className={`p-2.5 my-0.5 text-sm hover:pl-4 transition-all ease-in-out duration-300 hover:text-primary ${
+                className={`p-2.5 my-0.5 text-sm hover:pl-4 hover:text-primary ${
                   index === categories.length - 1
                     ? "font-bold text-xl text-gray-700"
                     : "border-b"
@@ -117,37 +128,23 @@ const Hero = () => {
       </div>
 
       {/* Features Section */}
-      <div className="border border-gray-200 py-5 px-14 mt-6 flex items-center justify-between">
+      <motion.div
+        className="border border-gray-200 py-5 px-4 mt-6"
+        variants={featureSectionVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <Swiper
-          spaceBetween={20}
-          slidesPerView={4}
+          spaceBetween={16}
+          slidesPerView={1}
           breakpoints={{
-            0: {
-              slidesPerView: 1,
-              spaceBetween: 10,
-            },
-            576: {
-              slidesPerView: 2,
-              spaceBetween: 10,
-            },
-            992: {
-              slidesPerView: 3,
-              spaceBetween: 15,
-            },
-            1150: {
-              slidesPerView: 4,
-              spaceBetween: 20,
-            }
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 4 },
           }}
         >
           {features.map((feature, index) => (
             <SwiperSlide key={index}>
-              <motion.div
-                className="flex items-center gap-x-3"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-              >
+              <div className="flex items-center gap-x-3">
                 <feature.icon size={48} />
                 <div>
                   <h4 className="font-semibold text-gray-800 text-sm">
@@ -155,11 +152,11 @@ const Hero = () => {
                   </h4>
                   <p className="text-gray-600 text-xs">{feature.description}</p>
                 </div>
-              </motion.div>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
+      </motion.div>
     </MainLayout>
   );
 };
