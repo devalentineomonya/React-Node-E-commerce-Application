@@ -1,26 +1,52 @@
+"use client"
 import footerLinks from "./footerlinks";
 import MainLayout from "../layouts/MainLayout";
 import FooterEnding from "./FooterEnding";
 import FooterLinksList from "./FooterLinksList";
 import FooterLogo from "./FooterLogo";
+import { motion } from "framer-motion";
+
 const Footer = () => {
+  // Animation Variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <MainLayout>
-      <footer className="flex lg:flex-row flex-col gap-y-12 mt-16 mb-7 border-y-2 py-12 border-gray-300 gap-x-16  overflow-x-hidden">
-        <div className=" w-full lg:w-1/2">
+      <footer className="flex lg:flex-row flex-col gap-y-12 mt-16 mb-7 border-y-2 py-12 border-gray-300 gap-x-16 overflow-x-hidden">
+        <div className="w-full lg:w-1/2">
           <FooterLogo />
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10  justify-between w-full items-start gap-x-3">
+        <motion.div
+          className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 justify-between w-full items-start gap-x-3"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {footerLinks?.map((footerLink) => (
-            <FooterLinksList
-              title={footerLink.title}
-              links={footerLink.links}
-              key={footerLink.title}
-            />
+            <motion.div variants={itemVariants} key={footerLink.title}>
+              <FooterLinksList
+                title={footerLink.title}
+                links={footerLink.links}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </footer>
-      <FooterEnding/>
+      <FooterEnding />
     </MainLayout>
   );
 };

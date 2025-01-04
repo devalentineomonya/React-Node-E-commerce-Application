@@ -2,7 +2,7 @@
     @apply grid grid-cols-1 sm:grid-cols-2 gap-y-8 md:grid-cols-4 gap-x-3
 }
 .best-store-images{
-    @apply relative z-0 
+    @apply relative z-0
 }
 .best-store-product-image{
     @apply overflow-hidden rounded-md
@@ -22,7 +22,7 @@
     @apply mt-8
 }
 .best-store-info h4{
-    @apply text-slate-900 font-bold 
+    @apply text-slate-900 font-bold
 }
 .best-store-info p{
     @apply text-[12px] font-semibold text-gray-500 my-1

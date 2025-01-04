@@ -1,12 +1,12 @@
 "use client"
 import React from "react";
-import Image from "next/image";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import Image, { StaticImageData } from "next/image";
+
 import { GoArrowRight } from "react-icons/go";
 import { motion } from "framer-motion";
 
 interface HeroItemProps {
-  image: StaticImport | string;
+  image: StaticImageData | string;
   name: string;
   category: string;
   offer: string;

@@ -3,7 +3,7 @@ import "./globals.css";
 import NavbarMain from "@/components/common/navbar/NavbarMain";
 import { Inter } from 'next/font/google'
 import Footer from "@/components/common/footer/Footer";
-
+import  {QueryProvider} from "@/providers/query-provider"
 const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
     title: "DevalShoppingCart | Excellent Shopping Experience",
@@ -20,9 +20,11 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased`}
       >
+        <QueryProvider>
         <NavbarMain/>
                 {children}
         <Footer/>
+        </QueryProvider>
       </body>
     </html>
   );

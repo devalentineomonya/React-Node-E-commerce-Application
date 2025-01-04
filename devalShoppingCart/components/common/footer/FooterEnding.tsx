@@ -1,35 +1,86 @@
+"use client"
 import Link from "next/link";
 import Image from "next/image";
-import footerEnding from "./footerending";
+import footerEnding from "./footerendings";
+import { motion } from "framer-motion";
 
 const FooterEnding = () => {
+  // Animation Variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2, // Staggered animations for each item
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="flex justify-between items-center flex-col gap-y-12 md:flex-row font-semibold text-gray-500 pt-2 pb-8">
-      <div className="flex gap-x-8">
+    <motion.div
+      className="flex justify-between items-center flex-col gap-y-12 md:flex-row font-semibold text-gray-500 pt-2 pb-8"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.5 }}
+    >
+      {/* First Section: Icons and Names */}
+      <motion.div
+        className="flex gap-x-8"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+      >
         {footerEnding?.map((footerEndingItem) => (
-          <div className="flex gap-x-2" key={footerEndingItem.name}>
+          <motion.div
+            className="flex gap-x-2"
+            key={footerEndingItem.name}
+            variants={itemVariants}
+          >
             <Image
               src={footerEndingItem.image}
               alt={footerEndingItem.name ?? "footer-ending-image"}
               loading="lazy"
             />
             {footerEndingItem.name}
-          </div>
+          </motion.div>
         ))}
-      </div>
-      <div className="flex items-start gap-x-4">
-        <Link href="/" title="Terms Of Services" aria-label="Terms Of Services">
-          Term of Services
-        </Link>
-        <Link
-          href="/"
-          title="Privacy and Policy"
-          aria-label="Privacy and Policy"
-        >
-          Privacy and Policy
-        </Link>
-      </div>
-      <div>
+      </motion.div>
+
+      {/* Second Section: Links */}
+      <motion.div
+        className="flex items-start gap-x-4"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+      >
+        <motion.div variants={itemVariants}>
+          <Link
+            href="/"
+            title="Terms Of Services"
+            aria-label="Terms Of Services"
+          >
+            Term of Services
+          </Link>
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <Link
+            href="/"
+            title="Privacy and Policy"
+            aria-label="Privacy and Policy"
+          >
+            Privacy and Policy
+          </Link>
+        </motion.div>
+      </motion.div>
+
+      {/* Third Section: Footer Text */}
+      <motion.div variants={itemVariants}>
         All Rights Reserved from
         <Link
           href="https://devalentineomonya.vercel.app"
@@ -41,8 +92,8 @@ const FooterEnding = () => {
           Devalentine
         </Link>
         | {new Date().getFullYear()}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
