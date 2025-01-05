@@ -7,8 +7,7 @@ export const useGetUsers = () => {
   return useQuery({
        queryKey: ["users"],
     queryFn: async () => {
-      const response = await client.api.users.$get({
-      });
+      const response = await client.api.users.$get();
       if (!response.ok) {
         throw new Error("Failed to fetch users");
       }

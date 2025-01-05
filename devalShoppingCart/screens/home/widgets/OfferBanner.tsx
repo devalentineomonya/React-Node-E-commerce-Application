@@ -6,13 +6,13 @@ import MainLayout from "@/components/common/layouts/MainLayout";
 import Link from "next/link"
 const OfferBanner = () => {
   const { scrollYProgress } = useScroll();
-  const scale = useTransform(scrollYProgress, [0, 1], [0.6, 1.2]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.6]);
 
   return (
     <div className="relative h-[67vh] my-20 overflow-hidden">
       <motion.div
         style={{ scale }}
-        className="absolute top-0 left-0 w-full h-full"
+        className="absolute top-0 left-0 w-full h-full overflow-hidden"
       >
         <Image
           src={BannerImage}

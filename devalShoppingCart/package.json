@@ -10,12 +10,13 @@
     "generate": "npx drizzle-kit generate",
     "push": "npx drizzle-kit push",
     "pull": "npx drizzle-kit pull",
-    "studio":"npx drizzle-kit studio",
+    "studio": "npx drizzle-kit studio",
     "lint": "next lint"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.4",
     "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.47.10",
     "@tanstack/react-query": "^5.62.12",
     "drizzle-orm": "^0.38.3",
     "drizzle-zod": "^0.6.1",
