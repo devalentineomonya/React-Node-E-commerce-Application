@@ -5,9 +5,14 @@ import FooterEnding from "./FooterEnding";
 import FooterLinksList from "./FooterLinksList";
 import FooterLogo from "./FooterLogo";
 import { motion } from "framer-motion";
+import { usePathname } from 'next/navigation';
+import { EXCLUDED_PATHS } from "@/lib/constants";
 
 const Footer = () => {
-  // Animation Variants
+  const pathname = usePathname()
+
+  const shouldDisplayFooter = !EXCLUDED_PATHS.some(path => pathname.startsWith(path))
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -22,6 +27,8 @@ const Footer = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
+  if (!shouldDisplayFooter) return null;
 
   return (
     <MainLayout>
