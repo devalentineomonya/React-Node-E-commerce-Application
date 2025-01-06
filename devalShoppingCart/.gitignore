@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-/superbase
+/supabase
 /.pnp
 .pnp.*
 .yarn/*
