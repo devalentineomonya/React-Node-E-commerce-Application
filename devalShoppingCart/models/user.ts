@@ -13,14 +13,13 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 const genderEnum = pgEnum("gender", ["Male", "Female", "Others"]);
 
 export const userTable = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  googleId: varchar("google_id", { length: 255 }),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
   firstName: varchar("first_name", { length: 255 }).notNull(),
   middleName: varchar("middle_name", { length: 255 }),
   lastName: varchar("last_name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
   gender: genderEnum("gender"),
   dateOfBirth: date("date_of_birth"),
-  password: varchar("password", { length: 255 }),
   primaryPhoneNumber: varchar("primary_phone_number", { length: 20 }),
   secondaryPhoneNumber: varchar("secondary_phone_number", { length: 20 }),
   addresses: jsonb("addresses"),
