@@ -1,14 +1,16 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AuthInput from "../components/AuthInput";
 import { BiLock } from "react-icons/bi";
 import { HiAtSymbol } from "react-icons/hi";
-import signInImage from "@/public/images/signInImage.png";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
 import AuthLayout from "../layout/AuthLayout";
+import SignInWithGoogle from "../components/SignInWithGoogle";
+import { useSigninUser } from "@/features/auth/sign-in-user";
+import { toast } from "react-toastify";
 // Zod schema for validation
 const signInSchema = z.object({
   email: z.string().email("Invalid email format").nonempty("Email is required"),
@@ -23,7 +25,8 @@ const signInSchema = z.object({
 type SignInFormData = z.infer<typeof signInSchema>;
 
 const SignIn = () => {
-  // React Hook Form setup
+  const signInUser = useSigninUser();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -38,13 +41,37 @@ const SignIn = () => {
   });
 
   const onSubmit = async (values: SignInFormData) => {
-    console.log(values);
+    const id = toast.loading("Logging in...");
+    try {
+      const response = await signInUser.mutateAsync(values);
+      console.log("response", response);
+
+      if (response?.success) {
+        toast.success("User loggedin successfully");
+        router.push("/user/dashboard");
+      } else {
+        toast.error(
+          response?.message || "Invalid credentials. Please try again."
+        );
+      }
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again later."
+      );
+    } finally {
+      toast.done(id);
+    }
   };
 
   return (
-    <AuthLayout image={signInImage} title="Sign In" description="Enter your credentials to sign in">
+    <AuthLayout title="Sign In" description="Enter your credentials to sign in">
       <>
-        <form className="max-w-96 w-full mt-4" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="max-w-96 w-full mt-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <AuthInput
             type="email"
             label="Email*"
@@ -53,7 +80,9 @@ const SignIn = () => {
             {...register("email")}
           />
           {errors.email && (
-            <div className="text-red-600 font-semibold text-sm mt-2">{errors.email.message}</div>
+            <div className="text-red-600 font-semibold text-sm mt-2">
+              {errors.email.message}
+            </div>
           )}
 
           <AuthInput
@@ -64,7 +93,9 @@ const SignIn = () => {
             {...register("password")}
           />
           {errors.password && (
-            <div className="text-red-600 font-semibold text-sm mt-2">{errors.password.message}</div>
+            <div className="text-red-600 font-semibold text-sm mt-2">
+              {errors.password.message}
+            </div>
           )}
 
           <div className="flex justify-between text-sm mt-2">
@@ -72,21 +103,27 @@ const SignIn = () => {
               <input type="checkbox" {...register("remember")} id="remember" />
               <label htmlFor="remember">Remember Me</label>
             </div>
-            <Link className="text-sky-600 font-semibold text-xs" href="/auth/forget-password">Recover Password</Link>
+            <Link
+              className="text-sky-600 font-semibold text-xs"
+              href="/auth/forget-password"
+            >
+              Recover Password
+            </Link>
           </div>
           <div className=" flex justify-center items-center mt-8">
             <button
               type="submit"
               className="bg-primary text-white hover:bg-black w-full h-11  rounded-md text-sm  flex justify-center items-center gap-x-3"
-              disabled={isSubmitting}
+              disabled={isSubmitting || signInUser.isPending}
             >
-              {isSubmitting ? (
+              {isSubmitting || signInUser.isPending ? (
                 <div className="h-6 w-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 "Sign In"
               )}
             </button>
           </div>
+          <SignInWithGoogle disabled={isSubmitting || signInUser.isPending} />
         </form>
         <div className=" flex justify-center items-center w-full mt-4"></div>
         <p className="mt-8 text-xs text-gray-700">

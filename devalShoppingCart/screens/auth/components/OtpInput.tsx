@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface OtpInputProps {
   length?: number;
-  onOtpSubmit?: (otp: string) => void; 
+  onOtpSubmit?: (otp: string) => void;
+  [key:string]:unknown
 }
 
-const OtpInput: React.FC<OtpInputProps> = ({ length = 6, onOtpSubmit = () => {} }) => {
+const OtpInput: React.FC<OtpInputProps> = ({ length = 6, onOtpSubmit = () => {}}) => {
   const [otpValue, setOtpValue] = useState<string[]>(new Array(length).fill(""));
   const inputRefs = useRef<HTMLInputElement[]>([]);
 
@@ -111,6 +112,7 @@ const OtpInput: React.FC<OtpInputProps> = ({ length = 6, onOtpSubmit = () => {} 
     >
       {otpValue.map((value, index) => (
         <input
+
           key={index}
           ref={(input) => {
             inputRefs.current[index] = input!;

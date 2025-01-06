@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,8 +6,10 @@ import { useForm } from "react-hook-form";
 import AuthInput from "../components/AuthInput";
 import { BiLock, BiUser } from "react-icons/bi";
 import { HiAtSymbol } from "react-icons/hi";
-import signUpImage from "@/public/images/signUpImage.png";
 import AuthLayout from "../layout/AuthLayout";
+import { useSignUpUser } from "@/features/auth/sign-up-user";
+import { toast } from "react-toastify";
+import SignInWithGoogle from "../components/SignInWithGoogle";
 
 // Zod schema for validation
 const signUpSchema = z.object({
@@ -30,7 +32,8 @@ const signUpSchema = z.object({
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
 const SignUp = () => {
-  // React Hook Form setup
+  const signUpUser = useSignUpUser();
+
   const {
     register: formRegister,
     handleSubmit,
@@ -46,17 +49,38 @@ const SignUp = () => {
   });
 
   const onSubmit = async (values: SignUpFormData) => {
-    console.log(values);
+    const id = toast.loading("Registering user...");
+    try {
+      const response = await signUpUser.mutateAsync(values);
+
+      if (response.success) {
+        toast.success("User signed up successfully");
+      } else {
+        toast.error(response.message || "Sign-up failed");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+
+      console.error("Error details:", error);
+    } finally {
+      toast.done(id);
+    }
   };
 
   return (
     <AuthLayout
-      image={signUpImage}
       title="Sign Up"
       description="Create an account to continue shopping"
     >
       <>
-        <form className="max-w-96 w-full mt-4" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="max-w-96 w-full mt-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <AuthInput
             type="text"
             label="First Name*"
@@ -113,15 +137,16 @@ const SignUp = () => {
             <button
               type="submit"
               className="bg-primary text-white hover:bg-black w-full h-11  rounded-md text-sm  flex justify-center items-center gap-x-3"
-              disabled={isSubmitting}
+              disabled={isSubmitting || signUpUser.isPending}
             >
-              {isSubmitting ? (
+              {isSubmitting || signUpUser.isPending ? (
                 <div className="h-6 w-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 "Sign Up"
               )}
             </button>
           </div>
+          <SignInWithGoogle disabled={isSubmitting || signUpUser.isPending} />
         </form>
         <div className="flex justify-center items-center w-full mt-4"></div>
         <p className="mt-8 text-xs text-gray-700">

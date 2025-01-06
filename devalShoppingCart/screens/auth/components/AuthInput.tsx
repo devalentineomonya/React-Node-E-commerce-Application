@@ -1,62 +1,47 @@
-"use client"
-import React, { useState } from "react";
-import {cn} from "@/lib/utils"
+"use client";
+
+import { cn } from "@/lib/utils";
+
 interface AuthInputProps {
   type?: string;
   name: string;
   label: string;
-  index: number;
-  value: string;
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   icon?: React.ReactNode;
+  [key: string]: unknown;
 }
 
 const AuthInput: React.FC<AuthInputProps> = ({
   type = "text",
   name,
   label,
-  index,
-  value,
-  onInputChange,
   icon,
+  ...props
 }) => {
-  const [isFocused, setIsFocused] = useState(false);
-
-  const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => {
-    if (!value) {
-      setIsFocused(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onInputChange(e);
-    setIsFocused(!!e.target.value);
-  };
-
   return (
     <div className="flex flex-col mt-5">
-      <div className="flex justify-between items-center h-12 w-full pl-4 border border-gray-100 rounded-md mt-2 px-4 text-gray-500 relative bg-[#f7fbff]">
-        <label
-          htmlFor={`${name}-${index}`}
+      <div className="relative flex items-center group">
+        <input
           className={cn(
-            "text-lg font-normal text-gray-400 absolute top-2 transition-all duration-200",
-            (isFocused || value) && "-top-3 text-blue-500"
+            "peer w-full h-12 pl-4 pr-10 text-base text-slate-900 placeholder-transparent bg-[#f7fbff] border border-gray-100 rounded-md outline-none",
+            "focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          )}
+          type={type}
+          name={name}
+          id={name}
+          placeholder={label}
+          {...props}
+        />
+        <label
+          htmlFor={name}
+          className={cn(
+            "absolute left-4 top-1/2 text-gray-400 text-lg transition-all duration-200 transform -translate-y-1/2",
+            "peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-lg",
+            "peer-focus:top-2 peer-focus:text-blue-500 peer-focus:text-sm"
           )}
         >
           {label}
         </label>
-        <input
-        className="w-full outline-none placeholder:text-gray-500 text-slate-900 text-base bg-transparent select-none"
-          type={type}
-          name={name}
-          id={`${name}-${index}`}
-          value={value}
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-        />
-        {icon && <span className="input-icon">{icon}</span>}
+        {icon && <span className="absolute right-4 text-gray-400">{icon}</span>}
       </div>
     </div>
   );

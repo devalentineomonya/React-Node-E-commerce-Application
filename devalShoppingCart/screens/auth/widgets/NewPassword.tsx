@@ -1,5 +1,4 @@
-"use client"
-import newPasswordImage from "@/public/images/resetPassword.png";
+"use client";
 import AuthInput from "../components/AuthInput";
 import { HiAtSymbol } from "react-icons/hi";
 import { BiLock } from "react-icons/bi";
@@ -9,19 +8,22 @@ import { useForm } from "react-hook-form";
 import AuthLayout from "../layout/AuthLayout";
 
 // Zod schema for form validation
-const NewPasswordSchema = z.object({
-  email: z.string().email("Invalid email format").nonempty("Email is required"),
-  newPassword: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .nonempty("New password is required"),
-  confirmPassword: z
-    .string()
-    .nonempty("Please confirm your new password")
-    .refine((val, ctx) => val === ctx.parent.newPassword, {
-      message: "Passwords must match",
-    }),
-});
+const NewPasswordSchema = z
+  .object({
+    email: z
+      .string()
+      .email("Invalid email format")
+      .nonempty("Email is required"),
+    newPassword: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .nonempty("New password is required"),
+    confirmPassword: z.string().nonempty("Please confirm your new password"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 // Infer the TypeScript type from the Zod schema
 type NewPasswordFormData = z.infer<typeof NewPasswordSchema>;
@@ -42,7 +44,6 @@ const NewPassword = () => {
 
   return (
     <AuthLayout
-      image={newPasswordImage}
       title="New Password"
       description="Enter your email and new password"
     >

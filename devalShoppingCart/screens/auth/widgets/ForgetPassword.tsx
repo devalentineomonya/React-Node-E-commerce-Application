@@ -1,5 +1,4 @@
-"use client"
-import resetPassword from "@/public/images/resetPassword.png";
+"use client";
 import AuthInput from "../components/AuthInput";
 import { HiAtSymbol } from "react-icons/hi";
 import { z } from "zod";
@@ -7,16 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import AuthLayout from "../layout/AuthLayout";
-// Define Zod schema
+
 const forgetPasswordSchema = z.object({
   email: z.string().email("Invalid email format").nonempty("Email is required"),
 });
 
-// Infer form data type from Zod schema
 type ForgetPasswordFormData = z.infer<typeof forgetPasswordSchema>;
 
 const ForgetPassword = () => {
-  // Use react-hook-form with Zod resolver
   const {
     register,
     handleSubmit,
@@ -25,14 +22,12 @@ const ForgetPassword = () => {
     resolver: zodResolver(forgetPasswordSchema),
   });
 
-  // Handle form submission
   const onSubmit = async (data: ForgetPasswordFormData) => {
     console.log(data);
   };
 
   return (
     <AuthLayout
-      image={resetPassword}
       title="Reset Password"
       description="Enter your email to reset your password"
     >
@@ -44,7 +39,9 @@ const ForgetPassword = () => {
           {...register("email")}
         />
         {errors.email && (
-          <div className="text-red-600 font-semibold text-sm mt-2">{errors.email.message}</div>
+          <div className="text-red-600 font-semibold text-sm mt-2">
+            {errors.email.message}
+          </div>
         )}
 
         <div className=" flex justify-center items-center mt-8">
