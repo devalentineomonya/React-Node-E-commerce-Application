@@ -17,7 +17,7 @@ const TrendingProductCard = () => {
 
   return (
     <div className="w-full aspect-video border border-gray-100 p-1 grid grid-cols-12">
-      <div className="col-span-5 bg-gray-100 relative">
+      <div className="col-span-12 sm:col-span-5 max-sm:h-52 bg-gray-100 relative">
         <Image
           src={product}
           alt="product-image"
@@ -25,7 +25,7 @@ const TrendingProductCard = () => {
           className="object-cover"
         />
       </div>
-      <div className="col-span-7 flex flex-col justify-center px-4">
+      <div className="col-span-12 sm:col-span-7 flex flex-col justify-center px-4">
         <motion.h2
           variants={textAnimation}
           initial="hidden"

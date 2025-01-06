@@ -39,6 +39,8 @@ const BestStoreCard = () => {
         <div className="overflow-hidden rounded-md">
           <Image
             src={testImage}
+
+            className="object-cover h-full w-full"
             alt="best-store-product-image"
             loading="lazy"
           />

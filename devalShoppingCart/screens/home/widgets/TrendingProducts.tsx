@@ -4,7 +4,7 @@ import TrendingProductCard from "../components/TrendingProductCard";
 const TrendingProducts = () => {
   return (
     <SectionLayout title="Trending Products for you!">
-      <div className="grid grid-cols-2 gap-x-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <TrendingProductCard />
         <TrendingProductCard />
       </div>

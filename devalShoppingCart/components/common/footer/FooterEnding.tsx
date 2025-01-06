@@ -31,14 +31,14 @@ const FooterEnding = () => {
     >
       {/* First Section: Icons and Names */}
       <motion.div
-        className="flex gap-x-8"
+        className="flex max-sm:flex-col max-sm:items-start w-full  gap-8"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
       >
         {footerEnding?.map((footerEndingItem) => (
           <motion.div
-            className="flex gap-x-2"
+            className="flex  gap-x-2"
             key={footerEndingItem.name}
             variants={itemVariants}
           >
@@ -59,7 +59,7 @@ const FooterEnding = () => {
         initial="hidden"
         whileInView="visible"
       >
-        <motion.div variants={itemVariants}>
+        <motion.div className="max-sm:text-start max-sm:block max-sm:w-full" variants={itemVariants}>
           <Link
             href="/"
             title="Terms Of Services"
@@ -68,7 +68,7 @@ const FooterEnding = () => {
             Term of Services
           </Link>
         </motion.div>
-        <motion.div variants={itemVariants}>
+        <motion.div className="max-sm:text-start max-sm:block max-sm:w-full" variants={itemVariants}>
           <Link
             href="/"
             title="Privacy and Policy"
