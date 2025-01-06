@@ -11,6 +11,7 @@ import NavCategoryDropDown from "./NavCategoryDropDown";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import useBrowserWidth from "@/hooks/useBrowserWidth";
+import OneTap from "./OneTap";
 
 const NavbarLower: React.FC = () => {
   const [searching, setSearching] = useState<boolean>(false);
@@ -116,6 +117,7 @@ const NavbarLower: React.FC = () => {
           handleSearchValueChange={handleSearchValueChange}
         />
       </div>
+      <OneTap/>
     </MainLayout>
   );
 };

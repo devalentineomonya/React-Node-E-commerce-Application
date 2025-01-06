@@ -1,9 +1,9 @@
-import  Link  from "next/link";
+import Link from "next/link";
 import { AiOutlineUser, AiOutlineSearch } from "react-icons/ai";
 import { BsCartPlus } from "react-icons/bs";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import { TbUserCheck } from "react-icons/tb";
-// import { useSelector } from "react-redux";
+import { createClient } from "@/lib/supabase/client";
 
 interface NavbarLeftProps {
   isMobile: boolean;
@@ -15,13 +15,11 @@ interface NavbarLeftProps {
   searchValue: string;
 }
 
-const user = {
-    firstName:"Valentine",
-    lastName:"Omonya",
-    isVerified:true,
+const supabase = createClient();
 
-}
-
+const {
+  data: { user },
+} = await supabase.auth.getUser();
 const NavbarLeft: React.FC<NavbarLeftProps> = ({
   isMobile,
   setSearching,
@@ -31,17 +29,18 @@ const NavbarLeft: React.FC<NavbarLeftProps> = ({
   handleSearchValueChange,
   searchValue,
 }) => {
-
   const profileLink = user
-    ? user.isVerified
-      ? "/profile/me"
-      : "/auth/verify"
-    : "/auth/login";
+    ? !!user.user_metadata.email_verified
+      ? "/user/dashboard"
+      : "/auth/confirm-otp"
+    : "/auth/sign-in";
 
   return (
     <div className="flex justify-center items-center sm:gap-x-5 gap-x-2">
       <div
-        className={`flex justify-center items-center gap-x-3 relative ml-1 md:ml-0 ${!isMobile ? "hidden" : ""}`}
+        className={`flex justify-center items-center gap-x-3 relative ml-1 md:ml-0 ${
+          !isMobile ? "hidden" : ""
+        }`}
         onClick={() => setSearching((prev) => !prev)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
@@ -51,12 +50,20 @@ const NavbarLeft: React.FC<NavbarLeftProps> = ({
       >
         <AiOutlineSearch size={20} />
         {searching && (
-          <div className={`${isMobile ? "fixed md:absolute bg-white rounded-lg mt-32 right-0 px-5 py-5 w-[98%] mr-[1%] md:mr-[0%] md:w-[calc(100vw-200px)] flex justify-center items-center z-30 shadow-[3px_3px_16.5px_-7.5px_#ccc6c6]" : ""}`}>
+          <div
+            className={`${
+              isMobile
+                ? "fixed md:absolute bg-white rounded-lg mt-32 right-0 px-5 py-5 w-[98%] mr-[1%] md:mr-[0%] md:w-[calc(100vw-200px)] flex justify-center items-center z-30 shadow-[3px_3px_16.5px_-7.5px_#ccc6c6]"
+                : ""
+            }`}
+          >
             <input
               autoFocus
               onChange={handleSearchValueChange}
               value={searchValue}
-              className={`border-none w-full outline-none ${searching ? "inline-block" : "hidden"}`}
+              className={`border-none w-full outline-none ${
+                searching ? "inline-block" : "hidden"
+              }`}
               type="text"
               placeholder="Search Product"
               onKeyDown={(event) => {
@@ -85,7 +92,7 @@ const NavbarLeft: React.FC<NavbarLeftProps> = ({
           {user ? (
             <>
               <TbUserCheck size={20} />
-              {!isMobile && user.firstName}
+              {!isMobile && user.user_metadata.full_name.split(" ")[0]}
             </>
           ) : (
             <>
@@ -102,7 +109,9 @@ const NavbarLeft: React.FC<NavbarLeftProps> = ({
         </div>
       </Link>
       <div
-        className={`flex justify-center items-center gap-x-3 relative ml-1 md:ml-0 ${!isMobile ? "hidden" : ""}`}
+        className={`flex justify-center items-center gap-x-3 relative ml-1 md:ml-0 ${
+          !isMobile ? "hidden" : ""
+        }`}
         onClick={() => setNavBarOpen(true)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
