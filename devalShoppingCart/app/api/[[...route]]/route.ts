@@ -4,10 +4,15 @@ import { ContentfulStatusCode } from "hono/utils/http-status";
 import { handle } from "hono/vercel";
 
 import users from "./(modules)/users/users";
+import auth from "./(modules)/auth/auth";
+import callback from "./(modules)/auth/callback";
 
 const app = new Hono().basePath("/api");
 app.use("*", logger());
-const routes = app.route("/users", users);
+const routes = app
+  .route("/users", users)
+  .route("/auth", auth)
+  .route("/callback", callback);
 
 routes.onError((err, c) => {
   console.error(err);
