@@ -117,7 +117,7 @@ const authRouter = new Hono()
       provider: "google",
       options: {
         redirectTo: `${process.env
-          .NEXT_PUBLIC_APP_URL!}/api/auth/callback/google`,
+          .NEXT_PUBLIC_APP_URL!}/api/callback/google`,
       },
     });
     if (error) {

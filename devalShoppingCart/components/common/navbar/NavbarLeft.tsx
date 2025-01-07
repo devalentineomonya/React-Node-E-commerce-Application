@@ -20,6 +20,7 @@ const supabase = createClient();
 const {
   data: { user },
 } = await supabase.auth.getUser();
+console.log(user);
 const NavbarLeft: React.FC<NavbarLeftProps> = ({
   isMobile,
   setSearching,
@@ -92,7 +93,12 @@ const NavbarLeft: React.FC<NavbarLeftProps> = ({
           {user ? (
             <>
               <TbUserCheck size={20} />
-              {!isMobile && user.user_metadata.full_name.split(" ")[0]}
+              {!isMobile && (
+                <span className="capitalize">
+                  {user?.user_metadata?.full_name?.split(" ")[0]?.toLowerCase() ||
+                    user?.user_metadata?.firstName?.toLowerCase()}
+                </span>
+              )}
             </>
           ) : (
             <>

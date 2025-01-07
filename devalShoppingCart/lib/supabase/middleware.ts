@@ -30,18 +30,42 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const pathname = request.nextUrl.pathname;
+  const emailVerified = user?.user_metadata?.email_verified ?? false;
+
+  // If user is logged in and tries to access any `/auth/*` path, redirect to home
+  if (user && emailVerified && pathname.startsWith('/auth/')) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/';
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  // If the user is not verified and not already on `/auth/confirm-otp`, redirect them
+  if (user && !emailVerified && pathname !== '/auth/confirm-otp') {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/auth/confirm-otp';
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  // Allow access to `/auth/confirm-otp` only if the email is not verified
+  if (pathname === '/auth/confirm-otp' && (!user || emailVerified)) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/';
+    return NextResponse.redirect(redirectUrl);
+  }
+
   // Determine if the current path requires authentication
   const isProtectedRoute = PROTECTED_ROUTES.some((path) =>
-    request.nextUrl.pathname.startsWith(path)
+    pathname.startsWith(path)
   );
 
+  // If user is not logged in and accessing a protected route, redirect to sign-in
   if (!user && isProtectedRoute) {
-    // User is not authenticated and accessing a protected route
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = '/auth/sign-in';
 
     // Store the intended path in a cookie instead of query params
-    supabaseResponse.cookies.set('next_url', request.nextUrl.pathname, {
+    supabaseResponse.cookies.set('next_url', pathname, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       path: '/',
