@@ -6,13 +6,17 @@ import currencies from "./currencies";
 import languages from "./languages";
 import { AiOutlinePhone } from "react-icons/ai";
 import { WordRotate } from "@/components/ui/word-rotate";
+import { cn } from "@/lib/utils";
 
+interface NavbarTopProps {
+    stickToTop?: boolean;
+}
 
-const NavbarTop = () => {
+const NavbarTop:React.FC<NavbarTopProps> = ({stickToTop = false}) => {
   const currencyRef = useRef<HTMLSelectElement>(null);
   const languageRef = useRef<HTMLSelectElement>(null);
 
-  // Type for the event handler for the currency and language change
+
   const handleLanguageChange = () => {
     console.log(languageRef.current?.value);
   };
@@ -25,7 +29,7 @@ const NavbarTop = () => {
 
 
   return (
-    <MainLayout className="bg-primary">
+    <MainLayout className={cn("bg-primary ", stickToTop && "sticky top-0 z-50")}>
       <div className="flex justify-between items-center text-white h-10 text-sm ">
         <div className="navbar-top-left">
           <Link className="flex justify-center items-center gap-x-2" href="tel:+254768133220" title="Telephone" aria-label="Telephone">

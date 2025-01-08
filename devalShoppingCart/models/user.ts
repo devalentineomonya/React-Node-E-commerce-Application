@@ -6,6 +6,7 @@ import {
   jsonb,
   pgEnum,
   date,
+  boolean,
 } from "drizzle-orm/pg-core";
 import { z } from "zod";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
@@ -14,11 +15,12 @@ const genderEnum = pgEnum("gender", ["Male", "Female", "Others"]);
 
 export const userTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
-  firstName: varchar("first_name", { length: 255 }).notNull(),
-  middleName: varchar("middle_name", { length: 255 }),
-  lastName: varchar("last_name", { length: 255 }).notNull(),
+  firstName: varchar("first_name", { length: 255 }).default(""),
+  middleName: varchar("middle_name", { length: 255 }).default(""),
+  lastName: varchar("last_name", { length: 255 }).default(""),
   email: varchar("email", { length: 255 }).notNull().unique(),
   gender: genderEnum("gender"),
+  isNew:boolean("is_new").default(true),
   dateOfBirth: date("date_of_birth"),
   primaryPhoneNumber: varchar("primary_phone_number", { length: 20 }),
   secondaryPhoneNumber: varchar("secondary_phone_number", { length: 20 }),

@@ -4,14 +4,14 @@ import { forgotPasswordSchema } from "@/lib/validation/schemas";
 import { z } from "zod";
 export const useForgetPassword = () => {
   const query = useMutation({
-    mutationFn: async (jsonData:z.infer<typeof forgotPasswordSchema>) => {
+    mutationFn: async (jsonData: z.infer<typeof forgotPasswordSchema>) => {
       const response = await client.api.auth["forget-password"].$post({
-        json:jsonData
+        json: jsonData,
       });
-      if (!response.ok) {
-        throw new Error("Failed to sent reset link");
-      }
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to sent reset link");
+      }
       return data;
     },
   });

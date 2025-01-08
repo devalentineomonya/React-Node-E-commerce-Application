@@ -10,6 +10,7 @@ import AuthLayout from "../layout/AuthLayout";
 import { useSignUpUser } from "@/features/auth/sign-up-user";
 import { toast } from "react-toastify";
 import SignInWithGoogle from "../components/SignInWithGoogle";
+import { useRouter } from "next-nprogress-bar";
 
 // Zod schema for validation
 const signUpSchema = z.object({
@@ -33,10 +34,12 @@ type SignUpFormData = z.infer<typeof signUpSchema>;
 
 const SignUp = () => {
   const signUpUser = useSignUpUser();
+  const router = useRouter();
 
   const {
     register: formRegister,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
@@ -54,7 +57,9 @@ const SignUp = () => {
       const response = await signUpUser.mutateAsync(values);
 
       if (response.success) {
+        reset();
         toast.success("User signed up successfully");
+        router.push("/auth/login");
       } else {
         toast.error(response.message || "Sign-up failed");
       }
@@ -148,7 +153,7 @@ const SignUp = () => {
           </div>
           <SignInWithGoogle disabled={isSubmitting || signUpUser.isPending} />
         </form>
-        <div className="flex justify-center items-center w-full mt-4"></div>
+
         <p className="mt-8 text-xs text-gray-700">
           Already have an account?{" "}
           <Link

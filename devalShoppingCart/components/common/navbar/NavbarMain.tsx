@@ -15,10 +15,10 @@ const NavbarMain = () => {
 
   return (
     <>
+          <NavbarTop stickToTop={!shouldDisplayNavbar} />
       {shouldDisplayNavbar && (
         <>
 
-          <NavbarTop />
           <NavbarLower />
 
         </>

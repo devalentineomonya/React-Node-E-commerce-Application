@@ -8,10 +8,10 @@ export const useConfirmOtp = () => {
       const response = await client.api.auth["confirm-otp"].$post({
         json: jsonData,
       });
-      if (!response.ok) {
-        throw new Error("Failed to confirm otp code");
-      }
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to confirm otp code");
+      }
       return data;
     },
   });

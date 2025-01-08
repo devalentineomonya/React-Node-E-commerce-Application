@@ -1,31 +1,93 @@
 "use client";
 import React from "react";
-import AuthLayout from "../layout/AuthLayout";
+
+import { toast } from "react-toastify";
 import OtpInput from "../components/OtpInput";
-import { z } from "zod";
-import { useForm, FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import AuthLayout from "../layout/AuthLayout";
+import { useRouter } from "next-nprogress-bar";
+import { useConfirmOtp } from "@/features/auth/confirm-otp";
+import { useResendOtp } from "@/features/auth/resend-otp";
+import { createClient } from "@/lib/supabase/client";
 
-// Define Zod schema
-const otpSchema = z.object({
-  otp: z
-    .string()
-    .length(6, "OTP must be exactly 6 digits")
-    .regex(/^\d+$/, "OTP must contain only numbers"),
-});
+interface OtpFormData {
+  otp: string;
+}
 
-type OtpFormData = z.infer<typeof otpSchema>;
+const supabase = createClient();
+const {
+  data: { user },
+} = await supabase.auth.getUser();
 
 const OtpForm: React.FC = () => {
-  const methods = useForm<OtpFormData>({
-    resolver: zodResolver(otpSchema),
-  });
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const confirmOTP = useConfirmOtp();
+  const resendOTP = useResendOtp();
+  const router = useRouter();
+
+
   const onOtpSubmit = async (data: OtpFormData) => {
-    console.log(data);
+    const id = toast.loading("Verifying...");
+    try {
+      const response = await confirmOTP.mutateAsync(data);
+      if (response?.success) {
+        toast.success("Account Verified successfully");
+        router.push("/user/dashboard");
+      } else {
+        toast.error(response?.message || "Invalid OTP. Please try again.");
+      }
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again later."
+      );
+    } finally {
+      toast.done(id);
+    }
+  };
+  const onOtpResend = async () => {
+    const id = toast.loading("Requesting Code...");
+
+    try {
+      const response = await resendOTP.mutateAsync();
+      if (response?.success) {
+        toast.success(response.message || "OTP resent successfully");
+      } else {
+        toast.error(
+          response?.message || "Failed to resent OTP. Please try again."
+        );
+      }
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again later."
+      );
+    } finally {
+      toast.done(id);
+    }
+  };
+
+  interface FormSubmissionEvent extends React.FormEvent<HTMLFormElement> {
+    currentTarget: HTMLFormElement & {
+      elements: {
+        otp: HTMLInputElement;
+      };
+    };
+  }
+
+  const FormSubmission = (e: FormSubmissionEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const otpValues = Array.from(formData.entries())
+      .filter(([key]) => key.startsWith("otp-"))
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([, value]) => value)
+      .join("");
+
+    if (otpValues.length < 6) {
+      return toast.error("Invalid OTP. Please try again.");
+    }
+    onOtpSubmit({ otp: otpValues });
   };
 
   return (
@@ -33,37 +95,35 @@ const OtpForm: React.FC = () => {
       title="Verify Account"
       description="Enter the OTP sent to your email"
     >
-      <FormProvider {...methods}>
-        <form
-          className="max-w-96 w-full mt-4"
-          onSubmit={handleSubmit(onOtpSubmit)}
-        >
-          <OtpInput length={6} />
-          {errors.otp && <p className="text-red-500">{errors.otp.message}</p>}
-          <div className="flex justify-between text-sm mt-5">
-            <button className="flex">
-              {false ? (
-                <div className="h-5 w-5 rounded-full border-2 border-gray-400 border-t-transparent animate-spin"></div>
-              ) : (
-                "Resend Code"
-              )}
-            </button>
-          </div>
-
-          <div className="flex justify-center items-center mt-4">
+      <form className="max-w-96 w-full mt-4" onSubmit={FormSubmission}>
+        <OtpInput
+          onOtpSubmit={(otp: string) => onOtpSubmit({ otp })}
+          length={6}
+        />
+        <div className="text-xs text-center mt-4">
+          <span suppressHydrationWarning>Enter the 6-digit code sent to {user?.email}</span>
+        </div>
+        <div className="flex flex-col justify-center items-center mt-4">
+          <button
+            disabled={resendOTP.isPending || confirmOTP.isPending}
+            type="submit"
+            className="bg-primary text-white hover:bg-black w-full h-11 rounded-md text-sm flex justify-center items-center gap-x-3"
+          >
+            Verify
+          </button>
+          <div className="flex items-center justify-center gap-x-4 text-sm mt-4">
+            <span>Didn&apos;t receive code? </span>
             <button
-              type="submit"
-              className="bg-primary text-white hover:bg-black w-full h-11  rounded-md text-sm  flex justify-center items-center gap-x-3"
+              onClick={() => onOtpResend()}
+              disabled={resendOTP.isPending || confirmOTP.isPending}
+              type="button"
+              className="text-primary text-medium underline"
             >
-              {false ? (
-                <div className="h-6 w-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                "Verify"
-              )}
+              Resend
             </button>
           </div>
-        </form>
-      </FormProvider>
+        </div>
+      </form>
     </AuthLayout>
   );
 };

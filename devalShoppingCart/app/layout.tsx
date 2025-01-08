@@ -6,7 +6,7 @@ import Footer from "@/components/common/footer/Footer";
 import { QueryProvider } from "@/providers/query-provider";
 import { ProgressBarProviders } from "@/providers/progress-bar-provider";
 
-import { Bounce, ToastContainer } from "react-toastify";
+import { Zoom, ToastContainer } from "react-toastify";
 import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,15 +32,16 @@ export default function RootLayout({
             <ToastContainer
               position="top-right"
               autoClose={5000}
+              closeButton={false}
               hideProgressBar
-              newestOnTop={false}
+              newestOnTop={true}
               closeOnClick
               rtl={false}
               pauseOnFocusLoss
               draggable
               pauseOnHover
               theme="light"
-              transition={Bounce}
+              transition={Zoom}
             />
           </ProgressBarProviders>
         </QueryProvider>

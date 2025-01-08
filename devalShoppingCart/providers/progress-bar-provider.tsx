@@ -13,8 +13,8 @@ export const ProgressBarProviders: React.FC<ProgressBarProvidersProps> = ({
     <>
       {children}
       <ProgressBar
-        height="4px"
-        color="#003d29"
+        height="5px"
+        color="#fff"
         options={{ showSpinner: true }}
         shallowRouting
       />

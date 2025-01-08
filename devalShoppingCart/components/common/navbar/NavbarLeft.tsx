@@ -31,7 +31,7 @@ const NavbarLeft: React.FC<NavbarLeftProps> = ({
   searchValue,
 }) => {
   const profileLink = user
-    ? !!user.user_metadata.email_verified
+    ? !!user?.identities?.[0]?.identity_data?.email_verified
       ? "/user/dashboard"
       : "/auth/confirm-otp"
     : "/auth/sign-in";

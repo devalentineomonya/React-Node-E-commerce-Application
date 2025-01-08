@@ -11,7 +11,6 @@ export const forgotPasswordSchema = z.object({
 
 export const confirmOtpSchema = z.object({
   otp: z.string().length(6, "OTP must be 6 digits"),
-  email: z.string().email("Invalid email address"),
 });
 
 export const newPasswordSchema = z

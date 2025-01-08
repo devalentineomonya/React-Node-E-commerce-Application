@@ -6,6 +6,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import AuthLayout from "../layout/AuthLayout";
+import { useSetNewPassword } from "@/features/auth/set-new-password";
+import { toast } from "react-toastify";
+import Link from "next/link";
 
 // Zod schema for form validation
 const NewPasswordSchema = z
@@ -29,17 +32,36 @@ const NewPasswordSchema = z
 type NewPasswordFormData = z.infer<typeof NewPasswordSchema>;
 
 const NewPassword = () => {
+  const setNewPassword = useSetNewPassword();
   const {
     register,
-    handleSubmit,
+    handleSubmit,reset,
     formState: { errors, isSubmitting },
   } = useForm<NewPasswordFormData>({
     resolver: zodResolver(NewPasswordSchema),
   });
 
-  // Handle form submission
   const onSubmit = async (data: NewPasswordFormData) => {
-    console.log(data);
+    const id = toast.loading("Resetting Password...");
+    try {
+      const response = await setNewPassword.mutateAsync(data);
+      if (response?.success) {
+        reset();
+        toast.success(response.message || "Password reset successfully");
+      } else {
+        toast.error(
+          response?.message || "Failed to reset Password. Please try again."
+        );
+      }
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again later."
+      );
+    } finally {
+      toast.done(id);
+    }
   };
 
   return (
@@ -97,6 +119,15 @@ const NewPassword = () => {
             )}
           </button>
         </div>
+        <p className="mt-8 text-xs  text-center text-gray-700">
+          Sign in to your account
+          <Link
+            href="/auth/sign-in"
+            className="font-semibold capitalize ml-3 text-sky-600"
+          >
+            Sign In
+          </Link>
+        </p>
       </form>
     </AuthLayout>
   );

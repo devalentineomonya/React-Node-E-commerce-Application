@@ -124,7 +124,7 @@ const OtpInput: React.FC<OtpInputProps> = ({ length = 6, onOtpSubmit = () => {}}
           onChange={(e) => onOtpChange(e, index)}
           onClick={() => onOtpClick(index)}
           onKeyDown={(e) => onOtpKeyDown(e, index)}
-          className="w-8 sm:w-12 aspect-square border-2 border-gray-300 rounded-md outline-none text-center"
+          className="w-12 aspect-square border-2 border-gray-300 rounded-md outline-none text-center"
         />
       ))}
     </div>

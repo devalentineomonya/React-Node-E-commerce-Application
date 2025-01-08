@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { CredentialResponse } from "google-one-tap";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next-nprogress-bar';
 import React, { useEffect } from "react";
 
 const OneTap = () => {

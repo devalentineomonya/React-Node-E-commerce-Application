@@ -17,7 +17,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
   description,
 }) => {
   return (
-    <main className=" h-screen">
+    <main className=" h-[calc(100vh-2.5rem)]">
       <div className="h-full w-full rounded-md  grid grid-cols-12 justify-between ">
         <section className="w-full col-span-4 hidden lg:flex items-center justify-center h-full overflow-hidden relative bg-[#f7fbff]">
           <div className="absolute w-full h-full">

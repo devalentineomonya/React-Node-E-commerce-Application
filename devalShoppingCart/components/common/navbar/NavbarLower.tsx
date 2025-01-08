@@ -8,7 +8,7 @@ import NavbarSearch from "./NavbarSearch";
 import NavbarLeft from "./NavbarLeft";
 import NavbarMobile from "./NavbarMobile";
 import NavCategoryDropDown from "./NavCategoryDropDown";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next-nprogress-bar';
 import { toast } from "react-toastify";
 import useBrowserWidth from "@/hooks/useBrowserWidth";
 import OneTap from "./OneTap";

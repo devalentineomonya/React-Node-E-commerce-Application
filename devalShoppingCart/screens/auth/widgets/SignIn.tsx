@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AuthInput from "../components/AuthInput";
@@ -34,6 +34,7 @@ const SignIn = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
@@ -51,7 +52,8 @@ const SignIn = () => {
 
       if (response?.success) {
         toast.success("User logged in successfully");
-        setIsRedirecting(true); // Prevent further interactions during redirect
+        setIsRedirecting(true);
+        reset();
         router.push("/user/dashboard");
       } else {
         toast.error(
@@ -73,10 +75,7 @@ const SignIn = () => {
 
   return (
     <AuthLayout title="Sign In" description="Enter your credentials to sign in">
-      <form
-        className="max-w-96 w-full mt-4"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="max-w-96 w-full mt-4" onSubmit={handleSubmit(onSubmit)}>
         <AuthInput
           type="email"
           label="Email*"
@@ -137,7 +136,7 @@ const SignIn = () => {
         </div>
         <SignInWithGoogle disabled={isDisabled} />
       </form>
-      <div className="flex justify-center items-center w-full mt-4"></div>
+
       <p className="mt-8 text-xs text-gray-700">
         Don&apos;t have an account?
         <Link

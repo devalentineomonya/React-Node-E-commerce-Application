@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Google } from "@/components/ui/icons";
 import { Separator } from "@/components/ui/separator";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next-nprogress-bar';
 
 const SignInWithGoogle: React.FC<{ disabled: boolean }> = ({ disabled }) => {
   const [loading, setLoading] = useState(false);
