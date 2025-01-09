@@ -59,7 +59,7 @@ const SignUp = () => {
       if (response.success) {
         reset();
         toast.success("User signed up successfully");
-        router.push("/auth/login");
+        router.push("/auth/sign-in");
       } else {
         toast.error(response.message || "Sign-up failed");
       }
