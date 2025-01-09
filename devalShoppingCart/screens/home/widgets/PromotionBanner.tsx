@@ -1,7 +1,7 @@
 import cardOne from "@/public/images/63e8c4e768e3260571e48a0c_visa card-min.png";
 import cardTwo from "@/public/images/63e8c4e71eb4ad08ebe75690_visa card 02-min.png";
 import cardThree from "@/public/images/63ea1a963f08a8c3dcd7c945_visa card 03.svg";
-import MainLayout from "@/components/common/layouts/MainLayout";
+import MainLayout from "@/components/common/layouts/main/MainLayout";
 import Image from "next/image";
 import Link from "next/link";
 const PromotionBanner = () => {

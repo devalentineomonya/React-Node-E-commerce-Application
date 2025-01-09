@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import MainLayout from "@/components/common/layouts/MainLayout";
+import MainLayout from "@/components/common/layouts/main/MainLayout";
 import HeroItem from "../components/HeroItem";
 import image from "@/public/images/banner-2.jpg";
 import { motion } from "framer-motion";

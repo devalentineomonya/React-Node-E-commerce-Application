@@ -1,4 +1,4 @@
-import SectionLayout from "@/components/common/layouts/SectionLayout";
+import SectionLayout from "@/components/common/layouts/section/SectionLayout";
 import ProductCard from "@/components/shared/ProductCard/ProductCard";
 
 const BestDeals = () => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import SectionLayout from '@/components/common/layouts/SectionLayout'
+import SectionLayout from '@/components/common/layouts/section/SectionLayout'
 import ScrollCarousel from '@/components/global/ScrollCarousel'
 import ProductCard from '@/components/shared/ProductCard/ProductCard'
 const BestSelling = () => {

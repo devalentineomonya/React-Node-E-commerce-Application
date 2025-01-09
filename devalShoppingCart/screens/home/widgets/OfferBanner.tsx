@@ -2,7 +2,7 @@
 import { motion, useTransform, useScroll } from "framer-motion";
 import BannerImage from "@/public/images/63e8c4e51a7c201f00ec5fe3_biscount_banner-min.png";
 import Image from "next/image";
-import MainLayout from "@/components/common/layouts/MainLayout";
+import MainLayout from "@/components/common/layouts/main/MainLayout";
 import Link from "next/link"
 const OfferBanner = () => {
   const { scrollYProgress } = useScroll();

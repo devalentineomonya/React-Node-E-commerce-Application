@@ -1,5 +1,5 @@
 "use client";
-import SectionLayout from "@/components/common/layouts/SectionLayout";
+import SectionLayout from "@/components/common/layouts/section/SectionLayout";
 import CategoryCard from "../components/CategoryCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";

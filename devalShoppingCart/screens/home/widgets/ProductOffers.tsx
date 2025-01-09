@@ -1,4 +1,4 @@
-import SectionLayout from "@/components/common/layouts/SectionLayout";
+import SectionLayout from "@/components/common/layouts/section/SectionLayout";
 import furnitureImage from "@/public/images/63e8c4e6cd367817e964f756_sofa-min.png";
 import booksImage from "@/public/images/63e8c4e4e006822af104db61_book-min.png";
 import clothesImage from "@/public/images/63e8c4e61a7c20076aec5fe7_shirt-min.png";

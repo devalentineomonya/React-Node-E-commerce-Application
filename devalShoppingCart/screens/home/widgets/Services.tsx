@@ -1,4 +1,4 @@
-import SectionLayout from "@/components/common/layouts/SectionLayout";
+import SectionLayout from "@/components/common/layouts/section/SectionLayout";
 import ServiceCard from "../components/ServiceCard";
 import testImage from "@/public/images/63e8c4e6cd367817e964f756_sofa-min.png";
 const Services = () => {

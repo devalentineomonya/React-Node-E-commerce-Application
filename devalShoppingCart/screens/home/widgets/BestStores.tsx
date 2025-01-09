@@ -1,5 +1,5 @@
 import React from "react";
-import SectionLayout from "@/components/common/layouts/SectionLayout";
+import SectionLayout from "@/components/common/layouts/section/SectionLayout";
 import BestStoreCard from "../components/BestStoreCard";
 
 const BestStores = () => {

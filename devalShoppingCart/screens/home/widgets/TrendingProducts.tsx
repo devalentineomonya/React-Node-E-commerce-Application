@@ -1,5 +1,5 @@
 import React from "react";
-import SectionLayout from "@/components/common/layouts/SectionLayout";
+import SectionLayout from "@/components/common/layouts/section/SectionLayout";
 import TrendingProductCard from "../components/TrendingProductCard";
 const TrendingProducts = () => {
   return (
