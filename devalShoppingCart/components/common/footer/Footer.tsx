@@ -1,6 +1,6 @@
 "use client"
 import footerLinks from "./footerlinks";
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../layouts/main/MainLayout";
 import FooterEnding from "./FooterEnding";
 import FooterLinksList from "./FooterLinksList";
 import FooterLogo from "./FooterLogo";
