@@ -2,6 +2,7 @@ import { BsChevronDown } from "react-icons/bs";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface NavCategoryDropDownProps {
   showDropDown: boolean;
@@ -108,33 +109,44 @@ const NavCategoryDropDown: React.FC<NavCategoryDropDownProps> = ({
         tabIndex={0}
       >
         Categories
-        <BsChevronDown className={`transition-all ease-in-out duration-300 ${showDropDown ? "rotate-180" : ""}`} />
-      </div>
-      <motion.div
-        className={`absolute bg-white min-w-[800px] w-full mt-12 p-4 rounded-md left-0 shadow-[3px_3px_16.5px_-7.5px_#ccc6c6] ${showDropDown && "z-30"}`}
-        initial="closed"
-        animate={showDropDown ? "open" : "closed"}
-        variants={dropdownVariants}
-      >
-        <div className="text-gray-800 font-bold text-xl pb-3 mb-2 border-b-2 border-gray-300">
-          Popular Categories
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {categories?.map((category) => {
-            const productInCategory = products?.filter(
-              (product) => product?.category === category?.name
-            );
-            return (
-              <CategoryItem
-                key={category?._id}
-                image={category?.imageUrl}
-                name={category?.name}
-                count={productInCategory.length}
-              />
-            );
+        <BsChevronDown
+          className={cn("transition-all ease-in-out duration-300", {
+            "rotate-180": showDropDown,
           })}
-        </div>
-      </motion.div>
+        />
+      </div>
+
+      {/* Conditionally render dropdown */}
+      {showDropDown && (
+        <motion.div
+          className={cn(
+            "absolute bg-white min-w-[800px] w-full mt-12 p-4 rounded-md left-0 shadow-[3px_3px_16.5px_-7.5px_#ccc6c6] z-30"
+          )}
+          initial="closed"
+          animate="open"
+          exit="closed"
+          variants={dropdownVariants}
+        >
+          <div className="text-gray-800 font-bold text-xl pb-3 mb-2 border-b-2 border-gray-300">
+            Popular Categories
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {categories?.map((category) => {
+              const productInCategory = products?.filter(
+                (product) => product?.category === category?.name
+              );
+              return (
+                <CategoryItem
+                  key={category?._id}
+                  image={category?.imageUrl}
+                  name={category?.name}
+                  count={productInCategory.length}
+                />
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 };

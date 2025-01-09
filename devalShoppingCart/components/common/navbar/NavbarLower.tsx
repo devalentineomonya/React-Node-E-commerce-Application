@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useRef, useState, useCallback } from "react";
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../layouts/main/MainLayout";
 import navItems from "./navbaritems";
 import NavbarLogo from "./NavbarLogo";
 import NavItems from "./NavItems";
@@ -38,7 +38,7 @@ const NavbarLower: React.FC = () => {
 
   useEffect(() => {
     const currentNavItem = navItems.find(
-      (navItem) => navItem.to.substring(1) === pagePath.current
+      (navItem) => navItem.href.substring(1) === pagePath.current
     );
 
     if (currentNavItem) {

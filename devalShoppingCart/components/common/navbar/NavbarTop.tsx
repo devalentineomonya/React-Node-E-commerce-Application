@@ -1,4 +1,4 @@
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../layouts/main/MainLayout";
 import Link from "next/link";
 import {useRef} from "react";
 

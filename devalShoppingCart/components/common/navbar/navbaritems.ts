@@ -2,22 +2,22 @@ const navItems = [
     {
       key: "1-home",
       title: "Home",
-      to: "/",
+      href: "/",
     },
     {
       key: "2-deals",
       title: "Deals",
-      to: "/deals",
+      href: "/deals",
     },
     {
       key: "3-new",
       title: "Whats New",
-      to: "/shop/new",
+      href: "/shop?label=new",
     },
     {
       key: "4-deliveries",
       title: "Deliveries",
-      to: "/profile/deliveries",
+      href: "/user/deliveries",
     },
   ];
   export default navItems

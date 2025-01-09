@@ -4,7 +4,7 @@ import useBrowserWidth from "@/hooks/useBrowserWidth";
 interface NavItem {
   key: string;
   title: string;
-  to: string;
+  href: string;
 }
 
 interface NavItemsProps {
@@ -44,7 +44,7 @@ const NavItems: React.FC<NavItemsProps> = ({
           tabIndex={0}
         >
           <Link
-            href={navItem.to}
+            href={navItem.href}
             title={navItem.title}
             aria-label={navItem.title}
           >
