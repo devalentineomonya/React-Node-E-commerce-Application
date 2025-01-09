@@ -1,6 +1,4 @@
 import { Hono } from "hono";
-import { getCookie, deleteCookie } from "hono/cookie";
-
 import { zValidator } from "@hono/zod-validator";
 import {
   signInSchema,
@@ -17,11 +15,7 @@ const authRouter = new Hono()
     const body = c.req.valid("json");
     const { email, password, firstName, lastName } = body;
 
-    const nextUrl = getCookie(c, "next_url");
 
-    if (nextUrl) {
-      deleteCookie(c, "next_url");
-    }
     const supabase = await createClient();
 
     const { data, error } = await supabase.auth.signUp({
@@ -29,7 +23,7 @@ const authRouter = new Hono()
       password,
       options: {
         data: { firstName, lastName },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/confirm-otp`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/user/dashboard`,
       },
     });
 
@@ -88,14 +82,12 @@ const authRouter = new Hono()
     }
     const { error } = await supabase.auth.resend({
       type: "signup",
-      email: "email@example.com",
-      options: {
-        emailRedirectTo: "https://example.com/welcome",
-      },
+      email,
     });
     if (error) {
       return c.json({ success: false, message: error.message }, 400);
     }
+
     return c.json({ success: true, message: "OTP resent" });
   })
   .post(
@@ -106,7 +98,7 @@ const authRouter = new Hono()
 
       const supabase = await createClient();
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "https://example.com/new-password",
+        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/new-password`,
       });
 
       if (error) {
