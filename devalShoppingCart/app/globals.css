@@ -23,6 +23,14 @@ body {
   background-color: #ccc;
 }
 
+.hide-scrollbar {
+  overflow: hidden;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -33,12 +41,13 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
-input:-webkit-autofill {
-    box-shadow: 0 0 0px 1000px #f7fbff inset;
-    -webkit-text-fill-color: black;
-  }
 
-  input:-webkit-autofill:focus {
-    box-shadow: 0 0 0px 1000px #f7fbff inset;
-    -webkit-text-fill-color: black;
-  }
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px #f7fbff inset;
+  -webkit-text-fill-color: black;
+}
+
+input:-webkit-autofill:focus {
+  box-shadow: 0 0 0px 1000px #f7fbff inset;
+  -webkit-text-fill-color: black;
+}
