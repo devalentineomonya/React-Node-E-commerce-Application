@@ -1,9 +1,0 @@
-.home-category-content{
-    @apply flex gap-y-3 gap-x-2 flex-wrap 
-}
-.home-category-card{
-    @apply w-full sm:min-w-[150px] sm:max-w-[220px] min-w-full h-[260px] rounded-lg flex justify-center text-2xl pt-2 font-semibold  text-white hover:-translate-y-2 cursor-pointer;
-    background-image: var(--home-cat-img);
-    background-position: center;
-    background-size: cover;
-}

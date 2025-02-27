@@ -1,9 +1,0 @@
-.section-container{
-    @apply mt-14
-}
-.section-title{
-    @apply font-bold text-3xl text-gray-800 
-}
-.section-content{
-    @apply mt-10
-}

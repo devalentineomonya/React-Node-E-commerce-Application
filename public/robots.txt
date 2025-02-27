@@ -1,0 +1,17 @@
+# Allow all robots access to the entire site
+User-agent: *
+
+# Disallow access to specific directories
+Disallow: /src/assets/   # Prevent access to the assets folder in src (or any sensitive folders)
+
+# Allow crawling of the public directories
+Allow: /
+
+# Sitemap URL for search engines
+Sitemap: https://devalshoppingcart.vercel.app/sitemap.xml
+
+# Additional directives for better control
+Disallow: /admin/       # Disallow access to admin pages
+Disallow: /login/       # Disallow access to login pages
+Disallow: /checkout/    # Disallow access to checkout pages if they are not meant to be indexed
+

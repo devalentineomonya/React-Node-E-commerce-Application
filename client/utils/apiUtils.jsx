@@ -1,1 +1,0 @@
-export const apiBaseUrl = import.meta.env.DEV ? "http://localhost:8000/api" : "https://devalshoppingcart.onrender.com/api"

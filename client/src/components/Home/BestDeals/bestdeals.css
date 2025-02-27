@@ -1,7 +1,0 @@
-
-.filter-buttons {
-    @apply flex justify-start items-center gap-x-4 mb-5
-}
-.filter-buttons button{
-    @apply px-12 py-2 border-2 border-slate-800 text-slate-800 hover:bg-customGreen hover:text-white rounded-full max-w-28
-}
