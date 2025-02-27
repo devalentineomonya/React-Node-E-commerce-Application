@@ -1,11 +1,14 @@
 import React from 'react'
 
-const page = () => {
+import MainLayout from '@/components/common/layouts/main/MainLayout'
+import CartMain from '@/screens/cart/CartMain'
+
+const Cart = () => {
   return (
-    <div>
-      
-    </div>
-  )
+    <MainLayout>
+      <CartMain />
+    </MainLayout>
+  );
 }
 
-export default page
+export default Cart

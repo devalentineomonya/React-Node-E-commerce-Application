@@ -14,6 +14,8 @@ import TrendingProducts from "@/screens/home/widgets/TrendingProducts";
 import BestStores from "@/screens/home/widgets/BestStores";
 import Services from "@/screens/home/widgets/Services";
 import { useGetUsers } from "@/features/users/get-users";
+
+
 export default function Home() {
     const {data:users, isError} = useGetUsers()
     console.log(users)
