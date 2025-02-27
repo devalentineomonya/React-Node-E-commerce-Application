@@ -144,7 +144,7 @@ export default function ScalableFilters() {
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="max-w-7xl mx-auto grid grid-cols-2 gap-x-4 px-4 text-sm sm:px-6 md:gap-x-6 lg:px-8"
-            > 
+            >
               {filterConfig.map((filter) => (
                 <fieldset key={filter.key}>
                   <legend className="block font-medium">{filter.name}</legend>
@@ -155,28 +155,27 @@ export default function ScalableFilters() {
                         className="flex items-center text-base sm:text-sm"
                       >
                         <Controller
-                          name={filter.key}
+                          name={filter.key as "price" | "color" | "size" | `price.${number}` | `color.${number}` | `size.${number}`}
                           control={control}
-                          render={({ field }) => (
-                            <input
-                              id={`${filter.key}-${option.value}`}
-                              value={option.value}
-                              type="checkbox"
-                              className="flex-shrink-0 h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                              checked={
-                                field.value?.includes(option.value) || false
-                              }
-                              onChange={() =>
-                                field.onChange(
-                                  field.value?.includes(option.value)
-                                    ? field.value.filter(
-                                        (item) => item !== option.value
-                                      )
-                                    : [...(field.value || []), option.value]
-                                )
-                              }
-                            />
-                          )}
+                          render={({ field }) => {
+                            const currentValue = Array.isArray(field.value) ? field.value : [];
+                            return (
+                              <input
+                                id={`${filter.key}-${option.value}`}
+                                value={option.value}
+                                type="checkbox"
+                                className="flex-shrink-0 h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                checked={currentValue.includes(option.value)}
+                                onChange={() =>
+                                  field.onChange(
+                                    currentValue.includes(option.value)
+                                      ? currentValue.filter(item => item !== option.value)
+                                      : [...currentValue, option.value]
+                                  )
+                                }
+                              />
+                            );
+                          }}
                         />
                         <label
                           htmlFor={`${filter.key}-${option.value}`}

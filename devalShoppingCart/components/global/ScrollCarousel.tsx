@@ -34,13 +34,13 @@ const ScrollCarousel: React.FC<ScrollCarouselProps> = ({ children }) => {
   }, [totalItems]);
 
   return (
-    <div className={styles.scrollCarouselContainer}>
-      <div className={styles.scrollCarousel} ref={carouselRef}>
+    <div className={`${styles.scrollCarouselContainer} hide-scrollbar`}>
+      <div className={`${styles.scrollCarousel} hide-scrollbar`} ref={carouselRef}>
         {children}
       </div>
-      <div className={styles.scrollCarouselProgressBar}>
+      <div className={`${styles.scrollCarouselProgressBar} hide-scrollbar`}>
         <div
-          className={styles.scrollCarouselProgress}
+          className={`${styles.scrollCarouselProgress} hide-scrollbar`}
           style={{ width: `${(viewedItems / totalItems) * 100}%` }}
         ></div>
       </div>
