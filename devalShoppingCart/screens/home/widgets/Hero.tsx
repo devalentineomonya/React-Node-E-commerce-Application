@@ -85,9 +85,7 @@ const Hero = () => {
 
   return (
     <MainLayout className="mt-4">
-      {/* Sidebar & Main Hero Section */}
       <div className="grid grid-cols-12 aspect-video w-full min-h-[250px] max-h-[540px] gap-x-6">
-        {/* Sidebar */}
         <div className="max-lg:hidden lg:col-span-3 px-3 py-2 bg-gray-50 rounded-sm">
           <ul>
             {categories.map((item, index) => (
@@ -95,7 +93,7 @@ const Hero = () => {
                 className={`p-2.5 my-0.5 text-sm hover:pl-4 hover:text-primary ${
                   index === categories.length - 1
                     ? "font-bold text-xl text-gray-700"
-                    : "border-b"
+                    : "border-b"    
                 }`}
                 key={index}
                 variants={variants}
